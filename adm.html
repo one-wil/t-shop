@@ -11668,6 +11668,8 @@ window.caClearSessionDateFilter=function(){
     animation: navHintPulse 1.7s ease-in-out infinite;
   }
   .nav-swipe-hint .hint-arrows { color: #65d9ff; letter-spacing: 2px; font-size: 17px; animation: navArrowSlide 1.1s ease-in-out infinite alternate; }
+  .nav-swipe-hint .hint-hand { display:inline-block; font-size:20px; line-height:1; animation: navHandMove 1s ease-in-out infinite alternate; filter: drop-shadow(0 0 5px rgba(255,220,80,.8)); }
+  @keyframes navHandMove { from { transform: translateX(5px) translateY(-1px) rotate(-8deg); } to { transform: translateX(-5px) translateY(-1px) rotate(8deg); } }
   .nav-edge-light {
     position: fixed !important;
     bottom: 5px !important;
@@ -11696,31 +11698,47 @@ window.caClearSessionDateFilter=function(){
 <script id="swipe-navigation-guidance-script">
 (function(){
   function setupSwipeGuidance(){
-    if (window.innerWidth > 768 || document.querySelector('.nav-swipe-hint')) return;
+    if (window.innerWidth > 768) return;
     var sidebar = document.querySelector('.sidebar');
     var menu = document.querySelector('.sidebar-menu');
     if (!sidebar || !menu) return;
-    var hint = document.createElement('div');
-    hint.className = 'nav-swipe-hint';
-    hint.innerHTML = '<div class="hint-pill"><span class="hint-arrows">⇆</span><span>مرّر بإصبعك لاكتشاف باقي القوائم</span><span class="hint-arrows">⇆</span></div>';
-    var left = document.createElement('div'); left.className = 'nav-edge-light edge-left'; left.textContent = '‹'; left.setAttribute('aria-hidden','true');
-    var right = document.createElement('div'); right.className = 'nav-edge-light edge-right'; right.textContent = '›'; right.setAttribute('aria-hidden','true');
-    document.body.appendChild(hint); document.body.appendChild(left); document.body.appendChild(right);
-    var dismissed = false;
-    function hideHint(){ if (!dismissed) { dismissed = true; hint.classList.add('is-hidden'); setTimeout(function(){ if(hint.parentNode) hint.parentNode.removeChild(hint); },700); } }
-    menu.addEventListener('touchstart', hideHint, {passive:true, once:true});
-    menu.addEventListener('pointerdown', hideHint, {passive:true, once:true});
-    setTimeout(hideHint, 7000);
+    var hint = document.querySelector('.nav-swipe-hint');
+    if (!hint) {
+      hint = document.createElement('div');
+      hint.className = 'nav-swipe-hint is-hidden';
+      hint.innerHTML = '<div class="hint-pill"><span class="hint-arrows">⇆</span><span class="hint-hand" aria-hidden="true">👆</span><span>مرّر بإصبعك يمينًا ويسارًا</span><span class="hint-arrows">⇆</span></div>';
+      document.body.appendChild(hint);
+    }
+    var left = document.querySelector('.nav-edge-light.edge-left');
+    var right = document.querySelector('.nav-edge-light.edge-right');
+    if (!left) { left = document.createElement('div'); left.className = 'nav-edge-light edge-left'; left.textContent = '‹'; left.setAttribute('aria-hidden','true'); document.body.appendChild(left); }
+    if (!right) { right = document.createElement('div'); right.className = 'nav-edge-light edge-right'; right.textContent = '›'; right.setAttribute('aria-hidden','true'); document.body.appendChild(right); }
+
+    var hideTimer;
+    function hideHint(){
+      hint.classList.add('is-hidden');
+      if (hideTimer) clearTimeout(hideTimer);
+    }
+    function showHint(duration){
+      hint.classList.remove('is-hidden');
+      if (hideTimer) clearTimeout(hideTimer);
+      hideTimer = setTimeout(hideHint, duration || 4500);
+    }
+    /* Show the gesture hint at first, then show it again after the user taps any tab. */
+    if (!menu.dataset.swipeHintInitialized) {
+      menu.dataset.swipeHintInitialized = '1';
+      showHint(7000);
+      menu.addEventListener('click', function(event){
+        if (event.target.closest('.menu-item')) showHint(4500);
+      });
+      menu.addEventListener('scroll', function(){ hideHint(); }, {passive:true});
+    }
     function updateEdges(){
       var maxScroll = menu.scrollWidth - menu.clientWidth;
       var hasOverflow = maxScroll > 8;
       left.style.display = right.style.display = hasOverflow ? 'flex' : 'none';
       if (!hasOverflow) return;
-      var atStart = Math.abs(menu.scrollLeft) < 3;
-      var atEnd = Math.abs(menu.scrollLeft) >= maxScroll - 3;
-      /* Keep both hints visible for RTL/browser scrollLeft differences; fade edges only at a definite end. */
-      if (atStart && atEnd) { left.style.opacity = right.style.opacity = '.45'; }
-      else { left.style.opacity = right.style.opacity = '1'; }
+      left.style.opacity = right.style.opacity = '1';
     }
     menu.addEventListener('scroll', updateEdges, {passive:true});
     window.addEventListener('resize', updateEdges, {passive:true});
