@@ -77,146 +77,10 @@ const STORE_CONFIG = {
       "createdAt": "2026-09-15T12:56:26.031Z",
       "image": "https://raw.githubusercontent.com/one-wil/dawn-dz/main/images/product-1789476986031-1789477052559-modal3.jpg",
       "updatedAt": "2026-09-15T12:58:09.766Z"
-    },
-    "1789581423689": {
-      "name": " Ensemble polo",
-      "price": 4000,
-      "description": "صُمم هذا المنتج بعناية فائقة ليجمع بين الأناقة والمتانة، مما يجعله الخيار الأمثل لمن يبحث عن التميّز في كل تفصيلة.\n خاماته المنتقاة بعناية تمنحه مظهراً راقياً ولمسة نهائية ناعمة تدوم مع الاستخدام اليومي دون أن تفقد بريقها.\n",
-      "category": "",
-      "stock": 0,
-      "featured": false,
-      "availableColors": [
-        "Beige - Black",
-        "Black-olive Geen",
-        "Gray-black"
-      ],
-      "availableSizes": [
-        "42-44",
-        "S",
-        "M",
-        "L"
-      ],
-      "ageRanges": [],
-      "colorImages": {
-        "Black-olive Geen": {
-          "images": [
-            "https://raw.githubusercontent.com/one-wil/vol-shop/main/images/product-1789581423689-Black-olive%20Geen-1789581763856-Messenger-creation-BFECA40B-57E0-4596-BD25-4F9D45BA3562.jpeg"
-          ],
-          "ageRanges": [
-            {
-              "ageFrom": "",
-              "ageTo": "",
-              "size": "S"
-            },
-            {
-              "ageFrom": "",
-              "ageTo": "",
-              "size": "M"
-            },
-            {
-              "ageFrom": "",
-              "ageTo": "",
-              "size": "L"
-            },
-            {
-              "ageFrom": "",
-              "ageTo": "",
-              "size": "42-44"
-            }
-          ]
-        },
-        "Beige - Black": {
-          "images": [
-            "https://raw.githubusercontent.com/one-wil/vol-shop/main/images/product-1789581423689-Beige%20-%20Black-1789581940027-Messenger-creation-810CA979-D104-4003-AC53-8D1BA722871C.jpeg"
-          ],
-          "ageRanges": [
-            {
-              "ageFrom": "",
-              "ageTo": "",
-              "size": "S"
-            },
-            {
-              "ageFrom": "",
-              "ageTo": "",
-              "size": "M"
-            },
-            {
-              "ageFrom": "",
-              "ageTo": "",
-              "size": "L"
-            },
-            {
-              "ageFrom": "",
-              "ageTo": "",
-              "size": "42-44"
-            }
-          ]
-        },
-        "Gray-black": {
-          "images": [
-            "https://raw.githubusercontent.com/one-wil/vol-shop/main/images/product-1789581423689-Gray-black-1789581994305-Messenger-creation-25516B0A-A522-42F1-9AB6-57299C553605.jpeg"
-          ],
-          "ageRanges": [
-            {
-              "ageFrom": "",
-              "ageTo": "",
-              "size": "S"
-            },
-            {
-              "ageFrom": "",
-              "ageTo": "",
-              "size": "M"
-            },
-            {
-              "ageFrom": "",
-              "ageTo": "",
-              "size": "L"
-            },
-            {
-              "ageFrom": "",
-              "ageTo": "",
-              "size": "42-44"
-            }
-          ]
-        }
-      },
-      "sizeGuide": {
-        "enabled": true,
-        "guide": {
-          "S": {
-            "heightFrom": 0,
-            "heightTo": 0,
-            "weightFrom": 0,
-            "weightTo": 0
-          },
-          "M": {
-            "heightFrom": 0,
-            "heightTo": 0,
-            "weightFrom": 0,
-            "weightTo": 0
-          },
-          "L": {
-            "heightFrom": 0,
-            "heightTo": 0,
-            "weightFrom": 0,
-            "weightTo": 0
-          },
-          "42-44": {
-            "heightFrom": 0,
-            "heightTo": 0,
-            "weightFrom": 0,
-            "weightTo": 0
-          }
-        }
-      },
-      "createdAt": "2026-09-16T17:57:03.689Z",
-      "image": "https://raw.githubusercontent.com/one-wil/vol-shop/main/images/product-1789581423689-1789581668031-Messenger-creation-810CA979-D104-4003-AC53-8D1BA722871C.jpeg",
-      "updatedAt": "2026-10-09T11:29:01.809Z"
     }
   },
   "PRODUCT_ORDER": {
-    "1789476986031": 2,
-    "1789581423689": 1
+    "1789476986031": 2
   },
   "DELIVERY_PRICES": {
     "01 - أدرار": {
@@ -508,8 +372,7 @@ const STORE_CONFIG = {
     "freeDeliveryProducts": [
       1765137505304,
       1765145035052,
-      1765145814607,
-      1789581423689
+      1765145814607
     ]
   },
   "DISCOUNTS": {
@@ -517,16 +380,12 @@ const STORE_CONFIG = {
     "minQuantityForDiscount": 2,
     "discountPerItem": 100,
     "discountScope": "selected",
-    "discountProducts": [
-      1789581423689
-    ],
+    "discountProducts": [],
     "enablePromotionalDiscount": false,
     "promotionalDiscountPercent": 30,
     "promotionalDiscountedPrice": 0,
     "promoDiscountScope": "selected",
-    "promoDiscountProducts": [
-      1789581423689
-    ],
+    "promoDiscountProducts": [],
     "enableBuyXGetY": true,
     "buyXGetYBuyQuantity": 2,
     "buyXGetYFreeQuantity": 1,
@@ -536,7 +395,7 @@ const STORE_CONFIG = {
     ]
   },
   "STORE_INFO": {
-    "name": "Meghili-shop",
+    "name": "T-shop",
     "storeIcon": "-",
     "storeTitle": "-",
     "tagline": "متجر الجودة المفقودة ",
