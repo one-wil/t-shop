@@ -11633,5 +11633,103 @@ window.caClearSessionDateFilter=function(){
 }
 </style>
 
+
+<style id="swipe-navigation-guidance">
+@media (max-width: 768px) {
+  .nav-swipe-hint {
+    position: fixed !important;
+    left: calc(-21.4285vw + 2.3cm) !important;
+    bottom: 88px !important;
+    width: 142.857vw !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    pointer-events: none !important;
+    z-index: 10002 !important;
+    opacity: 1;
+    transition: opacity .6s ease, transform .6s ease;
+    transform: translateY(0);
+  }
+  .nav-swipe-hint.is-hidden { opacity: 0; transform: translateY(8px); }
+  .nav-swipe-hint .hint-pill {
+    direction: rtl;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 13px;
+    border: 1px solid rgba(90,190,255,.75);
+    border-radius: 24px;
+    color: #fff;
+    background: rgba(12,35,58,.94);
+    box-shadow: 0 0 9px rgba(0,170,255,.55), 0 0 22px rgba(0,170,255,.25);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    animation: navHintPulse 1.7s ease-in-out infinite;
+  }
+  .nav-swipe-hint .hint-arrows { color: #65d9ff; letter-spacing: 2px; font-size: 17px; animation: navArrowSlide 1.1s ease-in-out infinite alternate; }
+  .nav-edge-light {
+    position: fixed !important;
+    bottom: 5px !important;
+    z-index: 10001 !important;
+    width: 25px !important;
+    height: 66px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #fff !important;
+    font-size: 25px !important;
+    font-weight: 900 !important;
+    pointer-events: none !important;
+    text-shadow: 0 0 5px #00c8ff, 0 0 12px #00aaff, 0 0 20px #008cff;
+    animation: navEdgeBlink 1.1s ease-in-out infinite alternate;
+  }
+  .nav-edge-light.edge-left { left: 0 !important; background: linear-gradient(90deg, rgba(0,160,255,.22), transparent); }
+  .nav-edge-light.edge-right { right: 0 !important; background: linear-gradient(270deg, rgba(0,160,255,.22), transparent); }
+  @keyframes navHintPulse { 0%,100% { box-shadow: 0 0 7px rgba(0,170,255,.35); } 50% { box-shadow: 0 0 16px rgba(0,210,255,.85), 0 0 28px rgba(0,130,255,.35); } }
+  @keyframes navArrowSlide { from { transform: translateX(-3px); } to { transform: translateX(3px); } }
+  @keyframes navEdgeBlink { from { opacity: .45; } to { opacity: 1; } }
+}
+@media (min-width: 769px) { .nav-swipe-hint, .nav-edge-light { display:none !important; } }
+@media (prefers-reduced-motion: reduce) { .nav-swipe-hint *, .nav-edge-light { animation: none !important; transition: none !important; } }
+</style>
+<script id="swipe-navigation-guidance-script">
+(function(){
+  function setupSwipeGuidance(){
+    if (window.innerWidth > 768 || document.querySelector('.nav-swipe-hint')) return;
+    var sidebar = document.querySelector('.sidebar');
+    var menu = document.querySelector('.sidebar-menu');
+    if (!sidebar || !menu) return;
+    var hint = document.createElement('div');
+    hint.className = 'nav-swipe-hint';
+    hint.innerHTML = '<div class="hint-pill"><span class="hint-arrows">⇆</span><span>مرّر بإصبعك لاكتشاف باقي القوائم</span><span class="hint-arrows">⇆</span></div>';
+    var left = document.createElement('div'); left.className = 'nav-edge-light edge-left'; left.textContent = '‹'; left.setAttribute('aria-hidden','true');
+    var right = document.createElement('div'); right.className = 'nav-edge-light edge-right'; right.textContent = '›'; right.setAttribute('aria-hidden','true');
+    document.body.appendChild(hint); document.body.appendChild(left); document.body.appendChild(right);
+    var dismissed = false;
+    function hideHint(){ if (!dismissed) { dismissed = true; hint.classList.add('is-hidden'); setTimeout(function(){ if(hint.parentNode) hint.parentNode.removeChild(hint); },700); } }
+    menu.addEventListener('touchstart', hideHint, {passive:true, once:true});
+    menu.addEventListener('pointerdown', hideHint, {passive:true, once:true});
+    setTimeout(hideHint, 7000);
+    function updateEdges(){
+      var maxScroll = menu.scrollWidth - menu.clientWidth;
+      var hasOverflow = maxScroll > 8;
+      left.style.display = right.style.display = hasOverflow ? 'flex' : 'none';
+      if (!hasOverflow) return;
+      var atStart = Math.abs(menu.scrollLeft) < 3;
+      var atEnd = Math.abs(menu.scrollLeft) >= maxScroll - 3;
+      /* Keep both hints visible for RTL/browser scrollLeft differences; fade edges only at a definite end. */
+      if (atStart && atEnd) { left.style.opacity = right.style.opacity = '.45'; }
+      else { left.style.opacity = right.style.opacity = '1'; }
+    }
+    menu.addEventListener('scroll', updateEdges, {passive:true});
+    window.addEventListener('resize', updateEdges, {passive:true});
+    setTimeout(updateEdges, 250);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupSwipeGuidance); else setupSwipeGuidance();
+  setTimeout(setupSwipeGuidance, 1200);
+})();
+</script>
+
 </body>
 </html>
