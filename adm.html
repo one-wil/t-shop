@@ -11639,7 +11639,7 @@ window.caClearSessionDateFilter=function(){
   .nav-swipe-hint {
     position: fixed !important;
     left: calc(-21.4285vw + 2.3cm) !important;
-    bottom: 88px !important;
+    bottom: 80px !important;
     width: 142.857vw !important;
     display: flex !important;
     justify-content: center !important;
@@ -11657,15 +11657,15 @@ window.caClearSessionDateFilter=function(){
     align-items: center;
     gap: 8px;
     padding: 7px 13px;
-    border: 1px solid rgba(90,190,255,.75);
+    border: 1px solid rgba(90,190,255,.9);
     border-radius: 24px;
     color: #fff;
-    background: rgba(12,35,58,.94);
-    box-shadow: 0 0 9px rgba(0,170,255,.55), 0 0 22px rgba(0,170,255,.25);
+    background: rgba(12,35,58,.96);
+    box-shadow: 0 0 9px rgba(0,170,255,.65), 0 0 22px rgba(0,170,255,.35);
     font-size: 12px;
     font-weight: 700;
     white-space: nowrap;
-    animation: navHintPulse 1.7s ease-in-out infinite;
+    animation: navHintFlash .8s ease-in-out infinite;
   }
   .nav-swipe-hint .hint-arrows { color: #65d9ff; letter-spacing: 2px; font-size: 17px; animation: navArrowSlide 1.1s ease-in-out infinite alternate; }
   .nav-swipe-hint .hint-hand { display:inline-block; font-size:20px; line-height:1; animation: navHandMove 1s ease-in-out infinite alternate; filter: drop-shadow(0 0 5px rgba(255,220,80,.8)); }
@@ -11689,6 +11689,7 @@ window.caClearSessionDateFilter=function(){
   .nav-edge-light.edge-left { left: 0 !important; background: linear-gradient(90deg, rgba(0,160,255,.22), transparent); }
   .nav-edge-light.edge-right { right: 0 !important; background: linear-gradient(270deg, rgba(0,160,255,.22), transparent); }
   @keyframes navHintPulse { 0%,100% { box-shadow: 0 0 7px rgba(0,170,255,.35); } 50% { box-shadow: 0 0 16px rgba(0,210,255,.85), 0 0 28px rgba(0,130,255,.35); } }
+  @keyframes navHintFlash { 0%,100% { opacity:.68; filter:brightness(.9); box-shadow:0 0 7px rgba(0,170,255,.35); } 50% { opacity:1; filter:brightness(1.45); box-shadow:0 0 17px rgba(0,220,255,.95),0 0 30px rgba(0,130,255,.65); } }
   @keyframes navArrowSlide { from { transform: translateX(-3px); } to { transform: translateX(3px); } }
   @keyframes navEdgeBlink { from { opacity: .45; } to { opacity: 1; } }
 }
@@ -11715,34 +11716,61 @@ window.caClearSessionDateFilter=function(){
     if (!right) { right = document.createElement('div'); right.className = 'nav-edge-light edge-right'; right.textContent = '›'; right.setAttribute('aria-hidden','true'); document.body.appendChild(right); }
 
     var hideTimer;
+    var loginScreen = document.getElementById('loginScreen');
+    function isLoginVisible(){
+      if (!loginScreen) return false;
+      var style = window.getComputedStyle(loginScreen);
+      return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity || 1) > 0.01;
+    }
     function hideHint(){
       hint.classList.add('is-hidden');
       if (hideTimer) clearTimeout(hideTimer);
     }
     function showHint(duration){
+      if (isLoginVisible()) { hideHint(); return; }
       hint.classList.remove('is-hidden');
       if (hideTimer) clearTimeout(hideTimer);
       hideTimer = setTimeout(hideHint, duration || 4500);
     }
-    /* Show the gesture hint at first, then show it again after the user taps any tab. */
+    var loginWasVisible = isLoginVisible();
+    function syncLoginState(){
+      var loginVisibleNow = isLoginVisible();
+      if (loginVisibleNow) {
+        hideHint();
+        left.style.display = right.style.display = 'none';
+      } else {
+        updateEdges();
+        if (loginWasVisible) showHint(7000);
+      }
+      loginWasVisible = loginVisibleNow;
+    }
+    /* Keep the hint and flashing edge arrows off the login screen. */
     if (!menu.dataset.swipeHintInitialized) {
       menu.dataset.swipeHintInitialized = '1';
-      showHint(7000);
+      if (!isLoginVisible()) showHint(7000);
       menu.addEventListener('click', function(event){
         if (event.target.closest('.menu-item')) showHint(4500);
       });
       menu.addEventListener('scroll', function(){ hideHint(); }, {passive:true});
     }
     function updateEdges(){
+      if (isLoginVisible()) {
+        left.style.display = right.style.display = 'none';
+        return;
+      }
       var maxScroll = menu.scrollWidth - menu.clientWidth;
       var hasOverflow = maxScroll > 8;
       left.style.display = right.style.display = hasOverflow ? 'flex' : 'none';
       if (!hasOverflow) return;
       left.style.opacity = right.style.opacity = '1';
     }
+    if (loginScreen && window.MutationObserver) {
+      new MutationObserver(syncLoginState).observe(loginScreen, {attributes:true, attributeFilter:['style','class','hidden']});
+    }
     menu.addEventListener('scroll', updateEdges, {passive:true});
     window.addEventListener('resize', updateEdges, {passive:true});
-    setTimeout(updateEdges, 250);
+    setTimeout(syncLoginState, 250);
+    setTimeout(updateEdges, 350);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupSwipeGuidance); else setupSwipeGuidance();
   setTimeout(setupSwipeGuidance, 1200);
