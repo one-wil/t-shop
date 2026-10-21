@@ -2491,8 +2491,11 @@
         @media(max-width:600px){.subscription-summary-card{align-items:flex-start;padding:17px}.subscription-summary-icon{width:48px;height:48px;flex-basis:48px;font-size:21px}.subscription-summary-main h3{font-size:19px}.subscription-pricing-grid{grid-template-columns:1fr}.subscription-detail strong{font-size:16px}}
 
         /* StoreMaster: اختيار وتغيير قالب المتجر */
+        /* إزالة شارة "جديد" من تبويب قوالب المتجر */
         .template-switch-menu-item{position:relative}
-        .template-switch-menu-item::after{content:"جديد";position:absolute;left:10px;top:9px;font-size:9px;font-weight:900;color:#111;background:#ffd54a;border-radius:999px;padding:2px 6px}
+        /* تكبير أسماء التبويبات بنسبة 20% لتسهيل قراءتها */
+        .menu-item{font-size:1.2em}
+        .tab{font-size:1.2em}
         .store-template-card{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
 .store-template-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(35,55,110,.13)}
 .store-template-card button{min-height:44px;position:relative;overflow:hidden}
