@@ -77,6 +77,123 @@ const STORE_CONFIG = {
       "createdAt": "2026-09-15T12:56:26.031Z",
       "image": "https://raw.githubusercontent.com/one-wil/dawn-dz/main/images/product-1789476986031-1789477052559-modal3.jpg",
       "updatedAt": "2026-09-15T12:58:09.766Z"
+    },
+    "1792687401448": {
+      "name": "بدلة رياضية ",
+      "price": 5000,
+      "description": "اكتشف البدلة الرياضية بألوان متعددة، بتصميم أنيق يناسب الرجل العصري، سواء للخروج اليومي أو التنقل أو أوقات الراحة.",
+      "category": "",
+      "stock": 0,
+      "featured": false,
+      "availableColors": [
+        "أبيض",
+        "أحمر",
+        "أخضر",
+        "أزرق"
+      ],
+      "availableSizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "ageRanges": [],
+      "colorImages": {
+        "أبيض": {
+          "images": [
+            "https://raw.githubusercontent.com/one-wil/t-shop/main/images/product-1792687401448-أبيض-1792687662417-IMG-20251223-WA0003.jpg"
+          ],
+          "ageRanges": [
+            {
+              "ageFrom": "",
+              "ageTo": "",
+              "size": "S"
+            },
+            {
+              "ageFrom": "",
+              "ageTo": "",
+              "size": "M"
+            },
+            {
+              "ageFrom": "",
+              "ageTo": "",
+              "size": "L"
+            }
+          ]
+        },
+        "أحمر": {
+          "images": [
+            "https://raw.githubusercontent.com/one-wil/t-shop/main/images/product-1792687401448-أحمر-1792687693015-IMG-20251223-WA0005.jpg"
+          ],
+          "ageRanges": [
+            {
+              "ageFrom": "",
+              "ageTo": "",
+              "size": "S"
+            },
+            {
+              "ageFrom": "",
+              "ageTo": "",
+              "size": "M"
+            },
+            {
+              "ageFrom": "",
+              "ageTo": "",
+              "size": "L"
+            }
+          ]
+        },
+        "أخضر": {
+          "images": [
+            "https://raw.githubusercontent.com/one-wil/t-shop/main/images/product-1792687401448-أخضر-1792687776676-IMG-20251223-WA0006.jpg"
+          ],
+          "ageRanges": [
+            {
+              "ageFrom": "",
+              "ageTo": "",
+              "size": "S"
+            },
+            {
+              "ageFrom": "",
+              "ageTo": "",
+              "size": "M"
+            },
+            {
+              "ageFrom": "",
+              "ageTo": "",
+              "size": "L"
+            }
+          ]
+        },
+        "أزرق": {
+          "images": [
+            "https://raw.githubusercontent.com/one-wil/t-shop/main/images/product-1792687401448-أزرق-1792687818892-IMG-20251223-WA0007.jpg"
+          ],
+          "ageRanges": [
+            {
+              "ageFrom": "",
+              "ageTo": "",
+              "size": "S"
+            },
+            {
+              "ageFrom": "",
+              "ageTo": "",
+              "size": "M"
+            },
+            {
+              "ageFrom": "",
+              "ageTo": "",
+              "size": "L"
+            }
+          ]
+        }
+      },
+      "sizeGuide": {
+        "enabled": false,
+        "guide": {}
+      },
+      "createdAt": "2026-10-22T16:43:21.448Z",
+      "image": "https://raw.githubusercontent.com/one-wil/t-shop/main/images/product-1792687401448-1792687473627-IMG-20251223-WA0004.jpg",
+      "updatedAt": "2026-10-22T16:47:26.036Z"
     }
   },
   "PRODUCT_ORDER": {
@@ -403,7 +520,7 @@ const STORE_CONFIG = {
       "0666666666",
       "0551102155"
     ],
-    "logo": "https://raw.githubusercontent.com/one-wil/lip-waw/main/images/store-logo-1789242847980-file-0000000012a481f4b3f05ecbb28e82cd.png",
+    "logo": "https://raw.githubusercontent.com/one-wil/t-shop/main/images/store-logo-1792687381215-file-00000000661c821198b74ba7b09b40c0.png",
     "facebookUrl": "",
     "instagramUrl": "",
     "messengerUrl": "",
