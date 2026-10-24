@@ -193,7 +193,7 @@
     "1792854438886": {
       "name": "لباس أطفال",
       "price": 3000,
-      "description": "لباس عالي الجودة يكمل مواصفات جدابة ",
+      "description": "لباس عالي الجودة  بمواصفات جدابة ",
       "category": "",
       "stock": 0,
       "featured": false,
@@ -244,11 +244,6 @@
               "ageFrom": "5",
               "ageTo": "4",
               "size": "M"
-            },
-            {
-              "ageFrom": "7",
-              "ageTo": "6",
-              "size": "L"
             }
           ]
         }
@@ -278,7 +273,7 @@
       },
       "createdAt": "2026-10-24T15:07:18.886Z",
       "image": "https://raw.githubusercontent.com/one-wil/t-shop/main/images/product-1792854438886-1792854477508-Screenshot-2026-10-24-15-52-53-41-96b26121e545231a3c569311a54cda96.jpg",
-      "updatedAt": "2026-10-24T15:28:00.271Z"
+      "updatedAt": "2026-10-24T15:46:43.050Z"
     }
   },
   "PRODUCT_ORDER": {
