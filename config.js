@@ -283,7 +283,7 @@ const STORE_CONFIG = {
       },
       "createdAt": "2026-10-24T15:07:18.886Z",
       "image": "https://raw.githubusercontent.com/one-wil/t-shop/main/images/product-1792854438886-1792854477508-Screenshot-2026-10-24-15-52-53-41-96b26121e545231a3c569311a54cda96.jpg",
-      "updatedAt": "2026-10-24T15:09:11.968Z"
+      "updatedAt": "2026-10-24T15:28:00.271Z"
     }
   },
   "PRODUCT_ORDER": {
