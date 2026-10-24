@@ -189,6 +189,96 @@
       "createdAt": "2026-10-22T16:43:21.448Z",
       "image": "https://raw.githubusercontent.com/one-wil/t-shop/main/images/product-1792687401448-1792687473627-IMG-20251223-WA0004.jpg",
       "updatedAt": "2026-10-22T16:47:26.036Z"
+    },
+    "1792854438886": {
+      "name": "لباس أطفال",
+      "price": 3000,
+      "description": "لباس عالي الجودة يكمل مواصفات جدابة ",
+      "category": "",
+      "stock": 0,
+      "featured": false,
+      "availableColors": [
+        "أزرق",
+        "أسود"
+      ],
+      "availableSizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "ageRanges": [],
+      "colorImages": {
+        "أزرق": {
+          "images": [
+            "https://raw.githubusercontent.com/one-wil/t-shop/main/images/product-1792854438886-أزرق-1792854563146-Screenshot-2026-10-24-15-52-39-85-96b26121e545231a3c569311a54cda96.jpg"
+          ],
+          "ageRanges": [
+            {
+              "ageFrom": "3",
+              "ageTo": "2",
+              "size": "S"
+            },
+            {
+              "ageFrom": "5",
+              "ageTo": "4",
+              "size": "M"
+            },
+            {
+              "ageFrom": "7",
+              "ageTo": "6",
+              "size": "L"
+            }
+          ]
+        },
+        "أسود": {
+          "images": [
+            "https://raw.githubusercontent.com/one-wil/t-shop/main/images/product-1792854438886-أسود-1792854577255-Screenshot-2026-10-24-15-52-45-75-96b26121e545231a3c569311a54cda96.jpg"
+          ],
+          "ageRanges": [
+            {
+              "ageFrom": "3",
+              "ageTo": "2",
+              "size": "S"
+            },
+            {
+              "ageFrom": "5",
+              "ageTo": "4",
+              "size": "M"
+            },
+            {
+              "ageFrom": "7",
+              "ageTo": "6",
+              "size": "L"
+            }
+          ]
+        }
+      },
+      "sizeGuide": {
+        "enabled": true,
+        "guide": {
+          "S": {
+            "heightFrom": 85,
+            "heightTo": 95,
+            "weightFrom": 12,
+            "weightTo": 15
+          },
+          "M": {
+            "heightFrom": 99,
+            "heightTo": 110,
+            "weightFrom": 16,
+            "weightTo": 20
+          },
+          "L": {
+            "heightFrom": 111,
+            "heightTo": 122,
+            "weightFrom": 21,
+            "weightTo": 25
+          }
+        }
+      },
+      "createdAt": "2026-10-24T15:07:18.886Z",
+      "image": "https://raw.githubusercontent.com/one-wil/t-shop/main/images/product-1792854438886-1792854477508-Screenshot-2026-10-24-15-52-53-41-96b26121e545231a3c569311a54cda96.jpg",
+      "updatedAt": "2026-10-24T15:09:11.968Z"
     }
   },
   "PRODUCT_ORDER": {
