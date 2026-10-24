@@ -286,10 +286,6 @@ const STORE_CONFIG = {
     "1792687401448": 1
   },
   "DELIVERY_PRICES": {
-    "01 - أدرار": {
-      "home": 1100,
-      "desk": 600
-    },
     "02 - الشلف": {
       "home": 700,
       "desk": 400
