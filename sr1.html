@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>حاسبة ترميز المناوبات R1-R8</title>
+
 <style>
 *{box-sizing:border-box}
 body{
@@ -131,14 +132,13 @@ th{background:#dfeaf6}
 <p class="note">
 الحساب يعتمد على أسابيع متتالية، كل أسبوع 7 أيام.
 يوم المناوبة يبقى ثابتاً أثناء تغيير رقم الترميز.
-يرجى التحقق من الحالات غير المختبرة قبل اعتماد النتائج في SAP HR.
 </p>
 
 </div>
 
 <script>
 
-// إعداد اختيارات الأسابيع: 1 إلى 8
+// إنشاء خيارات الأسابيع من 1 إلى 8
 function fillOptions(id){
  const select=document.getElementById(id);
 
@@ -150,6 +150,7 @@ function fillOptions(id){
   select.appendChild(option);
  }
 }
+
 fillOptions("work");
 fillOptions("rest");
 
@@ -158,7 +159,7 @@ function nextCode(code,shift){
  return ((code-1+shift)%8+8)%8+1;
 }
 
-// حساب التاريخ
+// إضافة أيام إلى التاريخ
 function addDays(date,days){
  const d=new Date(date+"T12:00:00");
  d.setDate(d.getDate()+days);
@@ -174,11 +175,12 @@ function format(date){
  return p[2]+"/"+p[1]+"/"+p[0];
 }
 
+// اسم الترميز
 function codeName(code,day){
  return day+" R"+code;
 }
 
-// حساب المناوبة
+// الحساب الرئيسي
 function calculate(){
 
  const original=Number(
@@ -195,21 +197,7 @@ function calculate(){
   return;
  }
 
- /*
-  تحديد ترميز العمل:
-
-  1- أقل من 4 أسابيع:
-     الالتحاق بالمجموعة التي بقي لها
-     عدد أسابيع العمل المطلوب.
-
-  2- أربعة أسابيع:
-     الاحتفاظ بالترميز الأصلي.
-
-  3- أكثر من أربعة أسابيع:
-     العمل بالترميز الأصلي أولا،
-     ثم تغيير الترميز بعد كل أسبوع إضافي.
- */
-
+ // تحديد ترميز العمل
  const workCode=nextCode(original,work-4);
 
  let rows=[];
@@ -246,15 +234,10 @@ function calculate(){
   workCode
  ]);
 
- /*
-  تغيير ترميز الراحة:
-
-  إذا تجاوزت الراحة 4 أسابيع،
-  يتغير الترميز في اليوم 28 من الراحة.
- */
-
+ // ترميز الراحة
  let restCode=workCode;
 
+ // تغيير الترميز بعد 4 أسابيع راحة
  if(rest>4){
 
   const changeRest=addDays(restStart,27);
@@ -268,7 +251,7 @@ function calculate(){
   ]);
  }
 
- // آخر يوم راحة
+ // نهاية الراحة
  const restEnd=addDays(
   start,(work+rest)*7-1
  );
@@ -279,42 +262,34 @@ function calculate(){
   restCode
  ]);
 
- // تاريخ العودة
+ // تاريخ العودة إلى العمل
  const returnDate=addDays(
   start,(work+rest)*7
  );
 
- /*
-  تحديد ترميز العودة:
-
-  الحالة 4 عمل + 4 راحة:
-  العودة إلى الترميز الأصلي.
-
-  الراحة أكثر من 4 أسابيع:
-  العودة بالترميز الذي تم اعتماده
-  في الأسبوع الخامس من الراحة.
-
-  الراحة أقل من 4 أسابيع:
-  الالتحاق بالمجموعة التالية.
- */
-
+ // تحديد ترميز العودة
  let returnCode;
 
  if(work===4 && rest===4){
 
+  // دورة عادية: العودة إلى الترميز الأصلي
   returnCode=original;
 
  }else if(rest>4){
 
+  // راحة أكثر من أربعة أسابيع
   returnCode=restCode;
 
  }else if(rest===4){
 
+  // أربعة أسابيع راحة
   returnCode=workCode;
 
  }else{
 
-  returnCode=nextCode(workCode,1);
+  // أقل من أربعة أسابيع راحة:
+  // العودة إلى الرمز السابق لترميز العمل
+  returnCode=nextCode(workCode,-1);
  }
 
  rows.push([
