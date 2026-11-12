@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حاسبة نظام المناوبة R1-R8</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;padding:18px;
+  font-family:Arial,sans-serif;
+  background:#f1f4f9;color:#263449;
+}
+.container{
+  max-width:650px;margin:auto;
+  background:white;padding:22px;
+  border-radius:18px;
+  box-shadow:0 5px 25px #0001;
+}
+h2{text-align:center;color:#174b7a}
+.subtitle{text-align:center;color:#78869a;font-size:13px}
+label{display:block;font-weight:bold;margin:16px 0 7px}
+input,select{
+  width:100%;padding:13px;
+  border:1px solid #ccd5e1;
+  border-radius:9px;font-size:16px;
+  background:#fff;
+}
+button{
+  width:100%;padding:14px;
+  margin-top:20px;border:0;
+  border-radius:10px;
+  background:#1765a5;color:white;
+  font-size:17px;font-weight:bold;
+  cursor:pointer;
+}
+button:hover{background:#104b7d}
+.result{
+  margin-top:22px;padding:16px;
+  background:#edf5ff;border-radius:12px;
+  display:none;
+}
+.result h3{color:#14558c}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+td,th{padding:11px;border-bottom:1px solid #dce4ed;text-align:center}
+th{background:#e5edf7}
+.code{
+  display:inline-block;background:#dceeff;
+  color:#14558c;padding:6px 12px;
+  border-radius:7px;font-weight:bold;
+}
+.note{font-size:12px;color:#78869a;margin-top:15px}
+@media print{
+  body{background:white}
+  .container{box-shadow:none}
+  button{display:none}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h2>حاسبة ترميز المناوبات</h2>
+<p class="subtitle">Système de roulement – R1 à R8</p>
+
+<label>الترميز الأصلي للعامل</label>
+<select id="code">
+<option value="1">R1</option>
+<option value="2">R2</option>
+<option value="3">R3</option>
+<option value="4">R4</option>
+<option value="5">R5</option>
+<option value="6">R6</option>
+<option value="7">R7</option>
+<option value="8">R8</option>
+</select>
+
+<label>يوم المناوبة</label>
+<select id="day">
+<option>Samedi</option>
+<option>Dimanche</option>
+<option>Lundi</option>
+<option>Mardi</option>
+<option>Mercredi</option>
+<option>Jeudi</option>
+<option>Vendredi</option>
+</select>
+
+<label>تاريخ بداية العمل</label>
+<input type="date" id="start">
+
+<label>عدد أسابيع العمل المطلوبة</label>
+<select id="work">
+<option value="2">أسبوعان</option>
+<option value="3">3 أسابيع</option>
+<option value="4" selected>4 أسابيع</option>
+<option value="5">5 أسابيع</option>
+<option value="6">6 أسابيع</option>
+<option value="7">7 أسابيع</option>
+<option value="8">8 أسابيع</option>
+</select>
+
+<label>عدد أسابيع الراحة المطلوبة</label>
+<select id="rest">
+<option value="3">3 أسابيع</option>
+<option value="4" selected>4 أسابيع</option>
+<option value="5">5 أسابيع</option>
+<option value="6">6 أسابيع</option>
+<option value="7">7 أسابيع</option>
+<option value="8">8 أسابيع</option>
+</select>
+
+<button onclick="calculate()">احسب الترميز والتواريخ</button>
+
+<div class="result" id="result">
+<h3>نتائج الحساب</h3>
+<div id="summary"></div>
+<table>
+<thead>
+<tr>
+<th>المرحلة</th>
+<th>التاريخ</th>
+<th>الترميز</th>
+</tr>
+</thead>
+<tbody id="details"></tbody>
+</table>
+<button onclick="window.print()">طباعة النتائج</button>
+</div>
+
+<p class="note">
+ملاحظة: الحساب يفترض أسابيع متتالية من 7 أيام.
+يجب مطابقة قواعد الانتقال مع جدول المناوبة المرجعي المعتمد.
+</p>
+
+</div>
+
+<script>
+function addDays(date, days){
+  let d = new Date(date + "T12:00:00");
+  d.setDate(d.getDate()+days);
+  return d.toLocaleDateString("en-GB");
+}
+
+function nextCode(n, shift){
+  return ((n-1+shift+8*10)%8)+1;
+}
+
+function calculate(){
+
+  const original = Number(document.getElementById("code").value);
+  const start = document.getElementById("start").value;
+  const work = Number(document.getElementById("work").value);
+  const rest = Number(document.getElementById("rest").value);
+  const day = document.getElementById("day").value;
+
+  if(!start){
+    alert("يرجى إدخال تاريخ بداية العمل");
+    return;
+  }
+
+  /*
+    قاعدة العمل:
+    3 أسابيع: ربط بالمجموعة السابقة.
+    4 أسابيع: الاحتفاظ بالترميز.
+    5 أسابيع: الانتقال بعد أسبوع.
+    6 أسابيع: الانتقال بعد أسبوعين.
+  */
+
+  const workCode = nextCode(original,work-4);
+
+  let rows = [];
+  let switchWork = null;
+
+  if(work < 4){
+    switchWork = start;
+    rows.push(["بداية العمل",addDays(start,0),"R"+workCode]);
+  }
+  else if(work > 4){
+    switchWork = addDays(start,(work-4)*7);
+    rows.push(["بداية العمل",addDays(start,0),"R"+original]);
+    rows.push(["تغيير ترميز العمل",switchWork,"R"+workCode]);
+  }
+  else{
+    rows.push(["بداية العمل",addDays(start,0),"R"+original]);
+  }
+
+  const restStart = addDaysISO(start,work*7);
+  const restEnd = addDaysISO(start,(work+rest)*7-1);
+
+  rows.push(["بداية الراحة",format(restStart),"R"+workCode]);
+
+  /*
+    قاعدة الراحة الممتدة:
+    عند تجاوز أربعة أسابيع راحة،
+    يتم الانتقال إلى الرمز التالي
+    في نهاية الأسبوع الرابع.
+  */
+
+  let restCode = workCode;
+
+  if(rest > 4){
+    restCode = nextCode(workCode,1);
+    let switchRest = addDaysISO(restStart,27);
+    rows.push(["تغيير ترميز الراحة",format(switchRest),"R"+restCode]);
+  }
+
+  rows.push(["نهاية الراحة",format(restEnd),"R"+restCode]);
+
+  const returnDate = addDaysISO(start,(work+rest)*7);
+  rows.push(["العودة إلى العمل",format(returnDate),"R"+original]);
+
+  document.getElementById("summary").innerHTML =
+    "الترميز الأصلي: <b>R"+original+"</b><br>"+
+    "ترميز العمل: <span class='code'>R"+workCode+"</span><br>"+
+    "ترميز الراحة: <span class='code'>R"+restCode+"</span><br>"+
+    "مدة العمل: "+work+" أسابيع<br>"+
+    "مدة الراحة: "+rest+" أسابيع<br>"+
+    "يوم المناوبة: "+day;
+
+  document.getElementById("details").innerHTML =
+    rows.map(r=>"<tr><td>"+r[0]+"</td><td>"+r[1]+
+    "</td><td><span class='code'>"+r[2]+"</span></td></tr>").join("");
+
+  document.getElementById("result").style.display="block";
+}
+
+function addDaysISO(date,days){
+  let d=new Date(date+"T12:00:00");
+  d.setDate(d.getDate()+days);
+  return d.getFullYear()+"-"+
+    String(d.getMonth()+1).padStart(2,"0")+"-"+
+    String(d.getDate()).padStart(2,"0");
+}
+
+function format(date){
+  return new Date(date+"T12:00:00").toLocaleDateString("en-GB");
+}
+</script>
+</body>
+</html>
