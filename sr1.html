@@ -5,13 +5,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#08734b">
-<title>SONATRACH | SAP - حاسبة المناوبات</title>
+<title>SONATRACH × SAP | Système de roulement</title>
 
 <style>
 :root{
  --green:#08734b;
  --green-dark:#075638;
- --red:#d52b35;
+ --orange:#f58220;
  --blue:#0875b9;
  --blue-dark:#07558a;
  --bg:#f1f5f7;
@@ -24,7 +24,7 @@
 
 body{
  margin:0;
- padding:18px;
+ padding:15px;
  background:var(--bg);
  color:var(--text);
  font-family:Arial,Tahoma,sans-serif;
@@ -43,75 +43,28 @@ body{
 
 .header{
  background:linear-gradient(120deg,#075638,#08734b);
- padding:22px 18px;
+ padding:20px 15px;
  color:white;
+ text-align:center;
 }
 
-.brands{
- display:flex;
- align-items:center;
- justify-content:center;
- gap:18px;
- flex-wrap:wrap;
-}
-
-.brand{
- display:flex;
- align-items:center;
- justify-content:center;
- gap:9px;
- min-width:130px;
-}
-
-.sonatrach-mark{
- width:39px;
- height:39px;
- border-radius:50%;
- background:white;
- color:var(--green);
- display:flex;
- align-items:center;
- justify-content:center;
- font-weight:900;
- font-size:19px;
- border:3px solid #c6e8d6;
-}
-
-.sap-mark{
- width:65px;
- height:38px;
- background:#fff;
- color:#0875b9;
- font-size:23px;
- font-weight:900;
- font-style:italic;
- display:flex;
- align-items:center;
- justify-content:center;
- border-radius:5px;
- clip-path:polygon(0 0,100% 0,100% 72%,75% 100%,0 100%);
-}
-
-.brand-name{
- font-weight:bold;
- font-size:14px;
- letter-spacing:.5px;
-}
-
-.brand-separator{
- width:1px;
- height:38px;
- background:#ffffff55;
+.logo-image{
+ display:block;
+ width:100%;
+ max-width:600px;
+ height:auto;
+ margin:0 auto;
+ border-radius:13px;
+ object-fit:contain;
+ background:#000;
 }
 
 .header h1{
- text-align:center;
  font-size:23px;
- margin:19px 0 7px;
+ margin:20px 0 7px;
 }
 
 .header .subtitle{
- text-align:center;
  font-size:13px;
  color:#e2f5eb;
  margin:0;
@@ -130,14 +83,14 @@ body{
  color:var(--green-dark);
  font-size:17px;
  font-weight:bold;
- margin:3px 0 17px;
+ margin:3px 0 18px;
 }
 
 .section-title:before{
  content:"";
  width:5px;
  height:23px;
- background:var(--red);
+ background:var(--orange);
  border-radius:5px;
 }
 
@@ -148,7 +101,7 @@ body{
 }
 
 .field{
- margin-bottom:15px;
+ margin-bottom:16px;
 }
 
 label{
@@ -163,11 +116,10 @@ input,select{
  padding:13px;
  border:1px solid var(--border);
  border-radius:10px;
- background:#fff;
+ background:white;
  font-size:15px;
  color:var(--text);
  outline:none;
- transition:.2s;
 }
 
 input:focus,select:focus{
@@ -177,6 +129,7 @@ input:focus,select:focus{
 
 button{
  cursor:pointer;
+ font-family:inherit;
 }
 
 .primary-btn{
@@ -189,12 +142,10 @@ button{
  color:white;
  font-size:16px;
  font-weight:bold;
- transition:.2s;
 }
 
 .primary-btn:hover{
  background:var(--green-dark);
- transform:translateY(-1px);
 }
 
 /* RESULTS */
@@ -207,7 +158,7 @@ button{
 }
 
 .result-heading{
- font-size:19px;
+ font-size:20px;
  color:var(--green-dark);
  margin:0 0 18px;
 }
@@ -232,22 +183,14 @@ button{
 }
 
 .summary-card .value{
- font-size:19px;
+ font-size:21px;
  font-weight:bold;
  color:var(--green-dark);
 }
 
-.summary-card.return{
- background:#e8f4ff;
- border-color:#a9d3f2;
-}
-
-.summary-card.return .value{
- color:var(--blue-dark);
-}
-
 .summary-card.work{
  background:#eaf6ef;
+ border-color:#c9e7d4;
 }
 
 .summary-card.rest{
@@ -259,13 +202,28 @@ button{
  color:#b34b36;
 }
 
+.summary-card.return{
+ background:#e8f4ff;
+ border-color:#a9d3f2;
+}
+
+.summary-card.return .value{
+ color:var(--blue-dark);
+ font-size:24px;
+}
+
 .details-info{
- margin-top:15px;
- padding:14px;
+ margin-top:16px;
+ padding:15px;
  border-radius:10px;
  background:#f5f8fa;
- line-height:2;
+ line-height:2.1;
  font-size:14px;
+ overflow-wrap:anywhere;
+}
+
+.details-info b{
+ color:var(--green-dark);
 }
 
 .code{
@@ -321,7 +279,7 @@ tbody tr:last-child{
  display:grid;
  grid-template-columns:1fr 1fr;
  gap:10px;
- margin-top:17px;
+ margin-top:18px;
 }
 
 .actions button{
@@ -339,8 +297,8 @@ tbody tr:last-child{
 }
 
 .note{
- margin-top:22px;
- padding:13px;
+ margin-top:23px;
+ padding:14px;
  background:#f5f8fa;
  border-right:4px solid var(--green);
  border-radius:8px;
@@ -349,11 +307,15 @@ tbody tr:last-child{
  line-height:2;
 }
 
+.note strong{
+ color:var(--green-dark);
+}
+
 /* FOOTER */
 
 .footer{
  text-align:center;
- padding:18px 12px;
+ padding:20px 12px;
  background:#f8fafb;
  border-top:1px solid var(--border);
  color:#8794a1;
@@ -361,13 +323,20 @@ tbody tr:last-child{
  line-height:1.9;
 }
 
+.footer-brand{
+ color:var(--green-dark);
+ font-weight:bold;
+ font-size:15px;
+}
+
 .developer{
  display:inline-block;
- margin-top:10px;
- padding:7px 15px;
+ margin-top:11px;
+ padding:8px 17px;
  color:var(--green-dark);
  background:#e7f3ec;
- border-radius:7px;
+ border:1px solid #c9e7d4;
+ border-radius:8px;
  font-size:14px;
  font-weight:bold;
  letter-spacing:1px;
@@ -395,6 +364,13 @@ tbody tr:last-child{
   -webkit-print-color-adjust:exact;
   print-color-adjust:exact;
  }
+ .summary-card,.code,.footer,.developer{
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+ }
+ .table-wrap{
+  overflow:visible;
+ }
 }
 
 /* MOBILE */
@@ -403,13 +379,14 @@ tbody tr:last-child{
  body{padding:9px}
  .content{padding:15px}
  .form-grid{grid-template-columns:1fr}
- .header{padding:18px 10px}
+ .header{padding:15px 10px}
  .header h1{font-size:20px}
+ .logo-image{max-width:100%}
  .summary-grid{grid-template-columns:1fr 1fr}
  .summary-card{padding:11px}
- .summary-card .value{font-size:16px}
+ .summary-card .value{font-size:17px}
+ .summary-card.return .value{font-size:20px}
  .actions{grid-template-columns:1fr}
- .brands{gap:10px}
 }
 </style>
 </head>
@@ -422,20 +399,11 @@ tbody tr:last-child{
 
 <header class="header">
 
- <div class="brands">
-
-  <div class="brand">
-   <div class="sonatrach-mark">S</div>
-   <div class="brand-name">SONATRACH</div>
-  </div>
-
-  <div class="brand-separator"></div>
-
-  <div class="brand">
-   <div class="sap-mark">SAP</div>
-  </div>
-
- </div>
+ <img
+  src="3025.jpg"
+  alt="SAP and SONATRACH logos"
+  class="logo-image"
+ >
 
  <h1>حاسبة ترميز المناوبات</h1>
 
@@ -448,7 +416,7 @@ tbody tr:last-child{
 
 <main class="content">
 
-<!-- INPUTS -->
+<!-- بيانات الحساب -->
 
 <section class="form">
 
@@ -459,7 +427,7 @@ tbody tr:last-child{
  <div class="form-grid">
 
   <div class="field">
-   <label>الترميز الأصلي للعامل</label>
+   <label for="original">الترميز الأصلي للعامل</label>
 
    <select id="original">
     <option value="1">R1</option>
@@ -474,7 +442,7 @@ tbody tr:last-child{
   </div>
 
   <div class="field">
-   <label>يوم المناوبة</label>
+   <label for="day">يوم المناوبة</label>
 
    <select id="day">
     <option>Samedi</option>
@@ -488,17 +456,17 @@ tbody tr:last-child{
   </div>
 
   <div class="field">
-   <label>تاريخ بداية العمل</label>
+   <label for="start">تاريخ بداية العمل</label>
    <input type="date" id="start">
   </div>
 
   <div class="field">
-   <label>عدد أسابيع العمل المطلوبة</label>
+   <label for="work">عدد أسابيع العمل المطلوبة</label>
    <select id="work"></select>
   </div>
 
   <div class="field">
-   <label>عدد أسابيع الراحة المطلوبة</label>
+   <label for="rest">عدد أسابيع الراحة المطلوبة</label>
    <select id="rest"></select>
   </div>
 
@@ -511,7 +479,7 @@ tbody tr:last-child{
 </section>
 
 
-<!-- RESULTS -->
+<!-- النتائج -->
 
 <section class="result" id="result">
 
@@ -538,7 +506,7 @@ tbody tr:last-child{
 
   <div class="summary-card return">
    <div class="caption">ترميز العودة إلى العمل</div>
-   <div class="value" id="returnResult">R8</div>
+   <div class="value" id="returnResult">—</div>
   </div>
 
  </div>
@@ -550,7 +518,6 @@ tbody tr:last-child{
  </div>
 
  <div class="table-wrap">
-
   <table>
    <thead>
     <tr>
@@ -561,13 +528,10 @@ tbody tr:last-child{
    </thead>
 
    <tbody id="details"></tbody>
-
   </table>
-
  </div>
 
  <div class="actions">
-
   <button onclick="window.print()">
    طباعة النتائج
   </button>
@@ -575,39 +539,41 @@ tbody tr:last-child{
   <button onclick="calculate()">
    تحديث الحساب
   </button>
-
  </div>
 
 </section>
 
 
-<!-- NOTES -->
+<!-- ملاحظة -->
 
 <div class="note">
- <b>ملاحظة تنظيمية:</b>
+ <strong>ملاحظة تنظيمية:</strong>
  تعتمد الحاسبة على دورة أساسية من 4 أسابيع عمل
  مقابل 4 أسابيع راحة.
  كل أسبوع يساوي 7 أيام متتالية.
  يوم المناوبة يبقى ثابتاً عند تغيير رقم الترميز.
+
  <br>
- ترميز العودة إلى العمل في هذه النسخة محدد بـ R8
- وفق التصحيح المعتمد.
+
+ <strong>قاعدة العودة:</strong>
+ يتم حساب ترميز العودة انطلاقاً من الترميز الأصلي
+ ومجموع أسابيع العمل والراحة، مع الدوران بين R1 وR8.
 </div>
 
 </main>
 
 
-<!-- FOOTER -->
+<!-- التذييل -->
 
 <footer class="footer">
 
- <strong>SONATRACH × SAP</strong>
+ <div class="footer-brand">
+  SONATRACH × SAP
+ </div>
 
- <br>
-
- Système de gestion des roulements
-
- <br>
+ <div>
+  Système de gestion des roulements
+ </div>
 
  <span class="developer">
   Developed by BENAKRAB Ahcene
@@ -620,7 +586,9 @@ tbody tr:last-child{
 
 <script>
 
-// إنشاء اختيارات الأسابيع
+// ===================================
+// 1. إنشاء اختيارات الأسابيع
+// ===================================
 
 function fillOptions(id){
 
@@ -633,12 +601,13 @@ function fillOptions(id){
   option.value=i;
 
   option.textContent=
-   i===1?"أسبوع واحد":i+" أسابيع";
+   i===1 ? "أسبوع واحد" : i+" أسابيع";
 
-  if(i===4) option.selected=true;
+  if(i===4){
+   option.selected=true;
+  }
 
   select.appendChild(option);
-
  }
 
 }
@@ -647,7 +616,9 @@ fillOptions("work");
 fillOptions("rest");
 
 
-// الانتقال الدائري بين R1 و R8
+// ===================================
+// 2. الانتقال الدائري R1 إلى R8
+// ===================================
 
 function nextCode(code,shift){
 
@@ -656,7 +627,9 @@ function nextCode(code,shift){
 }
 
 
-// إضافة أيام إلى التاريخ
+// ===================================
+// 3. إضافة أيام إلى التاريخ
+// ===================================
 
 function addDays(date,days){
 
@@ -671,7 +644,9 @@ function addDays(date,days){
 }
 
 
-// تنسيق التاريخ
+// ===================================
+// 4. تنسيق التاريخ
+// ===================================
 
 function format(date){
 
@@ -682,7 +657,9 @@ function format(date){
 }
 
 
-// اسم الترميز
+// ===================================
+// 5. اسم الترميز
+// ===================================
 
 function codeName(code,day){
 
@@ -691,7 +668,9 @@ function codeName(code,day){
 }
 
 
-// الحساب الرئيسي
+// ===================================
+// 6. الحساب الرئيسي
+// ===================================
 
 function calculate(){
 
@@ -711,6 +690,9 @@ function calculate(){
   document.getElementById("rest").value
  );
 
+
+ // التحقق من تاريخ البداية
+
  if(!start){
 
   alert("يرجى إدخال تاريخ بداية العمل");
@@ -721,17 +703,24 @@ function calculate(){
  }
 
 
+ // ===================================
  // حساب ترميز العمل
+ // ===================================
 
- const workCode=nextCode(original,work-4);
+ const workCode=nextCode(
+  original,
+  work-4
+ );
 
  let rows=[];
 
 
+ // ===================================
  // بداية العمل
+ // ===================================
 
  const initialWorkCode=
-  work<4?workCode:original;
+  work<4 ? workCode : original;
 
  rows.push([
   "بداية العمل",
@@ -740,12 +729,15 @@ function calculate(){
  ]);
 
 
- // تغيير الترميز أثناء العمل
+ // ===================================
+ // تغيير ترميز العمل
+ // ===================================
 
  if(work>4){
 
   const changeWork=addDays(
-   start,(work-4)*7
+   start,
+   (work-4)*7
   );
 
   rows.push([
@@ -757,10 +749,13 @@ function calculate(){
  }
 
 
+ // ===================================
  // بداية الراحة
+ // ===================================
 
  const restStart=addDays(
-  start,work*7
+  start,
+  work*7
  );
 
  rows.push([
@@ -770,17 +765,23 @@ function calculate(){
  ]);
 
 
+ // ===================================
  // ترميز الراحة
+ // ===================================
 
  let restCode=workCode;
 
  if(rest>4){
 
   const changeRest=addDays(
-   restStart,27
+   restStart,
+   27
   );
 
-  restCode=nextCode(workCode,1);
+  restCode=nextCode(
+   workCode,
+   1
+  );
 
   rows.push([
    "تغيير ترميز الراحة",
@@ -791,10 +792,13 @@ function calculate(){
  }
 
 
- // آخر يوم راحة
+ // ===================================
+ // نهاية الراحة
+ // ===================================
 
  const restEnd=addDays(
-  start,(work+rest)*7-1
+  start,
+  (work+rest)*7-1
  );
 
  rows.push([
@@ -804,16 +808,24 @@ function calculate(){
  ]);
 
 
+ // ===================================
  // تاريخ العودة إلى العمل
+ // ===================================
 
  const returnDate=addDays(
-  start,(work+rest)*7
+  start,
+  (work+rest)*7
  );
 
 
- // ترميز العودة المعتمد R8
+ // ===================================
+ // حساب ترميز العودة
+ // ===================================
 
- const returnCode=8;
+ const returnCode=nextCode(
+  original,
+  work+rest
+ );
 
  rows.push([
   "العودة إلى العمل",
@@ -822,92 +834,135 @@ function calculate(){
  ]);
 
 
+ // ===================================
  // عرض النتائج الرئيسية
+ // ===================================
 
- document.getElementById("originalResult").textContent=
-  "R"+original;
+ document.getElementById(
+  "originalResult"
+ ).textContent="R"+original;
 
- document.getElementById("workResult").textContent=
-  "R"+workCode;
+ document.getElementById(
+  "workResult"
+ ).textContent="R"+workCode;
 
- document.getElementById("restResult").textContent=
-  "R"+restCode;
+ document.getElementById(
+  "restResult"
+ ).textContent="R"+restCode;
 
- document.getElementById("returnResult").textContent=
-  "R"+returnCode;
+ document.getElementById(
+  "returnResult"
+ ).textContent="R"+returnCode;
 
 
- // عرض ملخص الحساب
+ // ===================================
+ // عرض الملخص
+ // ===================================
 
  document.getElementById("summary").innerHTML=`
 
-  <div>الترميز الأصلي:
+  <div>
+   الترميز الأصلي:
    <b>${codeName(original,day)}</b>
   </div>
 
-  <div>ترميز العمل:
+  <div>
+   ترميز العمل:
    <b>${codeName(workCode,day)}</b>
   </div>
 
-  <div>ترميز الراحة:
+  <div>
+   ترميز الراحة:
    <b>${codeName(restCode,day)}</b>
   </div>
 
-  <div>ترميز العودة:
+  <div>
+   ترميز العودة:
    <b>${codeName(returnCode,day)}</b>
   </div>
 
-  <div>تاريخ بداية العمل:
+  <div>
+   تاريخ بداية العمل:
    <b>${format(start)}</b>
   </div>
 
-  <div>تاريخ بداية الراحة:
+  <div>
+   تاريخ بداية الراحة:
    <b>${format(restStart)}</b>
   </div>
 
-  <div>تاريخ العودة:
+  <div>
+   تاريخ نهاية الراحة:
+   <b>${format(restEnd)}</b>
+  </div>
+
+  <div>
+   تاريخ العودة:
    <b>${format(returnDate)}</b>
   </div>
 
-  <div>مدة العمل:
+  <div>
+   مدة العمل:
    <b>${work} أسابيع</b>
   </div>
 
-  <div>مدة الراحة:
+  <div>
+   مدة الراحة:
    <b>${rest} أسابيع</b>
   </div>
 
-  <div>يوم المناوبة:
+  <div>
+   يوم المناوبة:
    <b>${day}</b>
   </div>
 
  `;
 
 
+ // ===================================
  // إنشاء جدول المراحل
+ // ===================================
 
  document.getElementById("details").innerHTML=
 
  rows.map((r,index)=>`
 
   <tr>
+
    <td>${r[0]}</td>
+
    <td>${format(r[1])}</td>
+
    <td>
-    <span class="code ${index===rows.length-1?'return-code':''}">
+
+    <span class="code ${
+     index===rows.length-1
+     ? "return-code"
+     : ""
+    }">
+
      ${codeName(r[2],day)}
+
     </span>
+
    </td>
+
   </tr>
 
  `).join("");
 
 
+ // ===================================
  // إظهار النتائج
+ // ===================================
 
- document.getElementById("result").style.display="block";
+ document.getElementById(
+  "result"
+ ).style.display="block";
 
- document.getElementById("result").scrollIntoView({
+ document.getElementById(
+  "result"
+ ).scrollIntoView({
   behavior:"smooth",
   block:"start"
  });
