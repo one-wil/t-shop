@@ -51,7 +51,10 @@ th{background:#dfeaf6}
  padding:5px 9px;border-radius:7px;font-weight:bold;
  white-space:nowrap
 }
-.note{font-size:12px;color:#718096;line-height:1.8;margin-top:16px}
+.note{
+ font-size:12px;color:#718096;
+ line-height:1.8;margin-top:16px
+}
 .actions{display:flex;gap:8px}
 .actions button{flex:1}
 @media print{
@@ -103,7 +106,10 @@ th{background:#dfeaf6}
 <label>عدد أسابيع الراحة المطلوبة</label>
 <select id="rest"></select>
 
-<button onclick="calculate()">احسب الترميز والتواريخ</button>
+<button onclick="calculate()">
+احسب الترميز والتواريخ
+</button>
+
 </div>
 
 <div class="result" id="result">
@@ -112,6 +118,7 @@ th{background:#dfeaf6}
 <div class="info" id="summary"></div>
 
 <h3>جدول تغيير الترميز</h3>
+
 <table>
 <thead>
 <tr>
@@ -127,26 +134,36 @@ th{background:#dfeaf6}
 <button onclick="window.print()">طباعة النتائج</button>
 <button onclick="calculate()">تحديث الحساب</button>
 </div>
+
 </div>
 
 <p class="note">
-الحساب يعتمد على أسابيع متتالية، كل أسبوع 7 أيام.
-يوم المناوبة يبقى ثابتاً أثناء تغيير رقم الترميز.
+تعتمد الحاسبة على دورة أساسية من 4 أسابيع عمل
+و4 أسابيع راحة.
+كل أسبوع يساوي 7 أيام متتالية.
+يوم المناوبة يبقى ثابتاً عند تغيير رقم الترميز.
 </p>
 
 </div>
 
 <script>
 
-// إنشاء خيارات الأسابيع من 1 إلى 8
+// إنشاء اختيارات الأسابيع من 1 إلى 8
 function fillOptions(id){
+
  const select=document.getElementById(id);
 
  for(let i=1;i<=8;i++){
+
   const option=document.createElement("option");
+
   option.value=i;
-  option.textContent=i===1?"أسبوع واحد":i+" أسابيع";
+
+  option.textContent=
+   i===1?"أسبوع واحد":i+" أسابيع";
+
   if(i===4)option.selected=true;
+
   select.appendChild(option);
  }
 }
@@ -154,31 +171,46 @@ function fillOptions(id){
 fillOptions("work");
 fillOptions("rest");
 
+
 // الانتقال الدائري بين R1 و R8
 function nextCode(code,shift){
+
  return ((code-1+shift)%8+8)%8+1;
+
 }
+
 
 // إضافة أيام إلى التاريخ
 function addDays(date,days){
+
  const d=new Date(date+"T12:00:00");
+
  d.setDate(d.getDate()+days);
 
  return d.getFullYear()+"-"+
  String(d.getMonth()+1).padStart(2,"0")+"-"+
  String(d.getDate()).padStart(2,"0");
+
 }
+
 
 // تنسيق التاريخ
 function format(date){
+
  const p=date.split("-");
+
  return p[2]+"/"+p[1]+"/"+p[0];
+
 }
+
 
 // اسم الترميز
 function codeName(code,day){
+
  return day+" R"+code;
+
 }
+
 
 // الحساب الرئيسي
 function calculate(){
@@ -188,28 +220,45 @@ function calculate(){
  );
 
  const day=document.getElementById("day").value;
+
  const start=document.getElementById("start").value;
- const work=Number(document.getElementById("work").value);
- const rest=Number(document.getElementById("rest").value);
+
+ const work=Number(
+  document.getElementById("work").value
+ );
+
+ const rest=Number(
+  document.getElementById("rest").value
+ );
 
  if(!start){
+
   alert("يرجى إدخال تاريخ بداية العمل");
+
   return;
  }
 
+
  // تحديد ترميز العمل
+ // أقل من 4 أسابيع: الالتحاق بالمجموعة المناسبة
+ // 4 أسابيع: الاحتفاظ بالترميز الأصلي
+ // أكثر من 4 أسابيع: تغيير الترميز بعد كل أسبوع إضافي
+
  const workCode=nextCode(original,work-4);
 
  let rows=[];
 
+
  // بداية العمل
- const initialWorkCode=work<4?workCode:original;
+ const initialWorkCode=
+  work<4?workCode:original;
 
  rows.push([
   "بداية العمل",
   start,
   initialWorkCode
  ]);
+
 
  // تغيير الترميز أثناء العمل
  if(work>4){
@@ -225,8 +274,11 @@ function calculate(){
   ]);
  }
 
+
  // بداية الراحة
- const restStart=addDays(start,work*7);
+ const restStart=addDays(
+  start,work*7
+ );
 
  rows.push([
   "بداية الراحة",
@@ -234,13 +286,17 @@ function calculate(){
   workCode
  ]);
 
+
  // ترميز الراحة
  let restCode=workCode;
 
- // تغيير الترميز بعد 4 أسابيع راحة
+
+ // تغيير الترميز بعد إتمام 4 أسابيع راحة
  if(rest>4){
 
-  const changeRest=addDays(restStart,27);
+  const changeRest=addDays(
+   restStart,27
+  );
 
   restCode=nextCode(workCode,1);
 
@@ -251,7 +307,8 @@ function calculate(){
   ]);
  }
 
- // نهاية الراحة
+
+ // آخر يوم راحة
  const restEnd=addDays(
   start,(work+rest)*7-1
  );
@@ -262,70 +319,86 @@ function calculate(){
   restCode
  ]);
 
+
  // تاريخ العودة إلى العمل
  const returnDate=addDays(
   start,(work+rest)*7
  );
 
- // تحديد ترميز العودة
- let returnCode;
 
- if(work===4 && rest===4){
+ // المعادلة النهائية لترميز العودة
+ // الترميز الأصلي + أسابيع العمل + أسابيع الراحة
+ // مع الدوران بين R1 و R8
 
-  // دورة عادية: العودة إلى الترميز الأصلي
-  returnCode=original;
+ const returnCode=nextCode(
+  original,
+  work+rest
+ );
 
- }else if(rest>4){
 
-  // راحة أكثر من أربعة أسابيع
-  returnCode=restCode;
-
- }else if(rest===4){
-
-  // أربعة أسابيع راحة
-  returnCode=workCode;
-
- }else{
-
-  // أقل من أربعة أسابيع راحة:
-  // العودة إلى الرمز السابق لترميز العمل
-  returnCode=nextCode(workCode,-1);
- }
-
+ // إضافة العودة إلى الجدول
  rows.push([
   "العودة إلى العمل",
   returnDate,
   returnCode
  ]);
 
- // عرض الملخص
+
+ // عرض ملخص النتائج
  document.getElementById("summary").innerHTML=`
- <div>الترميز الأصلي:
- <b>${codeName(original,day)}</b></div>
 
- <div>ترميز العمل:
- <span class="code">${codeName(workCode,day)}</span></div>
+ <div>
+ الترميز الأصلي:
+ <b>${codeName(original,day)}</b>
+ </div>
 
- <div>ترميز الراحة:
- <span class="code">${codeName(restCode,day)}</span></div>
+ <div>
+ ترميز العمل:
+ <span class="code">
+ ${codeName(workCode,day)}
+ </span>
+ </div>
 
- <div>ترميز العودة:
- <span class="code">${codeName(returnCode,day)}</span></div>
+ <div>
+ ترميز الراحة:
+ <span class="code">
+ ${codeName(restCode,day)}
+ </span>
+ </div>
+
+ <div>
+ ترميز العودة:
+ <span class="code">
+ ${codeName(returnCode,day)}
+ </span>
+ </div>
 
  <div>مدة العمل: <b>${work} أسابيع</b></div>
+
  <div>مدة الراحة: <b>${rest} أسابيع</b></div>
+
  <div>يوم المناوبة: <b>${day}</b></div>
+
  `;
+
 
  // عرض جدول المراحل
  document.getElementById("details").innerHTML=
+
  rows.map(r=>`
+
  <tr>
  <td>${r[0]}</td>
  <td>${format(r[1])}</td>
- <td><span class="code">${codeName(r[2],day)}</span></td>
+ <td>
+ <span class="code">
+ ${codeName(r[2],day)}
+ </span>
+ </td>
  </tr>
+
  `).join("");
+
 
  document.getElementById("result").style.display="block";
 
@@ -333,6 +406,7 @@ function calculate(){
   behavior:"smooth",
   block:"start"
  });
+
 }
 
 </script>
