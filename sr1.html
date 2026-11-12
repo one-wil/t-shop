@@ -4,13 +4,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>حاسبة ترميز المناوبات</title>
+<title>حاسبة ترميز المناوبات R1-R8</title>
 <style>
 *{box-sizing:border-box}
 body{
- margin:0;padding:16px;
- background:#f0f3f8;color:#243449;
- font-family:Arial,sans-serif
+ margin:0;padding:16px;background:#f0f3f8;
+ color:#263449;font-family:Arial,sans-serif
 }
 .container{
  max-width:650px;margin:auto;background:white;
@@ -21,15 +20,14 @@ h2{text-align:center;color:#174b7a}
 .sub{text-align:center;color:#8995a5;font-size:13px}
 label{display:block;font-weight:bold;margin:17px 0 8px}
 input,select{
- width:100%;padding:13px;
- border:1px solid #d2dbe6;border-radius:10px;
- background:white;font-size:16px;color:#243449
+ width:100%;padding:13px;border:1px solid #d2dbe6;
+ border-radius:10px;background:white;font-size:16px;
+ color:#263449
 }
 button{
- width:100%;padding:14px;margin-top:20px;
- border:0;border-radius:10px;
- background:#1765a5;color:white;
- font-size:16px;font-weight:bold;cursor:pointer
+ width:100%;padding:14px;margin-top:18px;
+ border:0;border-radius:10px;background:#1765a5;
+ color:white;font-size:16px;font-weight:bold;cursor:pointer
 }
 button:hover{background:#104b7d}
 .result{
@@ -38,30 +36,27 @@ button:hover{background:#104b7d}
 }
 .result h3{color:#14558c}
 .info{
- background:white;padding:13px;
- border-radius:10px;line-height:2
+ background:white;padding:13px;border-radius:10px;
+ line-height:2.1;overflow-wrap:anywhere
 }
 table{width:100%;border-collapse:collapse;margin-top:15px}
 th,td{
- padding:11px 6px;text-align:center;
+ padding:11px 5px;text-align:center;
  border-bottom:1px solid #dce4ed;font-size:13px
 }
 th{background:#dfeaf6}
 .code{
- display:inline-block;background:#dceeff;
- color:#14558c;padding:5px 10px;
- border-radius:7px;font-weight:bold
+ display:inline-block;background:#dceeff;color:#14558c;
+ padding:5px 9px;border-radius:7px;font-weight:bold;
+ white-space:nowrap
 }
-.notice{
- font-size:12px;color:#718096;
- line-height:1.8;margin-top:16px
-}
+.note{font-size:12px;color:#718096;line-height:1.8;margin-top:16px}
 .actions{display:flex;gap:8px}
 .actions button{flex:1}
 @media print{
  body{background:white;padding:0}
  .container{box-shadow:none}
- .form,.actions,.notice{display:none!important}
+ .form,.actions,.note{display:none!important}
  .result{display:block!important}
 }
 </style>
@@ -111,6 +106,7 @@ th{background:#dfeaf6}
 </div>
 
 <div class="result" id="result">
+
 <h3>نتائج الحساب</h3>
 <div class="info" id="summary"></div>
 
@@ -132,18 +128,20 @@ th{background:#dfeaf6}
 </div>
 </div>
 
-<p class="notice">
-ملاحظة: تعتمد الحاسبة على دورة 4 أسابيع عمل و4 أسابيع راحة،
-وتحتسب كل أسبوع على أساس 7 أيام متتالية.
-يوم المناوبة يحدد اسم الرمز ولا يغيّر الحساب الزمني.
+<p class="note">
+الحساب يعتمد على أسابيع متتالية، كل أسبوع 7 أيام.
+يوم المناوبة يبقى ثابتاً أثناء تغيير رقم الترميز.
+يرجى التحقق من الحالات غير المختبرة قبل اعتماد النتائج في SAP HR.
 </p>
+
 </div>
 
 <script>
 
-// إنشاء خيارات الأسابيع من 1 إلى 8
+// إعداد اختيارات الأسابيع: 1 إلى 8
 function fillOptions(id){
  const select=document.getElementById(id);
+
  for(let i=1;i<=8;i++){
   const option=document.createElement("option");
   option.value=i;
@@ -160,15 +158,17 @@ function nextCode(code,shift){
  return ((code-1+shift)%8+8)%8+1;
 }
 
-// التعامل مع التاريخ دون أخطاء المنطقة الزمنية
+// حساب التاريخ
 function addDays(date,days){
  const d=new Date(date+"T12:00:00");
  d.setDate(d.getDate()+days);
+
  return d.getFullYear()+"-"+
  String(d.getMonth()+1).padStart(2,"0")+"-"+
  String(d.getDate()).padStart(2,"0");
 }
 
+// تنسيق التاريخ
 function format(date){
  const p=date.split("-");
  return p[2]+"/"+p[1]+"/"+p[0];
@@ -178,9 +178,13 @@ function codeName(code,day){
  return day+" R"+code;
 }
 
+// حساب المناوبة
 function calculate(){
 
- const original=Number(document.getElementById("original").value);
+ const original=Number(
+  document.getElementById("original").value
+ );
+
  const day=document.getElementById("day").value;
  const start=document.getElementById("start").value;
  const work=Number(document.getElementById("work").value);
@@ -191,27 +195,41 @@ function calculate(){
   return;
  }
 
- // تحديد ترميز العمل
- // أقل من 4 أسابيع: الالتحاق بالمجموعة
- // 4 أسابيع: الاحتفاظ بالترميز
- // أكثر من 4 أسابيع: العمل أولا بالترميز الأصلي
- // ثم الانتقال إلى المجموعة المناسبة
+ /*
+  تحديد ترميز العمل:
+
+  1- أقل من 4 أسابيع:
+     الالتحاق بالمجموعة التي بقي لها
+     عدد أسابيع العمل المطلوب.
+
+  2- أربعة أسابيع:
+     الاحتفاظ بالترميز الأصلي.
+
+  3- أكثر من أربعة أسابيع:
+     العمل بالترميز الأصلي أولا،
+     ثم تغيير الترميز بعد كل أسبوع إضافي.
+ */
 
  const workCode=nextCode(original,work-4);
- const returnCode=nextCode(workCode,1);
 
  let rows=[];
 
  // بداية العمل
+ const initialWorkCode=work<4?workCode:original;
+
  rows.push([
   "بداية العمل",
   start,
-  work<4?workCode:original
+  initialWorkCode
  ]);
 
- // تغيير الترميز أثناء العمل عند تمديد المدة
+ // تغيير الترميز أثناء العمل
  if(work>4){
-  const changeWork=addDays(start,(work-4)*7);
+
+  const changeWork=addDays(
+   start,(work-4)*7
+  );
+
   rows.push([
    "تغيير ترميز العمل",
    changeWork,
@@ -219,7 +237,7 @@ function calculate(){
   ]);
  }
 
- // نهاية العمل وبداية الراحة
+ // بداية الراحة
  const restStart=addDays(start,work*7);
 
  rows.push([
@@ -228,13 +246,20 @@ function calculate(){
   workCode
  ]);
 
- // تغيير الترميز خلال الراحة الطويلة
- // بعد إتمام أربعة أسابيع من الراحة
+ /*
+  تغيير ترميز الراحة:
+
+  إذا تجاوزت الراحة 4 أسابيع،
+  يتغير الترميز في اليوم 28 من الراحة.
+ */
+
  let restCode=workCode;
 
  if(rest>4){
+
   const changeRest=addDays(restStart,27);
-  restCode=returnCode;
+
+  restCode=nextCode(workCode,1);
 
   rows.push([
    "تغيير ترميز الراحة",
@@ -244,7 +269,9 @@ function calculate(){
  }
 
  // آخر يوم راحة
- const restEnd=addDays(start,(work+rest)*7-1);
+ const restEnd=addDays(
+  start,(work+rest)*7-1
+ );
 
  rows.push([
   "نهاية الراحة",
@@ -252,8 +279,43 @@ function calculate(){
   restCode
  ]);
 
- // العودة إلى العمل
- const returnDate=addDays(start,(work+rest)*7);
+ // تاريخ العودة
+ const returnDate=addDays(
+  start,(work+rest)*7
+ );
+
+ /*
+  تحديد ترميز العودة:
+
+  الحالة 4 عمل + 4 راحة:
+  العودة إلى الترميز الأصلي.
+
+  الراحة أكثر من 4 أسابيع:
+  العودة بالترميز الذي تم اعتماده
+  في الأسبوع الخامس من الراحة.
+
+  الراحة أقل من 4 أسابيع:
+  الالتحاق بالمجموعة التالية.
+ */
+
+ let returnCode;
+
+ if(work===4 && rest===4){
+
+  returnCode=original;
+
+ }else if(rest>4){
+
+  returnCode=restCode;
+
+ }else if(rest===4){
+
+  returnCode=workCode;
+
+ }else{
+
+  returnCode=nextCode(workCode,1);
+ }
 
  rows.push([
   "العودة إلى العمل",
@@ -261,18 +323,28 @@ function calculate(){
   returnCode
  ]);
 
- // ترتيب النتائج
+ // عرض الملخص
  document.getElementById("summary").innerHTML=`
- <div>الترميز الأصلي: <b>${codeName(original,day)}</b></div>
- <div>ترميز العمل: <span class="code">${codeName(workCode,day)}</span></div>
- <div>ترميز الراحة: <span class="code">${codeName(restCode,day)}</span></div>
- <div>ترميز العودة: <span class="code">${codeName(returnCode,day)}</span></div>
+ <div>الترميز الأصلي:
+ <b>${codeName(original,day)}</b></div>
+
+ <div>ترميز العمل:
+ <span class="code">${codeName(workCode,day)}</span></div>
+
+ <div>ترميز الراحة:
+ <span class="code">${codeName(restCode,day)}</span></div>
+
+ <div>ترميز العودة:
+ <span class="code">${codeName(returnCode,day)}</span></div>
+
  <div>مدة العمل: <b>${work} أسابيع</b></div>
  <div>مدة الراحة: <b>${rest} أسابيع</b></div>
  <div>يوم المناوبة: <b>${day}</b></div>
  `;
 
- document.getElementById("details").innerHTML=rows.map(r=>`
+ // عرض جدول المراحل
+ document.getElementById("details").innerHTML=
+ rows.map(r=>`
  <tr>
  <td>${r[0]}</td>
  <td>${format(r[1])}</td>
@@ -283,9 +355,11 @@ function calculate(){
  document.getElementById("result").style.display="block";
 
  document.getElementById("result").scrollIntoView({
-  behavior:"smooth",block:"start"
+  behavior:"smooth",
+  block:"start"
  });
 }
+
 </script>
 </body>
 </html>
