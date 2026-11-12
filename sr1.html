@@ -3,58 +3,66 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>حاسبة نظام المناوبة R1-R8</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حاسبة ترميز المناوبات</title>
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;padding:18px;
-  font-family:Arial,sans-serif;
-  background:#f1f4f9;color:#263449;
+ margin:0;padding:16px;
+ background:#f0f3f8;color:#243449;
+ font-family:Arial,sans-serif
 }
 .container{
-  max-width:650px;margin:auto;
-  background:white;padding:22px;
-  border-radius:18px;
-  box-shadow:0 5px 25px #0001;
+ max-width:650px;margin:auto;background:white;
+ padding:22px;border-radius:18px;
+ box-shadow:0 5px 25px #0001
 }
 h2{text-align:center;color:#174b7a}
-.subtitle{text-align:center;color:#78869a;font-size:13px}
-label{display:block;font-weight:bold;margin:16px 0 7px}
+.sub{text-align:center;color:#8995a5;font-size:13px}
+label{display:block;font-weight:bold;margin:17px 0 8px}
 input,select{
-  width:100%;padding:13px;
-  border:1px solid #ccd5e1;
-  border-radius:9px;font-size:16px;
-  background:#fff;
+ width:100%;padding:13px;
+ border:1px solid #d2dbe6;border-radius:10px;
+ background:white;font-size:16px;color:#243449
 }
 button{
-  width:100%;padding:14px;
-  margin-top:20px;border:0;
-  border-radius:10px;
-  background:#1765a5;color:white;
-  font-size:17px;font-weight:bold;
-  cursor:pointer;
+ width:100%;padding:14px;margin-top:20px;
+ border:0;border-radius:10px;
+ background:#1765a5;color:white;
+ font-size:16px;font-weight:bold;cursor:pointer
 }
 button:hover{background:#104b7d}
 .result{
-  margin-top:22px;padding:16px;
-  background:#edf5ff;border-radius:12px;
-  display:none;
+ display:none;margin-top:22px;padding:16px;
+ background:#edf5ff;border-radius:13px
 }
 .result h3{color:#14558c}
-table{width:100%;border-collapse:collapse;margin-top:12px}
-td,th{padding:11px;border-bottom:1px solid #dce4ed;text-align:center}
-th{background:#e5edf7}
-.code{
-  display:inline-block;background:#dceeff;
-  color:#14558c;padding:6px 12px;
-  border-radius:7px;font-weight:bold;
+.info{
+ background:white;padding:13px;
+ border-radius:10px;line-height:2
 }
-.note{font-size:12px;color:#78869a;margin-top:15px}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{
+ padding:11px 6px;text-align:center;
+ border-bottom:1px solid #dce4ed;font-size:13px
+}
+th{background:#dfeaf6}
+.code{
+ display:inline-block;background:#dceeff;
+ color:#14558c;padding:5px 10px;
+ border-radius:7px;font-weight:bold
+}
+.notice{
+ font-size:12px;color:#718096;
+ line-height:1.8;margin-top:16px
+}
+.actions{display:flex;gap:8px}
+.actions button{flex:1}
 @media print{
-  body{background:white}
-  .container{box-shadow:none}
-  button{display:none}
+ body{background:white;padding:0}
+ .container{box-shadow:none}
+ .form,.actions,.notice{display:none!important}
+ .result{display:block!important}
 }
 </style>
 </head>
@@ -63,10 +71,12 @@ th{background:#e5edf7}
 <div class="container">
 
 <h2>حاسبة ترميز المناوبات</h2>
-<p class="subtitle">Système de roulement – R1 à R8</p>
+<p class="sub">Système de roulement – R1 à R8</p>
+
+<div class="form">
 
 <label>الترميز الأصلي للعامل</label>
-<select id="code">
+<select id="original">
 <option value="1">R1</option>
 <option value="2">R2</option>
 <option value="3">R3</option>
@@ -92,31 +102,19 @@ th{background:#e5edf7}
 <input type="date" id="start">
 
 <label>عدد أسابيع العمل المطلوبة</label>
-<select id="work">
-<option value="2">أسبوعان</option>
-<option value="3">3 أسابيع</option>
-<option value="4" selected>4 أسابيع</option>
-<option value="5">5 أسابيع</option>
-<option value="6">6 أسابيع</option>
-<option value="7">7 أسابيع</option>
-<option value="8">8 أسابيع</option>
-</select>
+<select id="work"></select>
 
 <label>عدد أسابيع الراحة المطلوبة</label>
-<select id="rest">
-<option value="3">3 أسابيع</option>
-<option value="4" selected>4 أسابيع</option>
-<option value="5">5 أسابيع</option>
-<option value="6">6 أسابيع</option>
-<option value="7">7 أسابيع</option>
-<option value="8">8 أسابيع</option>
-</select>
+<select id="rest"></select>
 
 <button onclick="calculate()">احسب الترميز والتواريخ</button>
+</div>
 
 <div class="result" id="result">
 <h3>نتائج الحساب</h3>
-<div id="summary"></div>
+<div class="info" id="summary"></div>
+
+<h3>جدول تغيير الترميز</h3>
 <table>
 <thead>
 <tr>
@@ -127,116 +125,166 @@ th{background:#e5edf7}
 </thead>
 <tbody id="details"></tbody>
 </table>
+
+<div class="actions">
 <button onclick="window.print()">طباعة النتائج</button>
+<button onclick="calculate()">تحديث الحساب</button>
+</div>
 </div>
 
-<p class="note">
-ملاحظة: الحساب يفترض أسابيع متتالية من 7 أيام.
-يجب مطابقة قواعد الانتقال مع جدول المناوبة المرجعي المعتمد.
+<p class="notice">
+ملاحظة: تعتمد الحاسبة على دورة 4 أسابيع عمل و4 أسابيع راحة،
+وتحتسب كل أسبوع على أساس 7 أيام متتالية.
+يوم المناوبة يحدد اسم الرمز ولا يغيّر الحساب الزمني.
 </p>
-
 </div>
 
 <script>
-function addDays(date, days){
-  let d = new Date(date + "T12:00:00");
-  d.setDate(d.getDate()+days);
-  return d.toLocaleDateString("en-GB");
+
+// إنشاء خيارات الأسابيع من 1 إلى 8
+function fillOptions(id){
+ const select=document.getElementById(id);
+ for(let i=1;i<=8;i++){
+  const option=document.createElement("option");
+  option.value=i;
+  option.textContent=i===1?"أسبوع واحد":i+" أسابيع";
+  if(i===4)option.selected=true;
+  select.appendChild(option);
+ }
+}
+fillOptions("work");
+fillOptions("rest");
+
+// الانتقال الدائري بين R1 و R8
+function nextCode(code,shift){
+ return ((code-1+shift)%8+8)%8+1;
 }
 
-function nextCode(n, shift){
-  return ((n-1+shift+8*10)%8)+1;
+// التعامل مع التاريخ دون أخطاء المنطقة الزمنية
+function addDays(date,days){
+ const d=new Date(date+"T12:00:00");
+ d.setDate(d.getDate()+days);
+ return d.getFullYear()+"-"+
+ String(d.getMonth()+1).padStart(2,"0")+"-"+
+ String(d.getDate()).padStart(2,"0");
+}
+
+function format(date){
+ const p=date.split("-");
+ return p[2]+"/"+p[1]+"/"+p[0];
+}
+
+function codeName(code,day){
+ return day+" R"+code;
 }
 
 function calculate(){
 
-  const original = Number(document.getElementById("code").value);
-  const start = document.getElementById("start").value;
-  const work = Number(document.getElementById("work").value);
-  const rest = Number(document.getElementById("rest").value);
-  const day = document.getElementById("day").value;
+ const original=Number(document.getElementById("original").value);
+ const day=document.getElementById("day").value;
+ const start=document.getElementById("start").value;
+ const work=Number(document.getElementById("work").value);
+ const rest=Number(document.getElementById("rest").value);
 
-  if(!start){
-    alert("يرجى إدخال تاريخ بداية العمل");
-    return;
-  }
+ if(!start){
+  alert("يرجى إدخال تاريخ بداية العمل");
+  return;
+ }
 
-  /*
-    قاعدة العمل:
-    3 أسابيع: ربط بالمجموعة السابقة.
-    4 أسابيع: الاحتفاظ بالترميز.
-    5 أسابيع: الانتقال بعد أسبوع.
-    6 أسابيع: الانتقال بعد أسبوعين.
-  */
+ // تحديد ترميز العمل
+ // أقل من 4 أسابيع: الالتحاق بالمجموعة
+ // 4 أسابيع: الاحتفاظ بالترميز
+ // أكثر من 4 أسابيع: العمل أولا بالترميز الأصلي
+ // ثم الانتقال إلى المجموعة المناسبة
 
-  const workCode = nextCode(original,work-4);
+ const workCode=nextCode(original,work-4);
+ const returnCode=nextCode(workCode,1);
 
-  let rows = [];
-  let switchWork = null;
+ let rows=[];
 
-  if(work < 4){
-    switchWork = start;
-    rows.push(["بداية العمل",addDays(start,0),"R"+workCode]);
-  }
-  else if(work > 4){
-    switchWork = addDays(start,(work-4)*7);
-    rows.push(["بداية العمل",addDays(start,0),"R"+original]);
-    rows.push(["تغيير ترميز العمل",switchWork,"R"+workCode]);
-  }
-  else{
-    rows.push(["بداية العمل",addDays(start,0),"R"+original]);
-  }
+ // بداية العمل
+ rows.push([
+  "بداية العمل",
+  start,
+  work<4?workCode:original
+ ]);
 
-  const restStart = addDaysISO(start,work*7);
-  const restEnd = addDaysISO(start,(work+rest)*7-1);
+ // تغيير الترميز أثناء العمل عند تمديد المدة
+ if(work>4){
+  const changeWork=addDays(start,(work-4)*7);
+  rows.push([
+   "تغيير ترميز العمل",
+   changeWork,
+   workCode
+  ]);
+ }
 
-  rows.push(["بداية الراحة",format(restStart),"R"+workCode]);
+ // نهاية العمل وبداية الراحة
+ const restStart=addDays(start,work*7);
 
-  /*
-    قاعدة الراحة الممتدة:
-    عند تجاوز أربعة أسابيع راحة،
-    يتم الانتقال إلى الرمز التالي
-    في نهاية الأسبوع الرابع.
-  */
+ rows.push([
+  "بداية الراحة",
+  restStart,
+  workCode
+ ]);
 
-  let restCode = workCode;
+ // تغيير الترميز خلال الراحة الطويلة
+ // بعد إتمام أربعة أسابيع من الراحة
+ let restCode=workCode;
 
-  if(rest > 4){
-    restCode = nextCode(workCode,1);
-    let switchRest = addDaysISO(restStart,27);
-    rows.push(["تغيير ترميز الراحة",format(switchRest),"R"+restCode]);
-  }
+ if(rest>4){
+  const changeRest=addDays(restStart,27);
+  restCode=returnCode;
 
-  rows.push(["نهاية الراحة",format(restEnd),"R"+restCode]);
+  rows.push([
+   "تغيير ترميز الراحة",
+   changeRest,
+   restCode
+  ]);
+ }
 
-  const returnDate = addDaysISO(start,(work+rest)*7);
-  rows.push(["العودة إلى العمل",format(returnDate),"R"+original]);
+ // آخر يوم راحة
+ const restEnd=addDays(start,(work+rest)*7-1);
 
-  document.getElementById("summary").innerHTML =
-    "الترميز الأصلي: <b>R"+original+"</b><br>"+
-    "ترميز العمل: <span class='code'>R"+workCode+"</span><br>"+
-    "ترميز الراحة: <span class='code'>R"+restCode+"</span><br>"+
-    "مدة العمل: "+work+" أسابيع<br>"+
-    "مدة الراحة: "+rest+" أسابيع<br>"+
-    "يوم المناوبة: "+day;
+ rows.push([
+  "نهاية الراحة",
+  restEnd,
+  restCode
+ ]);
 
-  document.getElementById("details").innerHTML =
-    rows.map(r=>"<tr><td>"+r[0]+"</td><td>"+r[1]+
-    "</td><td><span class='code'>"+r[2]+"</span></td></tr>").join("");
+ // العودة إلى العمل
+ const returnDate=addDays(start,(work+rest)*7);
 
-  document.getElementById("result").style.display="block";
-}
+ rows.push([
+  "العودة إلى العمل",
+  returnDate,
+  returnCode
+ ]);
 
-function addDaysISO(date,days){
-  let d=new Date(date+"T12:00:00");
-  d.setDate(d.getDate()+days);
-  return d.getFullYear()+"-"+
-    String(d.getMonth()+1).padStart(2,"0")+"-"+
-    String(d.getDate()).padStart(2,"0");
-}
+ // ترتيب النتائج
+ document.getElementById("summary").innerHTML=`
+ <div>الترميز الأصلي: <b>${codeName(original,day)}</b></div>
+ <div>ترميز العمل: <span class="code">${codeName(workCode,day)}</span></div>
+ <div>ترميز الراحة: <span class="code">${codeName(restCode,day)}</span></div>
+ <div>ترميز العودة: <span class="code">${codeName(returnCode,day)}</span></div>
+ <div>مدة العمل: <b>${work} أسابيع</b></div>
+ <div>مدة الراحة: <b>${rest} أسابيع</b></div>
+ <div>يوم المناوبة: <b>${day}</b></div>
+ `;
 
-function format(date){
-  return new Date(date+"T12:00:00").toLocaleDateString("en-GB");
+ document.getElementById("details").innerHTML=rows.map(r=>`
+ <tr>
+ <td>${r[0]}</td>
+ <td>${format(r[1])}</td>
+ <td><span class="code">${codeName(r[2],day)}</span></td>
+ </tr>
+ `).join("");
+
+ document.getElementById("result").style.display="block";
+
+ document.getElementById("result").scrollIntoView({
+  behavior:"smooth",block:"start"
+ });
 }
 </script>
 </body>
