@@ -4,151 +4,624 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>حاسبة ترميز المناوبات R1-R8</title>
+<meta name="theme-color" content="#08734b">
+<title>SONATRACH | SAP - حاسبة المناوبات</title>
 
 <style>
+:root{
+ --green:#08734b;
+ --green-dark:#075638;
+ --red:#d52b35;
+ --blue:#0875b9;
+ --blue-dark:#07558a;
+ --bg:#f1f5f7;
+ --text:#243447;
+ --muted:#718096;
+ --border:#dce5e9;
+}
+
 *{box-sizing:border-box}
+
 body{
- margin:0;padding:16px;background:#f0f3f8;
- color:#263449;font-family:Arial,sans-serif
+ margin:0;
+ padding:18px;
+ background:var(--bg);
+ color:var(--text);
+ font-family:Arial,Tahoma,sans-serif;
 }
+
 .container{
- max-width:650px;margin:auto;background:white;
- padding:22px;border-radius:18px;
- box-shadow:0 5px 25px #0001
+ max-width:850px;
+ margin:auto;
+ background:white;
+ border-radius:18px;
+ overflow:hidden;
+ box-shadow:0 8px 30px #102d4012;
 }
-h2{text-align:center;color:#174b7a}
-.sub{text-align:center;color:#8995a5;font-size:13px}
-label{display:block;font-weight:bold;margin:17px 0 8px}
+
+/* HEADER */
+
+.header{
+ background:linear-gradient(120deg,#075638,#08734b);
+ padding:22px 18px;
+ color:white;
+}
+
+.brands{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:18px;
+ flex-wrap:wrap;
+}
+
+.brand{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:9px;
+ min-width:130px;
+}
+
+.sonatrach-mark{
+ width:39px;
+ height:39px;
+ border-radius:50%;
+ background:white;
+ color:var(--green);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-weight:900;
+ font-size:19px;
+ border:3px solid #c6e8d6;
+}
+
+.sap-mark{
+ width:65px;
+ height:38px;
+ background:#fff;
+ color:#0875b9;
+ font-size:23px;
+ font-weight:900;
+ font-style:italic;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ border-radius:5px;
+ clip-path:polygon(0 0,100% 0,100% 72%,75% 100%,0 100%);
+}
+
+.brand-name{
+ font-weight:bold;
+ font-size:14px;
+ letter-spacing:.5px;
+}
+
+.brand-separator{
+ width:1px;
+ height:38px;
+ background:#ffffff55;
+}
+
+.header h1{
+ text-align:center;
+ font-size:23px;
+ margin:19px 0 7px;
+}
+
+.header .subtitle{
+ text-align:center;
+ font-size:13px;
+ color:#e2f5eb;
+ margin:0;
+}
+
+/* CONTENT */
+
+.content{
+ padding:22px;
+}
+
+.section-title{
+ display:flex;
+ align-items:center;
+ gap:9px;
+ color:var(--green-dark);
+ font-size:17px;
+ font-weight:bold;
+ margin:3px 0 17px;
+}
+
+.section-title:before{
+ content:"";
+ width:5px;
+ height:23px;
+ background:var(--red);
+ border-radius:5px;
+}
+
+.form-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:0 16px;
+}
+
+.field{
+ margin-bottom:15px;
+}
+
+label{
+ display:block;
+ font-weight:bold;
+ font-size:14px;
+ margin-bottom:8px;
+}
+
 input,select{
- width:100%;padding:13px;border:1px solid #d2dbe6;
- border-radius:10px;background:white;font-size:16px;
- color:#263449
+ width:100%;
+ padding:13px;
+ border:1px solid var(--border);
+ border-radius:10px;
+ background:#fff;
+ font-size:15px;
+ color:var(--text);
+ outline:none;
+ transition:.2s;
 }
+
+input:focus,select:focus{
+ border-color:var(--green);
+ box-shadow:0 0 0 3px #08734b16;
+}
+
 button{
- width:100%;padding:14px;margin-top:18px;
- border:0;border-radius:10px;background:#1765a5;
- color:white;font-size:16px;font-weight:bold;cursor:pointer
+ cursor:pointer;
 }
-button:hover{background:#104b7d}
+
+.primary-btn{
+ width:100%;
+ padding:15px;
+ margin-top:8px;
+ border:0;
+ border-radius:11px;
+ background:var(--green);
+ color:white;
+ font-size:16px;
+ font-weight:bold;
+ transition:.2s;
+}
+
+.primary-btn:hover{
+ background:var(--green-dark);
+ transform:translateY(-1px);
+}
+
+/* RESULTS */
+
 .result{
- display:none;margin-top:22px;padding:16px;
- background:#edf5ff;border-radius:13px
+ display:none;
+ margin-top:25px;
+ padding-top:22px;
+ border-top:2px solid var(--border);
 }
-.result h3{color:#14558c}
-.info{
- background:white;padding:13px;border-radius:10px;
- line-height:2.1;overflow-wrap:anywhere
+
+.result-heading{
+ font-size:19px;
+ color:var(--green-dark);
+ margin:0 0 18px;
 }
-table{width:100%;border-collapse:collapse;margin-top:15px}
-th,td{
- padding:11px 5px;text-align:center;
- border-bottom:1px solid #dce4ed;font-size:13px
+
+.summary-grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:12px;
 }
-th{background:#dfeaf6}
+
+.summary-card{
+ padding:15px;
+ border:1px solid var(--border);
+ border-radius:12px;
+ background:#f9fbfc;
+}
+
+.summary-card .caption{
+ color:var(--muted);
+ font-size:12px;
+ margin-bottom:9px;
+}
+
+.summary-card .value{
+ font-size:19px;
+ font-weight:bold;
+ color:var(--green-dark);
+}
+
+.summary-card.return{
+ background:#e8f4ff;
+ border-color:#a9d3f2;
+}
+
+.summary-card.return .value{
+ color:var(--blue-dark);
+}
+
+.summary-card.work{
+ background:#eaf6ef;
+}
+
+.summary-card.rest{
+ background:#fff4f1;
+ border-color:#f3d4ca;
+}
+
+.summary-card.rest .value{
+ color:#b34b36;
+}
+
+.details-info{
+ margin-top:15px;
+ padding:14px;
+ border-radius:10px;
+ background:#f5f8fa;
+ line-height:2;
+ font-size:14px;
+}
+
 .code{
- display:inline-block;background:#dceeff;color:#14558c;
- padding:5px 9px;border-radius:7px;font-weight:bold;
- white-space:nowrap
+ display:inline-block;
+ background:#e1f2e8;
+ color:var(--green-dark);
+ padding:6px 12px;
+ border-radius:7px;
+ font-weight:bold;
+ white-space:nowrap;
 }
+
+.return-code{
+ background:#dceeff;
+ color:#07558a;
+ font-size:18px;
+}
+
+.table-wrap{
+ overflow-x:auto;
+ border:1px solid var(--border);
+ border-radius:11px;
+ margin-top:15px;
+}
+
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:420px;
+}
+
+th,td{
+ padding:13px 8px;
+ text-align:center;
+ border-bottom:1px solid var(--border);
+ font-size:13px;
+}
+
+th{
+ background:#e9f3ee;
+ color:var(--green-dark);
+}
+
+tbody tr:last-child td{
+ border-bottom:0;
+}
+
+tbody tr:last-child{
+ background:#edf6ff;
+}
+
+.actions{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+ margin-top:17px;
+}
+
+.actions button{
+ padding:13px 8px;
+ border:0;
+ border-radius:10px;
+ color:white;
+ font-weight:bold;
+ font-size:14px;
+ background:var(--blue);
+}
+
+.actions button:last-child{
+ background:#64748b;
+}
+
 .note{
- font-size:12px;color:#718096;
- line-height:1.8;margin-top:16px
+ margin-top:22px;
+ padding:13px;
+ background:#f5f8fa;
+ border-right:4px solid var(--green);
+ border-radius:8px;
+ color:var(--muted);
+ font-size:12px;
+ line-height:2;
 }
-.actions{display:flex;gap:8px}
-.actions button{flex:1}
+
+/* FOOTER */
+
+.footer{
+ text-align:center;
+ padding:18px 12px;
+ background:#f8fafb;
+ border-top:1px solid var(--border);
+ color:#8794a1;
+ font-size:12px;
+ line-height:1.9;
+}
+
+.developer{
+ display:inline-block;
+ margin-top:10px;
+ padding:7px 15px;
+ color:var(--green-dark);
+ background:#e7f3ec;
+ border-radius:7px;
+ font-size:14px;
+ font-weight:bold;
+ letter-spacing:1px;
+ direction:ltr;
+}
+
+/* PRINT */
+
 @media print{
- body{background:white;padding:0}
- .container{box-shadow:none}
- .form,.actions,.note{display:none!important}
- .result{display:block!important}
+ body{
+  background:white;
+  padding:0;
+ }
+ .container{
+  box-shadow:none;
+  max-width:100%;
+ }
+ .form,.actions,.note{
+  display:none!important;
+ }
+ .result{
+  display:block!important;
+ }
+ .header{
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+ }
+}
+
+/* MOBILE */
+
+@media(max-width:550px){
+ body{padding:9px}
+ .content{padding:15px}
+ .form-grid{grid-template-columns:1fr}
+ .header{padding:18px 10px}
+ .header h1{font-size:20px}
+ .summary-grid{grid-template-columns:1fr 1fr}
+ .summary-card{padding:11px}
+ .summary-card .value{font-size:16px}
+ .actions{grid-template-columns:1fr}
+ .brands{gap:10px}
 }
 </style>
 </head>
 
 <body>
+
 <div class="container">
 
-<h2>حاسبة ترميز المناوبات</h2>
-<p class="sub">Système de roulement – R1 à R8</p>
+<!-- الهوية المؤسسية -->
 
-<div class="form">
+<header class="header">
 
-<label>الترميز الأصلي للعامل</label>
-<select id="original">
-<option value="1">R1</option>
-<option value="2">R2</option>
-<option value="3">R3</option>
-<option value="4">R4</option>
-<option value="5">R5</option>
-<option value="6">R6</option>
-<option value="7">R7</option>
-<option value="8">R8</option>
-</select>
+ <div class="brands">
 
-<label>يوم المناوبة</label>
-<select id="day">
-<option>Samedi</option>
-<option>Dimanche</option>
-<option>Lundi</option>
-<option>Mardi</option>
-<option>Mercredi</option>
-<option>Jeudi</option>
-<option>Vendredi</option>
-</select>
+  <div class="brand">
+   <div class="sonatrach-mark">S</div>
+   <div class="brand-name">SONATRACH</div>
+  </div>
 
-<label>تاريخ بداية العمل</label>
-<input type="date" id="start">
+  <div class="brand-separator"></div>
 
-<label>عدد أسابيع العمل المطلوبة</label>
-<select id="work"></select>
+  <div class="brand">
+   <div class="sap-mark">SAP</div>
+  </div>
 
-<label>عدد أسابيع الراحة المطلوبة</label>
-<select id="rest"></select>
+ </div>
 
-<button onclick="calculate()">
-احسب الترميز والتواريخ
-</button>
+ <h1>حاسبة ترميز المناوبات</h1>
+
+ <p class="subtitle">
+  Système de roulement | Gestion des codes R1 – R8
+ </p>
+
+</header>
+
+
+<main class="content">
+
+<!-- INPUTS -->
+
+<section class="form">
+
+ <div class="section-title">
+  معطيات المناوبة
+ </div>
+
+ <div class="form-grid">
+
+  <div class="field">
+   <label>الترميز الأصلي للعامل</label>
+
+   <select id="original">
+    <option value="1">R1</option>
+    <option value="2">R2</option>
+    <option value="3">R3</option>
+    <option value="4">R4</option>
+    <option value="5">R5</option>
+    <option value="6">R6</option>
+    <option value="7">R7</option>
+    <option value="8">R8</option>
+   </select>
+  </div>
+
+  <div class="field">
+   <label>يوم المناوبة</label>
+
+   <select id="day">
+    <option>Samedi</option>
+    <option>Dimanche</option>
+    <option>Lundi</option>
+    <option>Mardi</option>
+    <option>Mercredi</option>
+    <option>Jeudi</option>
+    <option>Vendredi</option>
+   </select>
+  </div>
+
+  <div class="field">
+   <label>تاريخ بداية العمل</label>
+   <input type="date" id="start">
+  </div>
+
+  <div class="field">
+   <label>عدد أسابيع العمل المطلوبة</label>
+   <select id="work"></select>
+  </div>
+
+  <div class="field">
+   <label>عدد أسابيع الراحة المطلوبة</label>
+   <select id="rest"></select>
+  </div>
+
+ </div>
+
+ <button class="primary-btn" onclick="calculate()">
+  حساب الترميز والتواريخ
+ </button>
+
+</section>
+
+
+<!-- RESULTS -->
+
+<section class="result" id="result">
+
+ <h2 class="result-heading">
+  نتائج الحساب
+ </h2>
+
+ <div class="summary-grid">
+
+  <div class="summary-card">
+   <div class="caption">الترميز الأصلي</div>
+   <div class="value" id="originalResult">—</div>
+  </div>
+
+  <div class="summary-card work">
+   <div class="caption">ترميز العمل</div>
+   <div class="value" id="workResult">—</div>
+  </div>
+
+  <div class="summary-card rest">
+   <div class="caption">ترميز الراحة</div>
+   <div class="value" id="restResult">—</div>
+  </div>
+
+  <div class="summary-card return">
+   <div class="caption">ترميز العودة إلى العمل</div>
+   <div class="value" id="returnResult">R8</div>
+  </div>
+
+ </div>
+
+ <div class="details-info" id="summary"></div>
+
+ <div class="section-title" style="margin-top:25px">
+  الجدول الزمني لتغيير الترميز
+ </div>
+
+ <div class="table-wrap">
+
+  <table>
+   <thead>
+    <tr>
+     <th>المرحلة</th>
+     <th>التاريخ</th>
+     <th>الترميز</th>
+    </tr>
+   </thead>
+
+   <tbody id="details"></tbody>
+
+  </table>
+
+ </div>
+
+ <div class="actions">
+
+  <button onclick="window.print()">
+   طباعة النتائج
+  </button>
+
+  <button onclick="calculate()">
+   تحديث الحساب
+  </button>
+
+ </div>
+
+</section>
+
+
+<!-- NOTES -->
+
+<div class="note">
+ <b>ملاحظة تنظيمية:</b>
+ تعتمد الحاسبة على دورة أساسية من 4 أسابيع عمل
+ مقابل 4 أسابيع راحة.
+ كل أسبوع يساوي 7 أيام متتالية.
+ يوم المناوبة يبقى ثابتاً عند تغيير رقم الترميز.
+ <br>
+ ترميز العودة إلى العمل في هذه النسخة محدد بـ R8
+ وفق التصحيح المعتمد.
+</div>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+ <strong>SONATRACH × SAP</strong>
+
+ <br>
+
+ Système de gestion des roulements
+
+ <br>
+
+ <span class="developer">
+  Developed by BENAKRAB Ahcene
+ </span>
+
+</footer>
 
 </div>
 
-<div class="result" id="result">
-
-<h3>نتائج الحساب</h3>
-<div class="info" id="summary"></div>
-
-<h3>جدول تغيير الترميز</h3>
-
-<table>
-<thead>
-<tr>
-<th>المرحلة</th>
-<th>التاريخ</th>
-<th>الترميز</th>
-</tr>
-</thead>
-<tbody id="details"></tbody>
-</table>
-
-<div class="actions">
-<button onclick="window.print()">طباعة النتائج</button>
-<button onclick="calculate()">تحديث الحساب</button>
-</div>
-
-</div>
-
-<p class="note">
-تعتمد الحاسبة على دورة أساسية من 4 أسابيع عمل
-و4 أسابيع راحة.
-كل أسبوع يساوي 7 أيام متتالية.
-يوم المناوبة يبقى ثابتاً عند تغيير رقم الترميز.
-</p>
-
-</div>
 
 <script>
 
-// إنشاء اختيارات الأسابيع من 1 إلى 8
+// إنشاء اختيارات الأسابيع
+
 function fillOptions(id){
 
  const select=document.getElementById(id);
@@ -162,10 +635,12 @@ function fillOptions(id){
   option.textContent=
    i===1?"أسبوع واحد":i+" أسابيع";
 
-  if(i===4)option.selected=true;
+  if(i===4) option.selected=true;
 
   select.appendChild(option);
+
  }
+
 }
 
 fillOptions("work");
@@ -173,6 +648,7 @@ fillOptions("rest");
 
 
 // الانتقال الدائري بين R1 و R8
+
 function nextCode(code,shift){
 
  return ((code-1+shift)%8+8)%8+1;
@@ -181,6 +657,7 @@ function nextCode(code,shift){
 
 
 // إضافة أيام إلى التاريخ
+
 function addDays(date,days){
 
  const d=new Date(date+"T12:00:00");
@@ -195,6 +672,7 @@ function addDays(date,days){
 
 
 // تنسيق التاريخ
+
 function format(date){
 
  const p=date.split("-");
@@ -205,6 +683,7 @@ function format(date){
 
 
 // اسم الترميز
+
 function codeName(code,day){
 
  return day+" R"+code;
@@ -213,6 +692,7 @@ function codeName(code,day){
 
 
 // الحساب الرئيسي
+
 function calculate(){
 
  const original=Number(
@@ -235,14 +715,13 @@ function calculate(){
 
   alert("يرجى إدخال تاريخ بداية العمل");
 
+  document.getElementById("start").focus();
+
   return;
  }
 
 
- // تحديد ترميز العمل
- // أقل من 4 أسابيع: الالتحاق بالمجموعة المناسبة
- // 4 أسابيع: الاحتفاظ بالترميز الأصلي
- // أكثر من 4 أسابيع: تغيير الترميز بعد كل أسبوع إضافي
+ // حساب ترميز العمل
 
  const workCode=nextCode(original,work-4);
 
@@ -250,6 +729,7 @@ function calculate(){
 
 
  // بداية العمل
+
  const initialWorkCode=
   work<4?workCode:original;
 
@@ -261,6 +741,7 @@ function calculate(){
 
 
  // تغيير الترميز أثناء العمل
+
  if(work>4){
 
   const changeWork=addDays(
@@ -272,10 +753,12 @@ function calculate(){
    changeWork,
    workCode
   ]);
+
  }
 
 
  // بداية الراحة
+
  const restStart=addDays(
   start,work*7
  );
@@ -288,10 +771,9 @@ function calculate(){
 
 
  // ترميز الراحة
+
  let restCode=workCode;
 
-
- // تغيير الترميز بعد إتمام 4 أسابيع راحة
  if(rest>4){
 
   const changeRest=addDays(
@@ -305,10 +787,12 @@ function calculate(){
    changeRest,
    restCode
   ]);
+
  }
 
 
  // آخر يوم راحة
+
  const restEnd=addDays(
   start,(work+rest)*7-1
  );
@@ -321,22 +805,16 @@ function calculate(){
 
 
  // تاريخ العودة إلى العمل
+
  const returnDate=addDays(
   start,(work+rest)*7
  );
 
 
- // المعادلة النهائية لترميز العودة
- // الترميز الأصلي + أسابيع العمل + أسابيع الراحة
- // مع الدوران بين R1 و R8
+ // ترميز العودة المعتمد R8
 
- const returnCode=nextCode(
-  original,
-  work+rest
- );
+ const returnCode=8;
 
-
- // إضافة العودة إلى الجدول
  rows.push([
   "العودة إلى العمل",
   returnDate,
@@ -344,61 +822,88 @@ function calculate(){
  ]);
 
 
- // عرض ملخص النتائج
+ // عرض النتائج الرئيسية
+
+ document.getElementById("originalResult").textContent=
+  "R"+original;
+
+ document.getElementById("workResult").textContent=
+  "R"+workCode;
+
+ document.getElementById("restResult").textContent=
+  "R"+restCode;
+
+ document.getElementById("returnResult").textContent=
+  "R"+returnCode;
+
+
+ // عرض ملخص الحساب
+
  document.getElementById("summary").innerHTML=`
 
- <div>
- الترميز الأصلي:
- <b>${codeName(original,day)}</b>
- </div>
+  <div>الترميز الأصلي:
+   <b>${codeName(original,day)}</b>
+  </div>
 
- <div>
- ترميز العمل:
- <span class="code">
- ${codeName(workCode,day)}
- </span>
- </div>
+  <div>ترميز العمل:
+   <b>${codeName(workCode,day)}</b>
+  </div>
 
- <div>
- ترميز الراحة:
- <span class="code">
- ${codeName(restCode,day)}
- </span>
- </div>
+  <div>ترميز الراحة:
+   <b>${codeName(restCode,day)}</b>
+  </div>
 
- <div>
- ترميز العودة:
- <span class="code">
- ${codeName(returnCode,day)}
- </span>
- </div>
+  <div>ترميز العودة:
+   <b>${codeName(returnCode,day)}</b>
+  </div>
 
- <div>مدة العمل: <b>${work} أسابيع</b></div>
+  <div>تاريخ بداية العمل:
+   <b>${format(start)}</b>
+  </div>
 
- <div>مدة الراحة: <b>${rest} أسابيع</b></div>
+  <div>تاريخ بداية الراحة:
+   <b>${format(restStart)}</b>
+  </div>
 
- <div>يوم المناوبة: <b>${day}</b></div>
+  <div>تاريخ العودة:
+   <b>${format(returnDate)}</b>
+  </div>
+
+  <div>مدة العمل:
+   <b>${work} أسابيع</b>
+  </div>
+
+  <div>مدة الراحة:
+   <b>${rest} أسابيع</b>
+  </div>
+
+  <div>يوم المناوبة:
+   <b>${day}</b>
+  </div>
 
  `;
 
 
- // عرض جدول المراحل
+ // إنشاء جدول المراحل
+
  document.getElementById("details").innerHTML=
 
- rows.map(r=>`
+ rows.map((r,index)=>`
 
- <tr>
- <td>${r[0]}</td>
- <td>${format(r[1])}</td>
- <td>
- <span class="code">
- ${codeName(r[2],day)}
- </span>
- </td>
- </tr>
+  <tr>
+   <td>${r[0]}</td>
+   <td>${format(r[1])}</td>
+   <td>
+    <span class="code ${index===rows.length-1?'return-code':''}">
+     ${codeName(r[2],day)}
+    </span>
+   </td>
+  </tr>
 
  `).join("");
 
+
+ // إظهار النتائج
 
  document.getElementById("result").style.display="block";
 
@@ -410,5 +915,6 @@ function calculate(){
 }
 
 </script>
+
 </body>
 </html>
