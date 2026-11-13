@@ -823,12 +823,10 @@ function calculate() {
   }
 
   /* 1. حساب ترميز العمل
-     التصحيح: لا يتغير الترميز إذا كانت مدة العمل 4 أسابيع أو أقل.
+     الإبقاء على المعادلة الأصلية للحالتين
   */
 
-  const workCode = work > 4
-    ? nextCode(original, work - 4)
-    : original;
+  const workCode = nextCode(original, work - 4);
 
   /* 2. حساب تواريخ الراحة والعودة */
 
@@ -841,7 +839,9 @@ function calculate() {
 
   const restEnd = addDays(returnDate, -1);
 
-  /* 3. حساب ترميز الراحة المتبقية */
+  /* 3. حساب ترميز الراحة
+     الإبقاء على نفس منطق الحالة الثانية
+  */
 
   const restCode = nextCode(workCode, rest - 4);
 
@@ -865,12 +865,21 @@ function calculate() {
 
   const changes = [];
 
-  if (workCode !== original) {
+  /*
+     التصحيح الأساسي:
+     لا نضيف تغيير ترميز العمل إذا كان تاريخ التغيير
+     يسبق تاريخ بداية العمل.
+  */
 
-    const workChangeDate = addDays(
-      startDate,
-      (work - 4) * 7
-    );
+  const workChangeDate = addDays(
+    startDate,
+    (work - 4) * 7
+  );
+
+  if (
+    workCode !== original &&
+    workChangeDate >= startDate
+  ) {
 
     changes.push({
       date: workChangeDate,
@@ -879,7 +888,15 @@ function calculate() {
     });
   }
 
-  if (restCode !== workCode) {
+  /*
+     تغيير ترميز الراحة يبقى بنفس المعادلة
+     ونفس المنطق السابق.
+  */
+
+  if (
+    restCode !== workCode &&
+    restChangeDate >= startDate
+  ) {
 
     changes.push({
       date: restChangeDate,
