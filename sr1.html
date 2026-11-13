@@ -418,7 +418,6 @@ tbody tr:nth-child(even) { background:#f7faf8; }
   .result-card .value { font-size:17px; }
   .buttons button { width:100%; }
 
-  /* إبراز تواريخ من وإلى على الهاتف */
   .period-table {
     min-width:0;
     table-layout:fixed;
@@ -626,8 +625,6 @@ tbody tr:nth-child(even) { background:#f7faf8; }
     </div>
   </section>
 
-  <!-- جدول فترات سريان الترميز -->
-
   <section class="panel">
     <h2 class="section-title">جدول فترات سريان الترميز</h2>
 
@@ -646,19 +643,15 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 
     <div class="note">
       يبدأ سريان كل ترميز من تاريخ تطبيقه، وينتهي في اليوم السابق
-      لبداية الترميز الموالي. أما آخر ترميز فيبقى سارياً إلى
-      31/12/9999.
+      لبداية الترميز الموالي. ويستمر آخر ترميز معتمد إلى غاية
+      31/12/9999، دون إضافة ترميز جديد في تاريخ العودة.
     </div>
   </section>
-
-  <!-- التسلسل الزمني -->
 
   <section class="panel">
     <h2 class="section-title">التسلسل الزمني للمناوبة</h2>
     <div class="timeline" id="timeline"></div>
   </section>
-
-  <!-- معلومات الفترات -->
 
   <section class="panel">
     <h2 class="section-title">معلومات دورة العمل والراحة</h2>
@@ -762,7 +755,7 @@ function buildCodePeriods(startDate, changes) {
 
   });
 
-  /* آخر ترميز يستمر إلى 31/12/9999 */
+  /* آخر ترميز معتمد يستمر إلى 31/12/9999 */
 
   periods.push({
     code: currentCode,
@@ -852,7 +845,7 @@ function buildCycleTable(startDate, restStart, restEnd, returnDate, work, rest) 
     <tr>
       <td>العودة إلى العمل</td>
       <td class="date-cell">${formatDate(returnDate)}</td>
-      <td>—</td>
+      <td class="date-cell">—</td>
       <td>بداية دورة جديدة</td>
     </tr>
   `;
@@ -906,7 +899,7 @@ function calculate() {
 
   const workCode = nextCode(original, work - 4);
 
-  /* التواريخ */
+  /* التواريخ الأصلية دون تغيير */
 
   const restStart = addDays(startDate, work * 7);
 
@@ -927,7 +920,7 @@ function calculate() {
     restCode = nextCode(workCode, rest - 4);
   }
 
-  /* تغييرات الترميز الفعلية */
+  /* تغييرات الترميز */
 
   const changes = [];
 
@@ -952,6 +945,11 @@ function calculate() {
     });
   }
 
+  /*
+    لا نضيف R8 في تاريخ العودة.
+    آخر ترميز معتمد في الحساب يستمر إلى 31/12/9999.
+  */
+
   /* بناء فترات الترميز */
 
   const periods = buildCodePeriods(startDate, changes);
@@ -968,7 +966,7 @@ function calculate() {
 
   if (workCode !== original) {
     events.push({
-      date: changes[0].date,
+      date: addDays(startDate, (work - 4) * 7),
       title: "تغيير ترميز العمل",
       code: workCode
     });
@@ -988,7 +986,7 @@ function calculate() {
     });
   }
 
-  /* العودة بدون ترميز */
+  /* العودة إلى العمل دون إنشاء ترميز جديد */
 
   events.push({
     date: returnDate,
