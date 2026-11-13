@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -9,37 +10,41 @@
 <style>
 :root {
   --green:#08734f;
-  --dark:#064b38;
+  --green-dark:#064b38;
+  --green-light:#e8f5ee;
   --blue:#155e9a;
   --orange:#e68a20;
+  --red:#bd3434;
   --text:#23352e;
   --muted:#718078;
   --border:#dce8e1;
-  --bg:#f3f7f4;
+  --background:#f3f7f4;
+  --white:#fff;
 }
 
 * { box-sizing:border-box; }
 
 body {
   margin:0;
-  padding:14px;
-  background:var(--bg);
+  padding:16px;
+  background:var(--background);
   color:var(--text);
   font-family:Tahoma,Arial,sans-serif;
   line-height:1.7;
 }
 
 .container {
-  max-width:1050px;
+  max-width:1100px;
   margin:auto;
 }
 
 .header {
-  background:linear-gradient(120deg,var(--dark),var(--green));
+  background:linear-gradient(120deg,var(--green-dark),var(--green));
   color:white;
   border-radius:18px;
-  padding:22px 15px;
+  padding:24px 18px;
   text-align:center;
+  box-shadow:0 8px 25px #064b3820;
 }
 
 .brands {
@@ -47,52 +52,60 @@ body {
   justify-content:center;
   align-items:center;
   gap:20px;
+  margin-bottom:10px;
   direction:ltr;
 }
 
 .brand-name {
   font-size:27px;
   font-weight:900;
+  letter-spacing:1px;
+}
+
+.brand-sap {
+  color:#fff;
+  font-style:italic;
 }
 
 .brand-separator {
-  height:30px;
   width:2px;
+  height:30px;
   background:#ffffff80;
 }
 
 .header h1 {
-  font-size:22px;
-  margin:8px 0 0;
+  margin:8px 0 3px;
+  font-size:23px;
 }
 
 .header p {
   margin:0;
-  font-size:12px;
   color:#dcefe5;
+  font-size:13px;
 }
 
 .panel {
-  background:white;
+  background:var(--white);
   border:1px solid var(--border);
-  border-radius:15px;
-  padding:18px;
-  margin-top:16px;
+  border-radius:16px;
+  padding:20px;
+  margin-top:18px;
   box-shadow:0 4px 15px #183b2710;
 }
 
 .section-title {
-  color:var(--dark);
-  font-size:17px;
-  margin:0 0 15px;
-  padding-bottom:9px;
-  border-bottom:2px solid #e8f5ee;
+  font-size:18px;
+  color:var(--green-dark);
+  font-weight:bold;
+  margin:0 0 16px;
+  padding-bottom:10px;
+  border-bottom:2px solid var(--green-light);
 }
 
 .form-grid {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
+  gap:15px;
 }
 
 .field {
@@ -110,13 +123,19 @@ body {
 input,select {
   width:100%;
   min-height:45px;
-  padding:10px;
+  padding:10px 12px;
   border:1px solid #cbdcd1;
   border-radius:9px;
-  background:white;
+  background:#fff;
   color:var(--text);
   font-family:inherit;
   font-size:15px;
+  outline:none;
+}
+
+input:focus,select:focus {
+  border-color:var(--green);
+  box-shadow:0 0 0 3px #08734f18;
 }
 
 .full { grid-column:1/-1; }
@@ -125,20 +144,25 @@ input,select {
   display:flex;
   gap:10px;
   flex-wrap:wrap;
-  margin-top:18px;
+  margin-top:20px;
 }
 
 button {
   border:0;
-  border-radius:9px;
-  padding:12px 20px;
+  border-radius:10px;
+  padding:12px 22px;
   font-family:inherit;
+  font-size:14px;
   font-weight:bold;
   cursor:pointer;
+  transition:.2s;
 }
+
+button:hover { transform:translateY(-2px); }
 
 .calculate-btn {
   flex:1;
+  min-width:180px;
   background:var(--green);
   color:white;
 }
@@ -156,10 +180,12 @@ button {
 .error {
   display:none;
   background:#fff0f0;
-  color:#bd3434;
+  color:var(--red);
+  border:1px solid #f2caca;
   padding:12px;
   border-radius:9px;
-  margin-top:12px;
+  margin-top:14px;
+  font-size:13px;
 }
 
 .results { display:none; }
@@ -167,13 +193,13 @@ button {
 .result-grid {
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:10px;
+  gap:12px;
 }
 
 .result-card {
   border:1px solid var(--border);
-  border-radius:11px;
-  padding:13px 8px;
+  border-radius:12px;
+  padding:15px;
   background:#fbfdfb;
   text-align:center;
 }
@@ -186,16 +212,16 @@ button {
 
 .result-card .value {
   font-weight:900;
-  font-size:17px;
-  color:var(--dark);
+  font-size:19px;
+  color:var(--green-dark);
 }
 
-.return-card {
+.result-card.return {
   background:#fff8ed;
   border-color:#f3d9b5;
 }
 
-.return-card .value { color:#a95b0a; }
+.result-card.return .value { color:#a95b0a; }
 
 .code {
   display:inline-flex;
@@ -210,12 +236,12 @@ button {
 }
 
 .code-original {
-  color:var(--blue);
+  color:#155e9a;
   background:#e7f1fc;
 }
 
 .code-new {
-  color:var(--green);
+  color:#08734f;
   background:#e4f4e9;
 }
 
@@ -228,32 +254,35 @@ button {
 table {
   width:100%;
   border-collapse:collapse;
-  min-width:540px;
+  min-width:560px;
   font-size:14px;
 }
 
 th {
-  background:var(--dark);
+  background:var(--green-dark);
   color:white;
-  padding:13px 8px;
+  padding:15px 10px;
   text-align:center;
   white-space:nowrap;
+  font-size:14px;
 }
 
 td {
-  padding:13px 8px;
+  padding:14px 10px;
   text-align:center;
   border-bottom:1px solid var(--border);
+  vertical-align:middle;
 }
 
 tbody tr:nth-child(even) { background:#f7faf8; }
 
 .date-cell {
+  font-weight:900;
+  color:var(--blue);
   direction:ltr;
   white-space:nowrap;
-  color:var(--blue);
-  font-weight:900;
   font-size:15px;
+  letter-spacing:.3px;
 }
 
 .period-table {
@@ -273,66 +302,80 @@ tbody tr:nth-child(even) { background:#f7faf8; }
   width:40%;
 }
 
-.period-table th { font-size:14px; }
+.period-table td {
+  padding:16px 5px;
+}
 
-.period-table td { padding:15px 3px; }
+.period-table .date-cell {
+  font-size:15px;
+}
+
+.period-row:last-child {
+  background:#eaf5ee;
+}
+
+.period-row:last-child td {
+  border-bottom:2px solid var(--green);
+}
 
 .period-code {
   display:inline-flex;
-  min-width:48px;
+  min-width:50px;
   justify-content:center;
+  align-items:center;
   background:#e7f1fc;
-  color:var(--blue);
-  border-radius:8px;
-  padding:6px 8px;
-  font-size:17px;
+  color:#155e9a;
+  border-radius:9px;
+  padding:7px 10px;
+  font-size:18px;
   font-weight:900;
   direction:ltr;
 }
 
 .note {
-  margin-top:13px;
-  padding:12px;
+  margin-top:14px;
+  padding:13px;
   border-radius:9px;
   background:#f0f6fb;
   color:#345a76;
-  font-size:12px;
+  font-size:13px;
 }
 
 .timeline {
   display:flex;
   flex-direction:column;
-  gap:9px;
+  gap:10px;
 }
 
 .timeline-item {
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:11px;
+  gap:12px;
+  padding:12px;
   border:1px solid var(--border);
-  border-radius:9px;
-  background:white;
+  border-radius:10px;
+  background:#fff;
 }
 
 .timeline-dot {
-  width:11px;
-  height:11px;
+  width:12px;
+  height:12px;
   border-radius:50%;
   background:var(--green);
   flex-shrink:0;
 }
 
-.return-item .timeline-dot { background:var(--orange); }
+.timeline-item.return-item .timeline-dot {
+  background:var(--orange);
+}
 
 .timeline-date {
-  min-width:100px;
-  text-align:center;
-  direction:ltr;
-  white-space:nowrap;
+  min-width:105px;
   font-weight:bold;
   color:var(--blue);
-  font-size:13px;
+  direction:ltr;
+  text-align:center;
+  white-space:nowrap;
 }
 
 .timeline-description {
@@ -348,7 +391,7 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 }
 
 .footer-brand {
-  color:var(--dark);
+  color:var(--green-dark);
   font-size:16px;
   font-weight:900;
   direction:ltr;
@@ -363,39 +406,43 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 }
 
 @media(max-width:650px) {
-  body { padding:8px; }
-  .header { padding:18px 10px; }
+  body { padding:9px; }
+
+  .header { padding:20px 12px; }
   .brand-name { font-size:23px; }
   .header h1 { font-size:19px; }
-  .panel { padding:12px; }
+  .panel { padding:13px; }
   .form-grid { grid-template-columns:1fr; }
   .result-grid { grid-template-columns:1fr 1fr; }
+  .result-card:last-child { grid-column:1/-1; }
+  .result-card .value { font-size:17px; }
   .buttons button { width:100%; }
 
+  /* إبراز تواريخ من وإلى على الهاتف */
   .period-table {
     min-width:0;
     table-layout:fixed;
   }
 
   .period-table th {
-    padding:12px 2px;
+    padding:12px 3px;
     font-size:12px;
   }
 
   .period-table td {
-    padding:13px 1px;
+    padding:13px 2px;
   }
 
   .period-table th:first-child,
   .period-table td:first-child {
-    width:19%;
+    width:18%;
   }
 
   .period-table th:nth-child(2),
   .period-table td:nth-child(2),
   .period-table th:nth-child(3),
   .period-table td:nth-child(3) {
-    width:40.5%;
+    width:41%;
   }
 
   .period-table .date-cell {
@@ -405,13 +452,17 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 
   .period-code {
     min-width:0;
-    padding:5px 7px;
-    font-size:15px;
+    padding:5px 8px;
+    font-size:16px;
+  }
+
+  .timeline {
+    gap:8px;
   }
 
   .timeline-item {
-    gap:7px;
-    padding:9px 6px;
+    gap:8px;
+    padding:10px 7px;
   }
 
   .timeline-date {
@@ -419,19 +470,36 @@ tbody tr:nth-child(even) { background:#f7faf8; }
     font-size:12px;
   }
 
-  .timeline-description { font-size:12px; }
+  .timeline-description {
+    font-size:12px;
+  }
 }
 
 @media print {
   body { padding:0; background:white; }
-  .input-panel,.buttons,.error { display:none!important; }
-  .results { display:block!important; }
-  .panel { box-shadow:none; break-inside:avoid; }
+  .container { max-width:100%; }
+
   .header {
+    box-shadow:none;
     print-color-adjust:exact;
     -webkit-print-color-adjust:exact;
   }
-  .period-table { min-width:0; }
+
+  .input-panel,.buttons,.error {
+    display:none !important;
+  }
+
+  .panel {
+    box-shadow:none;
+    break-inside:avoid;
+  }
+
+  .results { display:block !important; }
+  .footer { margin-top:15px; }
+
+  .period-table {
+    min-width:0;
+  }
 }
 </style>
 </head>
@@ -442,10 +510,11 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 
 <header class="header">
   <div class="brands">
-    <div class="brand-name">SAP</div>
+    <div class="brand-name brand-sap">SAP</div>
     <div class="brand-separator"></div>
     <div class="brand-name">SONATRACH</div>
   </div>
+
   <h1>حاسبة نظام التناوب</h1>
   <p>Système de gestion des roulements</p>
 </header>
@@ -489,12 +558,12 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 
     <div class="field">
       <label for="workWeeks">عدد أسابيع العمل</label>
-      <input type="number" id="workWeeks" min="1" max="52" value="5">
+      <input type="number" id="workWeeks" min="1" max="52" value="7">
     </div>
 
     <div class="field full">
       <label for="restWeeks">عدد أسابيع الراحة التعويضية</label>
-      <input type="number" id="restWeeks" min="1" max="52" value="2">
+      <input type="number" id="restWeeks" min="1" max="52" value="6">
     </div>
 
   </div>
@@ -516,46 +585,48 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 
       <div class="result-card">
         <div class="caption">الترميز الأصلي</div>
-        <div class="value" id="originalResult"></div>
+        <div class="value" id="originalResult">R1</div>
       </div>
 
       <div class="result-card">
         <div class="caption">ترميز فترة العمل</div>
-        <div class="value" id="workResult"></div>
+        <div class="value" id="workResult">R1</div>
       </div>
 
       <div class="result-card">
         <div class="caption">ترميز فترة الراحة</div>
-        <div class="value" id="restResult"></div>
+        <div class="value" id="restResult">R1</div>
       </div>
 
       <div class="result-card">
         <div class="caption">بداية العمل</div>
-        <div class="value" id="startResult"></div>
+        <div class="value" id="startResult">—</div>
       </div>
 
       <div class="result-card">
         <div class="caption">بداية الراحة</div>
-        <div class="value" id="restStartResult"></div>
+        <div class="value" id="restStartResult">—</div>
       </div>
 
       <div class="result-card">
         <div class="caption">نهاية الراحة</div>
-        <div class="value" id="restEndResult"></div>
+        <div class="value" id="restEndResult">—</div>
       </div>
 
-      <div class="result-card return-card">
+      <div class="result-card return">
         <div class="caption">تاريخ العودة إلى العمل</div>
-        <div class="value" id="returnDateResult"></div>
+        <div class="value" id="returnDateResult">—</div>
       </div>
 
       <div class="result-card">
         <div class="caption">مجموع الدورة</div>
-        <div class="value" id="totalWeeksResult"></div>
+        <div class="value" id="totalWeeksResult">—</div>
       </div>
 
     </div>
   </section>
+
+  <!-- جدول فترات سريان الترميز -->
 
   <section class="panel">
     <h2 class="section-title">جدول فترات سريان الترميز</h2>
@@ -575,14 +646,19 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 
     <div class="note">
       يبدأ سريان كل ترميز من تاريخ تطبيقه، وينتهي في اليوم السابق
-      لبداية الترميز الموالي. آخر ترميز يبقى سارياً إلى 31/12/9999.
+      لبداية الترميز الموالي. أما آخر ترميز فيبقى سارياً إلى
+      31/12/9999.
     </div>
   </section>
+
+  <!-- التسلسل الزمني -->
 
   <section class="panel">
     <h2 class="section-title">التسلسل الزمني للمناوبة</h2>
     <div class="timeline" id="timeline"></div>
   </section>
+
+  <!-- معلومات الفترات -->
 
   <section class="panel">
     <h2 class="section-title">معلومات دورة العمل والراحة</h2>
@@ -618,13 +694,11 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 
 <script>
 
-/* =========================
-   أدوات التاريخ
-========================= */
+/* أدوات التاريخ */
 
 function parseDate(value) {
-  const [year, month, day] = value.split("-").map(Number);
-  return new Date(year, month - 1, day, 12, 0, 0);
+  const parts = value.split("-").map(Number);
+  return new Date(parts[0], parts[1] - 1, parts[2], 12, 0, 0);
 }
 
 function addDays(date, days) {
@@ -637,62 +711,58 @@ function formatDate(date) {
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
+
   return `${day}/${month}/${year}`;
 }
 
-/* =========================
-   الانتقال الدائري R1-R8
-========================= */
+/* حساب الترميز الدائري */
 
 function nextCode(code, shift) {
   return ((code - 1 + shift) % 8 + 8) % 8 + 1;
 }
 
-/* =========================
-   عرض الترميز
-========================= */
+/* عرض الترميز */
 
-function codeHTML(code, original = false) {
-  return `
-    <span class="code ${original ? "code-original" : "code-new"}">
-      R${code}
-    </span>
-  `;
+function codeHTML(code, type = "new") {
+  const className = type === "original"
+    ? "code-original"
+    : "code-new";
+
+  return `<span class="code ${className}">R${code}</span>`;
 }
 
-/* =========================
-   إنشاء فترات الترميز
-========================= */
+/* بناء فترات سريان الترميز */
 
-function buildCodePeriods(startDate, initialCode, changes) {
+function buildCodePeriods(startDate, changes) {
 
-  const sortedChanges = [...changes].sort(
+  const allChanges = [...changes].sort(
     (a, b) => a.date - b.date
   );
 
   const periods = [];
 
-  let currentCode = initialCode;
+  let currentCode = Number(
+    document.getElementById("originalCode").value
+  );
+
   let periodStart = new Date(startDate);
 
-  sortedChanges.forEach(change => {
-
-    // تجاهل التغييرات التي تقع قبل بداية الفترة المعروضة
-    if (change.date < startDate) return;
+  allChanges.forEach(change => {
 
     const periodEnd = addDays(change.date, -1);
 
-    if (periodEnd >= periodStart) {
-      periods.push({
-        code: currentCode,
-        from: new Date(periodStart),
-        to: periodEnd
-      });
-    }
+    periods.push({
+      code: currentCode,
+      from: new Date(periodStart),
+      to: periodEnd
+    });
 
     currentCode = change.newCode;
     periodStart = new Date(change.date);
+
   });
+
+  /* آخر ترميز يستمر إلى 31/12/9999 */
 
   periods.push({
     code: currentCode,
@@ -703,28 +773,32 @@ function buildCodePeriods(startDate, initialCode, changes) {
   return periods;
 }
 
-/* =========================
-   عرض جدول فترات الترميز
-========================= */
+/* عرض جدول الفترات */
 
 function renderCodePeriods(periods) {
 
   const tbody = document.getElementById("periodsTable");
 
   tbody.innerHTML = periods.map(period => `
-    <tr>
+    <tr class="period-row">
+
       <td>
         <span class="period-code">R${period.code}</span>
       </td>
-      <td class="date-cell">${formatDate(period.from)}</td>
-      <td class="date-cell">${formatDate(period.to)}</td>
+
+      <td class="date-cell">
+        ${formatDate(period.from)}
+      </td>
+
+      <td class="date-cell">
+        ${formatDate(period.to)}
+      </td>
+
     </tr>
   `).join("");
 }
 
-/* =========================
-   عرض التسلسل الزمني
-========================= */
+/* عرض التسلسل الزمني */
 
 function buildTimeline(events) {
 
@@ -732,6 +806,7 @@ function buildTimeline(events) {
 
   timeline.innerHTML = events.map(event => `
     <div class="timeline-item ${event.isReturn ? "return-item" : ""}">
+
       <span class="timeline-dot"></span>
 
       <span class="timeline-date">
@@ -740,30 +815,26 @@ function buildTimeline(events) {
 
       <div class="timeline-description">
         <strong>${event.title}</strong>
+
         ${
-          event.code !== null
-            ? " — " + codeHTML(event.code)
-            : ""
+          event.code !== null && event.code !== undefined
+          ? " — " + codeHTML(event.code)
+          : ""
         }
+
       </div>
+
     </div>
   `).join("");
 }
 
-/* =========================
-   جدول العمل والراحة
-========================= */
+/* عرض دورة العمل والراحة */
 
-function buildCycleTable(
-  startDate,
-  restStart,
-  restEnd,
-  returnDate,
-  work,
-  rest
-) {
+function buildCycleTable(startDate, restStart, restEnd, returnDate, work, rest) {
 
-  document.getElementById("cycleTable").innerHTML = `
+  const tbody = document.getElementById("cycleTable");
+
+  tbody.innerHTML = `
     <tr>
       <td>فترة العمل</td>
       <td class="date-cell">${formatDate(startDate)}</td>
@@ -772,7 +843,7 @@ function buildCycleTable(
     </tr>
 
     <tr>
-      <td>فترة الراحة</td>
+      <td>فترة الراحة التعويضية</td>
       <td class="date-cell">${formatDate(restStart)}</td>
       <td class="date-cell">${formatDate(restEnd)}</td>
       <td>${rest} أسابيع</td>
@@ -781,15 +852,13 @@ function buildCycleTable(
     <tr>
       <td>العودة إلى العمل</td>
       <td class="date-cell">${formatDate(returnDate)}</td>
-      <td class="date-cell">31/12/9999</td>
-      <td>ترميز العودة إلى العمل</td>
+      <td>—</td>
+      <td>بداية دورة جديدة</td>
     </tr>
   `;
 }
 
-/* =========================
-   الحساب الرئيسي
-========================= */
+/* الحساب الرئيسي */
 
 function calculate() {
 
@@ -833,13 +902,11 @@ function calculate() {
     return;
   }
 
-  /* 1. حساب ترميز العمل
-     المحافظة على المعادلة الأصلية
-  */
+  /* ترميز العمل */
 
   const workCode = nextCode(original, work - 4);
 
-  /* 2. حساب التواريخ */
+  /* التواريخ */
 
   const restStart = addDays(startDate, work * 7);
 
@@ -850,71 +917,46 @@ function calculate() {
 
   const restEnd = addDays(returnDate, -1);
 
-  /* 3. حساب ترميز الراحة
-     المحافظة على المعادلة الأصلية
-  */
+  /* ترميز الراحة */
 
-  const restCode = nextCode(workCode, rest - 4);
+  let restCode = workCode;
+  let restChangeDate = null;
 
-  /* 4. تحديد تاريخ تغيير ترميز الراحة */
-
-  let restChangeDate;
-
-  if (rest <= 4) {
-    restChangeDate = new Date(restStart);
-  } else {
+  if (rest > 4) {
     restChangeDate = addDays(restStart, 27);
+    restCode = nextCode(workCode, rest - 4);
   }
 
-  /* 5. إعداد التغييرات وفق منطق الكود الأصلي */
+  /* تغييرات الترميز الفعلية */
 
   const changes = [];
 
-  const workChangeDate = addDays(
-    startDate,
-    (work - 4) * 7
-  );
-
   if (workCode !== original) {
+
+    const workChangeDate = addDays(
+      startDate,
+      (work - 4) * 7
+    );
+
     changes.push({
       date: workChangeDate,
-      newCode: workCode,
-      title: "تغيير ترميز العمل"
+      newCode: workCode
     });
   }
 
-  /* تغيير ترميز الراحة وفق المعادلة الأصلية */
+  if (restCode !== workCode && restChangeDate) {
 
-  if (restCode !== workCode) {
     changes.push({
       date: restChangeDate,
-      newCode: restCode,
-      title: "تغيير ترميز الراحة"
+      newCode: restCode
     });
   }
 
-  /*
-    رمز العودة يُحسب بالمعادلة الأصلية:
-    لا نفرض R8، بل نحسب الرمز التالي حسب مجموع أسابيع العمل والراحة.
-  */
+  /* بناء فترات الترميز */
 
-  const returnCode = nextCode(original, work + rest);
+  const periods = buildCodePeriods(startDate, changes);
 
-  changes.push({
-    date: returnDate,
-    newCode: returnCode,
-    title: "العودة إلى العمل"
-  });
-
-  /* 6. إنشاء فترات الترميز */
-
-  const periods = buildCodePeriods(
-    startDate,
-    original,
-    changes
-  );
-
-  /* 7. التسلسل الزمني */
+  /* عرض التسلسل الزمني */
 
   const events = [
     {
@@ -924,29 +966,43 @@ function calculate() {
     }
   ];
 
-  changes.forEach(change => {
-
+  if (workCode !== original) {
     events.push({
-      date: change.date,
-      title: change.title,
-      code: change.newCode,
-      isReturn: change.date.getTime() === returnDate.getTime()
+      date: changes[0].date,
+      title: "تغيير ترميز العمل",
+      code: workCode
     });
-
-  });
+  }
 
   events.push({
     date: restStart,
     title: "بداية الراحة التعويضية",
-    code: null
+    code: workCode
+  });
+
+  if (restCode !== workCode && restChangeDate) {
+    events.push({
+      date: restChangeDate,
+      title: "تغيير ترميز فترة الراحة",
+      code: restCode
+    });
+  }
+
+  /* العودة بدون ترميز */
+
+  events.push({
+    date: returnDate,
+    title: "العودة إلى العمل",
+    code: null,
+    isReturn: true
   });
 
   events.sort((a, b) => a.date - b.date);
 
-  /* 8. عرض ملخص النتائج */
+  /* ملخص النتائج */
 
   document.getElementById("originalResult").innerHTML =
-    codeHTML(original, true);
+    codeHTML(original, "original");
 
   document.getElementById("workResult").innerHTML =
     codeHTML(workCode);
@@ -969,7 +1025,7 @@ function calculate() {
   document.getElementById("totalWeeksResult").textContent =
     (work + rest) + " أسبوع";
 
-  /* 9. عرض الجداول */
+  /* عرض الجداول */
 
   renderCodePeriods(periods);
 
@@ -987,34 +1043,28 @@ function calculate() {
   document.getElementById("results").style.display = "block";
 
   document.getElementById("results").scrollIntoView({
-    behavior: "smooth",
-    block: "start"
+    behavior:"smooth",
+    block:"start"
   });
 }
 
-/* =========================
-   رسائل الخطأ
-========================= */
+/* رسالة الخطأ */
 
 function showError(message) {
-
   const box = document.getElementById("errorBox");
-
   box.textContent = message;
   box.style.display = "block";
 }
 
-/* =========================
-   إعادة الضبط
-========================= */
+/* إعادة ضبط */
 
 function resetForm() {
 
   document.getElementById("originalCode").value = "1";
   document.getElementById("startDay").value = "Samedi";
   document.getElementById("startDate").value = "2026-11-12";
-  document.getElementById("workWeeks").value = "5";
-  document.getElementById("restWeeks").value = "2";
+  document.getElementById("workWeeks").value = "7";
+  document.getElementById("restWeeks").value = "6";
 
   document.getElementById("results").style.display = "none";
   document.getElementById("errorBox").style.display = "none";
