@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -22,7 +23,7 @@
 
 body {
   margin:0;
-  padding:14px;
+  padding:12px;
   background:var(--bg);
   color:var(--text);
   font-family:Tahoma,Arial,sans-serif;
@@ -40,6 +41,7 @@ body {
   border-radius:18px;
   padding:22px 15px;
   text-align:center;
+  box-shadow:0 7px 22px #064b3820;
 }
 
 .brands {
@@ -53,6 +55,7 @@ body {
 .brand-name {
   font-size:27px;
   font-weight:900;
+  letter-spacing:.5px;
 }
 
 .brand-separator {
@@ -76,7 +79,7 @@ body {
   background:white;
   border:1px solid var(--border);
   border-radius:15px;
-  padding:18px;
+  padding:17px;
   margin-top:16px;
   box-shadow:0 4px 15px #183b2710;
 }
@@ -117,6 +120,12 @@ input,select {
   color:var(--text);
   font-family:inherit;
   font-size:15px;
+  outline:none;
+}
+
+input:focus,select:focus {
+  border-color:var(--green);
+  box-shadow:0 0 0 3px #08734f18;
 }
 
 .full { grid-column:1/-1; }
@@ -133,9 +142,13 @@ button {
   border-radius:9px;
   padding:12px 20px;
   font-family:inherit;
+  font-size:14px;
   font-weight:bold;
   cursor:pointer;
+  transition:.2s;
 }
+
+button:hover { transform:translateY(-1px); }
 
 .calculate-btn {
   flex:1;
@@ -157,9 +170,11 @@ button {
   display:none;
   background:#fff0f0;
   color:#bd3434;
+  border:1px solid #f2caca;
   padding:12px;
   border-radius:9px;
   margin-top:12px;
+  font-size:13px;
 }
 
 .results { display:none; }
@@ -176,6 +191,7 @@ button {
   padding:13px 8px;
   background:#fbfdfb;
   text-align:center;
+  min-width:0;
 }
 
 .result-card .caption {
@@ -188,6 +204,7 @@ button {
   font-weight:900;
   font-size:17px;
   color:var(--dark);
+  overflow-wrap:anywhere;
 }
 
 .return-card {
@@ -244,6 +261,7 @@ td {
   padding:13px 8px;
   text-align:center;
   border-bottom:1px solid var(--border);
+  vertical-align:middle;
 }
 
 tbody tr:nth-child(even) { background:#f7faf8; }
@@ -254,6 +272,7 @@ tbody tr:nth-child(even) { background:#f7faf8; }
   color:var(--blue);
   font-weight:900;
   font-size:15px;
+  letter-spacing:.2px;
 }
 
 .period-table {
@@ -263,17 +282,15 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 
 .period-table th:first-child,
 .period-table td:first-child {
-  width:20%;
+  width:19%;
 }
 
 .period-table th:nth-child(2),
 .period-table td:nth-child(2),
 .period-table th:nth-child(3),
 .period-table td:nth-child(3) {
-  width:40%;
+  width:40.5%;
 }
-
-.period-table th { font-size:14px; }
 
 .period-table td { padding:15px 3px; }
 
@@ -288,6 +305,14 @@ tbody tr:nth-child(even) { background:#f7faf8; }
   font-size:17px;
   font-weight:900;
   direction:ltr;
+}
+
+.period-table tr:last-child {
+  background:#eaf5ee;
+}
+
+.period-table tr:last-child td {
+  border-bottom:2px solid var(--green);
 }
 
 .note {
@@ -326,7 +351,7 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 .return-item .timeline-dot { background:var(--orange); }
 
 .timeline-date {
-  min-width:100px;
+  min-width:105px;
   text-align:center;
   direction:ltr;
   white-space:nowrap;
@@ -364,10 +389,12 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 
 @media(max-width:650px) {
   body { padding:8px; }
+
   .header { padding:18px 10px; }
   .brand-name { font-size:23px; }
   .header h1 { font-size:19px; }
   .panel { padding:12px; }
+
   .form-grid { grid-template-columns:1fr; }
   .result-grid { grid-template-columns:1fr 1fr; }
   .buttons button { width:100%; }
@@ -424,13 +451,23 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 
 @media print {
   body { padding:0; background:white; }
-  .input-panel,.buttons,.error { display:none!important; }
-  .results { display:block!important; }
-  .panel { box-shadow:none; break-inside:avoid; }
+
+  .input-panel,.buttons,.error {
+    display:none !important;
+  }
+
+  .results { display:block !important; }
+
+  .panel {
+    box-shadow:none;
+    break-inside:avoid;
+  }
+
   .header {
     print-color-adjust:exact;
     -webkit-print-color-adjust:exact;
   }
+
   .period-table { min-width:0; }
 }
 </style>
@@ -446,11 +483,13 @@ tbody tr:nth-child(even) { background:#f7faf8; }
     <div class="brand-separator"></div>
     <div class="brand-name">SONATRACH</div>
   </div>
+
   <h1>حاسبة نظام التناوب</h1>
   <p>Système de gestion des roulements</p>
 </header>
 
 <section class="panel input-panel">
+
   <h2 class="section-title">بيانات نظام التناوب</h2>
 
   <div class="form-grid">
@@ -484,12 +523,12 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 
     <div class="field">
       <label for="startDate">تاريخ بداية العمل</label>
-      <input type="date" id="startDate" value="2026-11-12">
+      <input type="date" id="startDate" value="2026-11-13">
     </div>
 
     <div class="field">
       <label for="workWeeks">عدد أسابيع العمل</label>
-      <input type="number" id="workWeeks" min="1" max="52" value="5">
+      <input type="number" id="workWeeks" min="1" max="52" value="2">
     </div>
 
     <div class="field full">
@@ -500,8 +539,13 @@ tbody tr:nth-child(even) { background:#f7faf8; }
   </div>
 
   <div class="buttons">
-    <button class="calculate-btn" onclick="calculate()">احسب نظام التناوب</button>
-    <button class="reset-btn" onclick="resetForm()">إعادة ضبط</button>
+    <button class="calculate-btn" onclick="calculate()">
+      احسب نظام التناوب
+    </button>
+
+    <button class="reset-btn" onclick="resetForm()">
+      إعادة ضبط
+    </button>
   </div>
 
   <div class="error" id="errorBox"></div>
@@ -574,7 +618,7 @@ tbody tr:nth-child(even) { background:#f7faf8; }
     </div>
 
     <div class="note">
-      يبدأ سريان كل ترميز من تاريخ تطبيقه، وينتهي في اليوم السابق
+      يبدأ سريان كل ترميز من تاريخ تطبيقه وينتهي في اليوم السابق
       لبداية الترميز الموالي. آخر ترميز يبقى سارياً إلى 31/12/9999.
     </div>
   </section>
@@ -603,7 +647,9 @@ tbody tr:nth-child(even) { background:#f7faf8; }
   </section>
 
   <div class="buttons">
-    <button class="print-btn" onclick="window.print()">طباعة النتائج</button>
+    <button class="print-btn" onclick="window.print()">
+      طباعة النتائج
+    </button>
   </div>
 
 </div>
@@ -618,9 +664,9 @@ tbody tr:nth-child(even) { background:#f7faf8; }
 
 <script>
 
-/* =========================
-   أدوات التاريخ
-========================= */
+/* =====================================
+   1. أدوات التاريخ
+===================================== */
 
 function parseDate(value) {
   const [year, month, day] = value.split("-").map(Number);
@@ -637,20 +683,27 @@ function formatDate(date) {
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
+
   return `${day}/${month}/${year}`;
 }
 
-/* =========================
-   الانتقال الدائري R1-R8
-========================= */
+function sameDate(a, b) {
+  return a.getFullYear() === b.getFullYear() &&
+         a.getMonth() === b.getMonth() &&
+         a.getDate() === b.getDate();
+}
+
+/* =====================================
+   2. الانتقال الدائري بين R1 و R8
+===================================== */
 
 function nextCode(code, shift) {
   return ((code - 1 + shift) % 8 + 8) % 8 + 1;
 }
 
-/* =========================
-   عرض الترميز
-========================= */
+/* =====================================
+   3. عرض الترميز
+===================================== */
 
 function codeHTML(code, original = false) {
   return `
@@ -660,11 +713,11 @@ function codeHTML(code, original = false) {
   `;
 }
 
-/* =========================
-   إنشاء فترات الترميز
-========================= */
+/* =====================================
+   4. بناء فترات سريان الترميز
+===================================== */
 
-function buildCodePeriods(startDate, initialCode, changes) {
+function buildCodePeriods(startDate, original, changes) {
 
   const sortedChanges = [...changes].sort(
     (a, b) => a.date - b.date
@@ -672,13 +725,23 @@ function buildCodePeriods(startDate, initialCode, changes) {
 
   const periods = [];
 
-  let currentCode = initialCode;
+  let currentCode = original;
   let periodStart = new Date(startDate);
 
   sortedChanges.forEach(change => {
 
-    // تجاهل التغييرات التي تقع قبل بداية الفترة المعروضة
+    /*
+      منع أي تغيير قبل بداية العمل.
+      كما لا ننشئ فترة إذا كان التاريخ
+      لا يضيف تغييراً فعلياً.
+    */
+
     if (change.date < startDate) return;
+
+    if (sameDate(change.date, periodStart)) {
+      currentCode = change.newCode;
+      return;
+    }
 
     const periodEnd = addDays(change.date, -1);
 
@@ -694,6 +757,8 @@ function buildCodePeriods(startDate, initialCode, changes) {
     periodStart = new Date(change.date);
   });
 
+  /* آخر ترميز يستمر إلى 31/12/9999 */
+
   periods.push({
     code: currentCode,
     from: new Date(periodStart),
@@ -703,9 +768,9 @@ function buildCodePeriods(startDate, initialCode, changes) {
   return periods;
 }
 
-/* =========================
-   عرض جدول فترات الترميز
-========================= */
+/* =====================================
+   5. عرض جدول فترات الترميز
+===================================== */
 
 function renderCodePeriods(periods) {
 
@@ -716,15 +781,21 @@ function renderCodePeriods(periods) {
       <td>
         <span class="period-code">R${period.code}</span>
       </td>
-      <td class="date-cell">${formatDate(period.from)}</td>
-      <td class="date-cell">${formatDate(period.to)}</td>
+
+      <td class="date-cell">
+        ${formatDate(period.from)}
+      </td>
+
+      <td class="date-cell">
+        ${formatDate(period.to)}
+      </td>
     </tr>
   `).join("");
 }
 
-/* =========================
-   عرض التسلسل الزمني
-========================= */
+/* =====================================
+   6. عرض التسلسل الزمني
+===================================== */
 
 function buildTimeline(events) {
 
@@ -732,6 +803,7 @@ function buildTimeline(events) {
 
   timeline.innerHTML = events.map(event => `
     <div class="timeline-item ${event.isReturn ? "return-item" : ""}">
+
       <span class="timeline-dot"></span>
 
       <span class="timeline-date">
@@ -740,19 +812,21 @@ function buildTimeline(events) {
 
       <div class="timeline-description">
         <strong>${event.title}</strong>
+
         ${
           event.code !== null
-            ? " — " + codeHTML(event.code)
-            : ""
+          ? " — " + codeHTML(event.code)
+          : ""
         }
       </div>
+
     </div>
   `).join("");
 }
 
-/* =========================
-   جدول العمل والراحة
-========================= */
+/* =====================================
+   7. جدول العمل والراحة
+===================================== */
 
 function buildCycleTable(
   startDate,
@@ -764,6 +838,7 @@ function buildCycleTable(
 ) {
 
   document.getElementById("cycleTable").innerHTML = `
+
     <tr>
       <td>فترة العمل</td>
       <td class="date-cell">${formatDate(startDate)}</td>
@@ -781,15 +856,16 @@ function buildCycleTable(
     <tr>
       <td>العودة إلى العمل</td>
       <td class="date-cell">${formatDate(returnDate)}</td>
-      <td class="date-cell">31/12/9999</td>
-      <td>ترميز العودة إلى العمل</td>
+      <td>—</td>
+      <td>بداية دورة جديدة</td>
     </tr>
+
   `;
 }
 
-/* =========================
-   الحساب الرئيسي
-========================= */
+/* =====================================
+   8. الحساب الرئيسي
+===================================== */
 
 function calculate() {
 
@@ -810,6 +886,8 @@ function calculate() {
   const rest = Number(
     document.getElementById("restWeeks").value
   );
+
+  /* التحقق من المعطيات */
 
   if (!startValue) {
     showError("يرجى إدخال تاريخ بداية العمل.");
@@ -833,13 +911,30 @@ function calculate() {
     return;
   }
 
-  /* 1. حساب ترميز العمل
-     المحافظة على المعادلة الأصلية
-  */
+  /* ---------------------------------
+     8.1 حساب ترميز العمل
 
-  const workCode = nextCode(original, work - 4);
+     إذا كانت مدة العمل أقل من أو تساوي
+     4 أسابيع، يبقى الترميز الأصلي.
+     إذا تجاوزت 4 أسابيع، يحسب التغيير.
+  --------------------------------- */
 
-  /* 2. حساب التواريخ */
+  let workCode = original;
+  let workChangeDate = null;
+
+  if (work > 4) {
+
+    workCode = nextCode(original, work - 4);
+
+    workChangeDate = addDays(
+      startDate,
+      (work - 4) * 7
+    );
+  }
+
+  /* ---------------------------------
+     8.2 حساب التواريخ
+  --------------------------------- */
 
   const restStart = addDays(startDate, work * 7);
 
@@ -850,32 +945,40 @@ function calculate() {
 
   const restEnd = addDays(returnDate, -1);
 
-  /* 3. حساب ترميز الراحة
-     المحافظة على المعادلة الأصلية
-  */
+  /* ---------------------------------
+     8.3 حساب ترميز الراحة
+
+     يتم اختيار الترميز حسب مدة الراحة.
+     إذا كانت الراحة 4 أسابيع أو أقل،
+     يتغير الترميز في بداية الراحة.
+     إذا تجاوزت 4 أسابيع، يكون التغيير
+     بعد 4 أسابيع من بدايتها.
+  --------------------------------- */
 
   const restCode = nextCode(workCode, rest - 4);
 
-  /* 4. تحديد تاريخ تغيير ترميز الراحة */
+  let restChangeDate = null;
 
-  let restChangeDate;
+  if (restCode !== workCode) {
 
-  if (rest <= 4) {
-    restChangeDate = new Date(restStart);
-  } else {
-    restChangeDate = addDays(restStart, 27);
+    if (rest <= 4) {
+      restChangeDate = new Date(restStart);
+    } else {
+      restChangeDate = addDays(restStart, 27);
+    }
   }
 
-  /* 5. إعداد التغييرات وفق منطق الكود الأصلي */
+  /* ---------------------------------
+     8.4 بناء قائمة التغييرات
+  --------------------------------- */
 
   const changes = [];
 
-  const workChangeDate = addDays(
-    startDate,
-    (work - 4) * 7
-  );
-
-  if (workCode !== original) {
+  if (
+    workChangeDate &&
+    workCode !== original &&
+    workChangeDate >= startDate
+  ) {
     changes.push({
       date: workChangeDate,
       newCode: workCode,
@@ -883,9 +986,11 @@ function calculate() {
     });
   }
 
-  /* تغيير ترميز الراحة وفق المعادلة الأصلية */
-
-  if (restCode !== workCode) {
+  if (
+    restChangeDate &&
+    restCode !== workCode &&
+    restChangeDate >= startDate
+  ) {
     changes.push({
       date: restChangeDate,
       newCode: restCode,
@@ -893,57 +998,78 @@ function calculate() {
     });
   }
 
-  /*
-    رمز العودة يُحسب بالمعادلة الأصلية:
-    لا نفرض R8، بل نحسب الرمز التالي حسب مجموع أسابيع العمل والراحة.
-  */
-
-  const returnCode = nextCode(original, work + rest);
-
-  changes.push({
-    date: returnDate,
-    newCode: returnCode,
-    title: "العودة إلى العمل"
-  });
-
-  /* 6. إنشاء فترات الترميز */
+  /* ---------------------------------
+     8.5 إنشاء فترات الترميز
+  --------------------------------- */
 
   const periods = buildCodePeriods(
     startDate,
-    initialCode,
+    original,
     changes
   );
 
-  /* 7. التسلسل الزمني */
+  /* ---------------------------------
+     8.6 بناء التسلسل الزمني
+
+     لا نكرر حدث تغيير الترميز وبداية
+     الراحة إذا كانا في التاريخ نفسه.
+  --------------------------------- */
 
   const events = [
     {
       date: startDate,
       title: "بداية العمل",
-      code: initialCode
+      code: original
     }
   ];
 
-  changes.forEach(change => {
+  if (workChangeDate && workCode !== original) {
+    events.push({
+      date: workChangeDate,
+      title: "تغيير ترميز العمل",
+      code: workCode
+    });
+  }
+
+  if (restChangeDate && sameDate(restChangeDate, restStart)) {
 
     events.push({
-      date: change.date,
-      title: change.title,
-      code: change.newCode,
-      isReturn: change.date.getTime() === returnDate.getTime()
+      date: restStart,
+      title: "بداية الراحة وتغيير الترميز",
+      code: restCode
     });
 
-  });
+  } else {
+
+    events.push({
+      date: restStart,
+      title: "بداية الراحة التعويضية",
+      code: null
+    });
+
+    if (restChangeDate && restCode !== workCode) {
+      events.push({
+        date: restChangeDate,
+        title: "تغيير ترميز الراحة",
+        code: restCode
+      });
+    }
+  }
+
+  /* العودة مستقلة دون تكرار الترميز */
 
   events.push({
-    date: restStart,
-    title: "بداية الراحة التعويضية",
-    code: null
+    date: returnDate,
+    title: "العودة إلى العمل",
+    code: null,
+    isReturn: true
   });
 
   events.sort((a, b) => a.date - b.date);
 
-  /* 8. عرض ملخص النتائج */
+  /* ---------------------------------
+     8.7 عرض النتائج
+  --------------------------------- */
 
   document.getElementById("originalResult").innerHTML =
     codeHTML(original, true);
@@ -969,8 +1095,6 @@ function calculate() {
   document.getElementById("totalWeeksResult").textContent =
     (work + rest) + " أسبوع";
 
-  /* 9. عرض الجداول */
-
   renderCodePeriods(periods);
 
   buildTimeline(events);
@@ -987,40 +1111,40 @@ function calculate() {
   document.getElementById("results").style.display = "block";
 
   document.getElementById("results").scrollIntoView({
-    behavior: "smooth",
-    block: "start"
+    behavior:"smooth",
+    block:"start"
   });
 }
 
-/* =========================
-   رسائل الخطأ
-========================= */
+/* =====================================
+   9. رسائل الخطأ
+===================================== */
 
 function showError(message) {
-
   const box = document.getElementById("errorBox");
-
   box.textContent = message;
   box.style.display = "block";
 }
 
-/* =========================
-   إعادة الضبط
-========================= */
+/* =====================================
+   10. إعادة ضبط
+===================================== */
 
 function resetForm() {
 
   document.getElementById("originalCode").value = "1";
   document.getElementById("startDay").value = "Samedi";
-  document.getElementById("startDate").value = "2026-11-12";
-  document.getElementById("workWeeks").value = "5";
+  document.getElementById("startDate").value = "2026-11-13";
+  document.getElementById("workWeeks").value = "2";
   document.getElementById("restWeeks").value = "2";
 
   document.getElementById("results").style.display = "none";
   document.getElementById("errorBox").style.display = "none";
 }
 
-/* التشغيل عند فتح الصفحة */
+/* =====================================
+   11. التشغيل عند فتح الصفحة
+===================================== */
 
 window.addEventListener("DOMContentLoaded", calculate);
 
