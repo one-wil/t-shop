@@ -3,7 +3,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#075b43">
 <title>حاسبة نظام التناوب | SONATRACH × SAP</title>
 
@@ -33,7 +33,7 @@ header{
 }
 header h1{margin:0 0 8px;font-size:22px}
 header p{margin:0;color:#d8eee3;font-size:13px}
-.container{max-width:1050px;margin:20px auto;padding:0 12px}
+.container{max-width:1100px;margin:20px auto;padding:0 12px}
 .panel{
   background:white;
   border:1px solid var(--border);
@@ -97,7 +97,7 @@ button{
 .info strong{color:var(--green)}
 .summary{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
   gap:10px;
 }
 .box{
@@ -112,7 +112,7 @@ button{
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:620px;
+  min-width:650px;
   font-size:13px;
 }
 th{
@@ -141,19 +141,48 @@ tbody tr:nth-child(even){background:#f6faf7}
 .work{color:#08754e;font-weight:bold}
 .rest{color:#a36d19;font-weight:bold}
 .final-date{color:var(--green);font-weight:bold}
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:6px;
+  font-weight:bold;
+}
+.status.work{background:#e2f4e9}
+.status.rest{background:#fff2d8}
+.error{
+  background:#fff1f0;
+  border:1px solid #f1c5c1;
+  color:#a52a22;
+  border-radius:9px;
+  padding:12px;
+  margin-top:12px;
+  line-height:1.8;
+  font-size:13px;
+  display:none;
+}
+.success{
+  background:#eaf6ee;
+  border:1px solid #cce5d3;
+  color:#075b43;
+  border-radius:9px;
+  padding:13px;
+  margin-bottom:15px;
+  line-height:1.9;
+  font-size:13px;
+}
 .note{
   color:var(--muted);
   font-size:12px;
   line-height:1.9;
   margin-top:12px;
 }
-.error{color:#b42318;font-size:13px;margin-top:12px}
 footer{
   text-align:center;
   padding:20px;
   font-size:12px;
   color:var(--muted);
 }
+[hidden]{display:none!important}
 @media print{
   body{background:white}
   header{
@@ -173,24 +202,31 @@ footer{
 <header>
   <h1>حاسبة نظام التناوب</h1>
   <p>SONATRACH × SAP HR | PLAN DE ROULEMENT</p>
+  <p style="margin-top:8px">56 مجموعة فرعية — 8 مجموعات × 7 أيام</p>
 </header>
 
 <main class="container">
 
 <section class="panel no-print">
-  <h2>إدخال بيانات العامل</h2>
+  <h2>1. مرجع دورة المجموعات</h2>
 
   <div class="info">
-    <strong>طريقة الحساب:</strong><br>
-    يتم اعتماد تاريخ بداية العمل والترميز الأصلي كنقطة مرجعية.
-    تُحسب تغييرات الترميز أسبوعاً بعد أسبوع، ثم تتم مطابقة تاريخ العودة
-    مع موقع المجموعة في دورة التناوب.
+    أدخل تاريخ بداية الأسبوع الذي تكون فيه:
+    <br>R1 في الأسبوع الرابع من العمل.
+    <br>R2 في الأسبوع الثالث من العمل.
+    <br>R3 في الأسبوع الثاني من العمل.
+    <br>R4 في الأسبوع الأول من العمل.
+    <br>R5 إلى R8 في أسابيع الراحة الأربعة بالترتيب.
+    <br><strong>هذا التاريخ هو مرجع حساب المجموعات الثماني.</strong>
   </div>
 
   <div class="grid">
-
     <div>
-      <label for="day">يوم مجموعة التناوب</label>
+      <label for="referenceDate">تاريخ الأسبوع المرجعي</label>
+      <input type="date" id="referenceDate">
+    </div>
+    <div>
+      <label for="day">يوم مجموعة العامل</label>
       <select id="day">
         <option>Samedi</option>
         <option>Dimanche</option>
@@ -201,9 +237,15 @@ footer{
         <option>Vendredi</option>
       </select>
     </div>
+  </div>
+</section>
 
+<section class="panel no-print">
+  <h2>2. بيانات العامل والمدة المطلوبة</h2>
+
+  <div class="grid">
     <div>
-      <label for="original">الترميز الأصلي للعامل</label>
+      <label for="original">المجموعة الأصلية للعامل</label>
       <select id="original">
         <option value="1">R1</option>
         <option value="2">R2</option>
@@ -217,13 +259,13 @@ footer{
     </div>
 
     <div>
-      <label for="start">تاريخ بداية العمل</label>
-      <input type="date" id="start">
+      <label for="startDate">تاريخ بداية العمل الفعلي</label>
+      <input type="date" id="startDate">
     </div>
 
     <div>
-      <label for="work">مدة العمل</label>
-      <select id="work">
+      <label for="workWeeks">عدد أسابيع العمل المطلوبة</label>
+      <select id="workWeeks">
         <option value="1">أسبوع واحد</option>
         <option value="2">أسبوعان</option>
         <option value="3">3 أسابيع</option>
@@ -236,8 +278,8 @@ footer{
     </div>
 
     <div>
-      <label for="rest">مدة الراحة</label>
-      <select id="rest">
+      <label for="restWeeks">عدد أسابيع الراحة المطلوبة</label>
+      <select id="restWeeks">
         <option value="1">أسبوع واحد</option>
         <option value="2">أسبوعان</option>
         <option value="3">3 أسابيع</option>
@@ -248,12 +290,11 @@ footer{
         <option value="8">8 أسابيع</option>
       </select>
     </div>
-
   </div>
 
   <div class="buttons">
-    <button class="primary" onclick="calculate()">احسب النتائج</button>
-    <button class="secondary" onclick="window.print()">طباعة</button>
+    <button class="primary" onclick="calculate()">احسب التغيير</button>
+    <button class="secondary" onclick="window.print()">طباعة النتائج</button>
     <button class="secondary" onclick="resetForm()">إعادة ضبط</button>
   </div>
 
@@ -261,48 +302,67 @@ footer{
 </section>
 
 <section class="panel" id="resultPanel" hidden>
-  <h2>ملخص الحساب</h2>
+  <h2>3. نتيجة تغيير المجموعة</h2>
+  <div id="successMessage" class="success"></div>
   <div class="summary" id="summary"></div>
 </section>
 
-<section class="panel" id="timelinePanel" hidden>
-  <h2>سجل الترميزات: تاريخ البداية والنهاية</h2>
+<section class="panel" id="groupsPanel" hidden>
+  <h2>4. وضع المجموعات الثماني في تاريخ بداية العامل</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>المجموعة</th>
+          <th>يوم المجموعة</th>
+          <th>حالة المجموعة</th>
+          <th>الأسبوع الحالي</th>
+          <th>الأسابيع المتبقية</th>
+          <th>بداية العمل القادمة</th>
+        </tr>
+      </thead>
+      <tbody id="groupsBody"></tbody>
+    </table>
+  </div>
+</section>
 
+<section class="panel" id="assignmentPanel" hidden>
+  <h2>5. سجل تغيير المجموعة وصلاحية الترميز</h2>
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
           <th>رقم</th>
           <th>المجموعة</th>
-          <th>الترميز</th>
+          <th>يوم المجموعة</th>
           <th>تاريخ بداية الصلاحية</th>
           <th>تاريخ نهاية الصلاحية</th>
-          <th>المرحلة</th>
+          <th>سبب التغيير</th>
         </tr>
       </thead>
-      <tbody id="timeline"></tbody>
+      <tbody id="assignmentBody"></tbody>
     </table>
   </div>
-
   <p class="note">
-    ينتهي كل ترميز في اليوم السابق لبداية الترميز الموالي.
-    آخر ترميز في السجل تنتهي صلاحيته في 31/12/9999.
+    تاريخ نهاية الترميز السابق هو اليوم الذي يسبق بداية الترميز الجديد.
+    آخر ترميز يبقى سارياً إلى 31/12/9999.
   </p>
 </section>
 
-<section class="panel" id="detailsPanel" hidden>
-  <h2>فترات العمل والراحة</h2>
+<section class="panel" id="phasesPanel" hidden>
+  <h2>6. مراحل عمل العامل وراحته</h2>
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
           <th>المرحلة</th>
+          <th>المجموعة</th>
           <th>من تاريخ</th>
           <th>إلى تاريخ</th>
-          <th>الترميز</th>
+          <th>المدة</th>
         </tr>
       </thead>
-      <tbody id="details"></tbody>
+      <tbody id="phasesBody"></tbody>
     </table>
   </div>
 </section>
@@ -310,169 +370,364 @@ footer{
 </main>
 
 <footer>
-  SONATRACH × SAP HR<br>
-  BENAKRAB Ahcene
+  Société SONATRACH<br>
+  ERP SAP — Plan de Roulement<br>
+  Developer: BENAKRAB AHCENE
 </footer>
 
 <script>
-const LAST_DATE = "31/12/9999";
+const FINAL_DATE = new Date(9999,11,31,12,0,0);
+
+/*
+  تاريخ المرجع هو بداية الأسبوع الذي تكون فيه R4
+  في الأسبوع الأول من العمل، وR1 في الأسبوع الرابع.
+
+  بداية العمل لكل مجموعة نسبةً إلى تاريخ المرجع:
+
+  R1 = قبل 3 أسابيع
+  R2 = قبل أسبوعين
+  R3 = قبل أسبوع
+  R4 = تاريخ المرجع
+  R5 = قبل 7 أسابيع
+  R6 = قبل 6 أسابيع
+  R7 = قبل 5 أسابيع
+  R8 = قبل 4 أسابيع
+
+  كل مجموعة: 28 يوماً عمل + 28 يوماً راحة.
+*/
+
+const GROUP_OFFSETS = {
+  1:-3,
+  2:-2,
+  3:-1,
+  4:0,
+  5:-7,
+  6:-6,
+  7:-5,
+  8:-4
+};
 
 function parseDate(value){
-  const [y,m,d] = value.split("-").map(Number);
-  return new Date(y,m-1,d,12,0,0);
+  const parts=value.split("-").map(Number);
+  return new Date(parts[0],parts[1]-1,parts[2],12,0,0);
 }
 
 function addDays(date,days){
-  const result = new Date(date);
-  result.setDate(result.getDate()+days);
-  return result;
+  const d=new Date(date);
+  d.setDate(d.getDate()+days);
+  return d;
+}
+
+function daysBetween(a,b){
+  return Math.round((b-a)/86400000);
 }
 
 function formatDate(date){
-  return String(date.getDate()).padStart(2,"0") + "/" +
-         String(date.getMonth()+1).padStart(2,"0") + "/" +
-         date.getFullYear();
+  return String(date.getDate()).padStart(2,"0")+"/"+
+    String(date.getMonth()+1).padStart(2,"0")+"/"+
+    date.getFullYear();
 }
 
-function codeName(number){
+function groupName(number){
   return "R"+number;
 }
 
-function nextCode(number){
-  return number % 8 + 1;
+function showError(message){
+  const box=document.getElementById("error");
+  box.textContent=message;
+  box.style.display="block";
 }
 
-function escapeHTML(value){
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  })[char]);
+function clearError(){
+  const box=document.getElementById("error");
+  box.textContent="";
+  box.style.display="none";
+}
+
+function getGroupWorkStart(group,reference){
+  return addDays(reference,GROUP_OFFSETS[group]*7);
+}
+
+/*
+  حساب حالة مجموعة في أي تاريخ.
+  الدورة 56 يوماً:
+  الأيام 0 إلى 27 = عمل.
+  الأيام 28 إلى 55 = راحة.
+*/
+function getGroupState(group,date,reference){
+
+  const workStart=getGroupWorkStart(group,reference);
+  const totalDays=daysBetween(workStart,date);
+
+  const position=((totalDays%56)+56)%56;
+
+  if(position<28){
+    const elapsed=position;
+    const remaining=28-position;
+
+    return {
+      state:"عمل",
+      week:Math.floor(elapsed/7)+1,
+      remainingDays:remaining,
+      remainingWeeks:remaining/7,
+      nextWorkStart:date
+    };
+  }
+
+  const elapsedRest=position-28;
+  const remaining=28-elapsedRest;
+
+  const nextWorkStart=addDays(date,remaining);
+
+  return {
+    state:"راحة",
+    week:Math.floor(elapsedRest/7)+1,
+    remainingDays:remaining,
+    remainingWeeks:remaining/7,
+    nextWorkStart:nextWorkStart
+  };
+}
+
+/*
+  البحث عن مجموعة متوافقة تماماً مع المطلوب.
+
+  عند تمديد العمل:
+  نبحث عن مجموعة في العمل بقي لها 4 أسابيع كاملة.
+
+  عند تقليص العمل:
+  نبحث عن مجموعة في الراحة بقي لها عدد أسابيع الراحة المطلوب.
+*/
+function findMatchingGroup(date,desiredState,remainingWeeks,reference){
+
+  const matches=[];
+
+  for(let group=1;group<=8;group++){
+    const info=getGroupState(group,date,reference);
+
+    if(
+      info.state===desiredState &&
+      info.remainingDays===remainingWeeks*7
+    ){
+      matches.push({
+        group,
+        info
+      });
+    }
+  }
+
+  return matches;
+}
+
+function hideResults(){
+  [
+    "resultPanel",
+    "groupsPanel",
+    "assignmentPanel",
+    "phasesPanel"
+  ].forEach(id=>{
+    document.getElementById(id).hidden=true;
+  });
 }
 
 function calculate(){
 
-  const error = document.getElementById("error");
-  error.textContent = "";
+  clearError();
+  hideResults();
 
-  const day = document.getElementById("day").value;
-  const original = Number(document.getElementById("original").value);
-  const startValue = document.getElementById("start").value;
-  const work = Number(document.getElementById("work").value);
-  const rest = Number(document.getElementById("rest").value);
+  const referenceValue=document.getElementById("referenceDate").value;
+  const startValue=document.getElementById("startDate").value;
 
-  if(!startValue){
-    error.textContent = "يرجى إدخال تاريخ بداية العمل.";
+  if(!referenceValue){
+    showError("يرجى إدخال تاريخ الأسبوع المرجعي للمجموعات.");
     return;
   }
 
-  const start = parseDate(startValue);
+  if(!startValue){
+    showError("يرجى إدخال تاريخ بداية العمل الفعلي للعامل.");
+    return;
+  }
 
-  if(isNaN(start.getTime())){
-    error.textContent = "تاريخ البداية غير صالح.";
+  const reference=parseDate(referenceValue);
+  const start=parseDate(startValue);
+
+  const day=document.getElementById("day").value;
+  const original=Number(document.getElementById("original").value);
+  const work=Number(document.getElementById("workWeeks").value);
+  const rest=Number(document.getElementById("restWeeks").value);
+
+  if(start<new Date(1900,0,1)){
+    showError("تاريخ البداية غير صالح.");
     return;
   }
 
   /*
-    نموذج الدورة المعتمد في هذه النسخة:
-
-    - كل رمز يمثل موقعاً أسبوعياً في دورة من 8 أسابيع.
-    - R1 هو الأسبوع المرجعي الأول.
-    - R2 يأتي بعده بأسبوع.
-    - R3 بعد أسبوعين...
-    - R5 بعد أربعة أسابيع من R1.
-    - بعد R8 تعود الدورة إلى R1.
-
-    يتم اشتقاق مرجع R1 من تاريخ بداية العامل ورمزه الأصلي.
+    التأكد من أن العامل يبدأ مع مجموعته الأصلية
+    في بداية أسبوع عمل كامل.
   */
+  const originalState=getGroupState(original,start,reference);
 
-  const anchor = addDays(start, -(original-1)*7);
-
-  function codeAtDate(date){
-    const days = Math.floor(
-      (date.getTime()-anchor.getTime())/86400000
+  if(originalState.state!=="عمل"){
+    showError(
+      "تنبيه: المجموعة الأصلية "+groupName(original)+
+      " ليست في فترة العمل بتاريخ البداية المدخل، بل في فترة الراحة. "+
+      "يرجى مراجعة التاريخ المرجعي أو تاريخ بداية العامل."
     );
-
-    const week = Math.floor(days/7);
-    return ((week%8)+8)%8+1;
+    return;
   }
 
-  const restStart = addDays(start,work*7);
-  const returnDate = addDays(start,(work+rest)*7);
-  const lastWorkDay = addDays(restStart,-1);
-  const lastRestDay = addDays(returnDate,-1);
+  if(originalState.remainingDays!==28){
+    showError(
+      "تاريخ بداية العامل ليس بداية دورة عمل كاملة للمجموعة "+
+      groupName(original)+". بقي للمجموعة "+
+      originalState.remainingDays+" يوم عمل فقط. "+
+      "يرجى إدخال تاريخ بداية أسبوع العمل الصحيح."
+    );
+    return;
+  }
 
-  // بناء مراحل العامل أسبوعاً بأسبوع
-  const periods = [];
+  const workEnd=addDays(start,work*7-1);
+  const restStart=addDays(start,work*7);
+  const restEnd=addDays(restStart,rest*7-1);
+  const returnDate=addDays(restEnd,1);
 
-  for(let week=0; week<work+rest; week++){
+  let transferDate;
+  let targetGroup;
+  let targetReason;
+  let targetState;
 
-    const periodStart = addDays(start,week*7);
-    const periodEnd = addDays(periodStart,6);
+  if(work>4){
 
-    const isWork = week < work;
-    const code = codeAtDate(periodStart);
+    /*
+      مثال: 5 أسابيع عمل.
+      يعمل أسبوعاً واحداً مع R1.
+      ثم يبحث عن مجموعة بدأت العمل في ذلك التاريخ
+      ولديها أربعة أسابيع عمل كاملة.
+    */
 
-    periods.push({
-      start:periodStart,
-      end:periodEnd,
-      code:code,
-      type:isWork ? "عمل" : "راحة"
+    transferDate=addDays(start,(work-4)*7);
+
+    const matches=findMatchingGroup(
+      transferDate,
+      "عمل",
+      4,
+      reference
+    );
+
+    if(matches.length===0){
+      showError(
+        "لم نعثر على مجموعة لديها أربعة أسابيع عمل كاملة في تاريخ "+
+        formatDate(transferDate)+
+        ". لا يمكن اعتماد تغيير المجموعة بهذه المعطيات."
+      );
+      return;
+    }
+
+    const chosen=matches.find(x=>x.group!==original) || matches[0];
+    targetGroup=chosen.group;
+    targetState=chosen.info;
+    targetReason="الالتحاق بمجموعة لديها 4 أسابيع عمل متبقية";
+
+  }else{
+
+    /*
+      مثال: 3 أسابيع عمل.
+      بعد إتمام الأسابيع الثلاثة، نبحث عن مجموعة
+      بقي لها بالضبط 3 أسابيع راحة قبل العمل.
+    */
+
+    transferDate=restStart;
+
+    const matches=findMatchingGroup(
+      transferDate,
+      "راحة",
+      rest,
+      reference
+    );
+
+    if(matches.length===0){
+      showError(
+        "لم نعثر على مجموعة لديها "+rest+
+        " أسابيع راحة كاملة متبقية بتاريخ "+
+        formatDate(transferDate)+
+        ". لا يمكن اعتماد تغيير المجموعة بهذه المعطيات."
+      );
+      return;
+    }
+
+    const chosen=matches.find(x=>x.group!==original) || matches[0];
+    targetGroup=chosen.group;
+    targetState=chosen.info;
+    targetReason="الالتحاق بمجموعة لديها "+rest+" أسابيع راحة متبقية";
+  }
+
+  /*
+    إنشاء سجل صلاحية الترميز.
+
+    إذا كان العمل أكثر من 4 أسابيع:
+    - المجموعة الأصلية من البداية إلى ما قبل النقل.
+    - المجموعة الجديدة من تاريخ النقل إلى 9999.
+
+    إذا كان العمل 4 أسابيع أو أقل:
+    - المجموعة الأصلية من البداية إلى آخر يوم عمل.
+    - المجموعة الجديدة من بداية الراحة إلى 9999.
+  */
+
+  let records=[];
+
+  if(work>4){
+
+    records.push({
+      group:original,
+      from:start,
+      to:addDays(transferDate,-1),
+      reason:"المجموعة الأصلية"
+    });
+
+    records.push({
+      group:targetGroup,
+      from:transferDate,
+      to:null,
+      reason:targetReason
+    });
+
+  }else{
+
+    records.push({
+      group:original,
+      from:start,
+      to:addDays(restStart,-1),
+      reason:"المجموعة الأصلية"
+    });
+
+    records.push({
+      group:targetGroup,
+      from:restStart,
+      to:null,
+      reason:targetReason
     });
   }
 
-  // تاريخ العودة: نطابقه مع جدول المجموعات
-  const returnCode = codeAtDate(returnDate);
+  /*
+    عرض ملخص النتيجة
+  */
+  document.getElementById("successMessage").innerHTML=
+    "تم العثور على المجموعة المتوافقة مع المدة المطلوبة."+
+    "<br>المجموعة الأصلية: <strong>"+groupName(original)+"</strong>"+
+    "<br>المجموعة الجديدة: <strong>"+groupName(targetGroup)+"</strong>"+
+    "<br>تاريخ بداية تغيير المجموعة: <strong>"+formatDate(transferDate)+"</strong>";
 
-  // سجل الصلاحية: كل تغيير أسبوعي يحدد نهاية الترميز السابق
-  const records = periods.map(period => ({
-    start:period.start,
-    end:period.end,
-    code:period.code,
-    type:period.type
-  }));
-
-  // إضافة الترميز الذي يلتحق به العامل عند العودة
-  records.push({
-    start:returnDate,
-    end:null,
-    code:returnCode,
-    type:"الترميز بعد العودة"
-  });
-
-  // دمج الفترات المتتالية التي تحمل الرمز نفسه
-  const merged = [];
-
-  for(const record of records){
-    const previous = merged[merged.length-1];
-
-    if(
-      previous &&
-      previous.code === record.code &&
-      previous.type === record.type &&
-      previous.end &&
-      addDays(previous.end,1).getTime() === record.start.getTime()
-    ){
-      previous.end = record.end;
-    }else{
-      merged.push({...record});
-    }
-  }
-
-  // إذا تكرر الرمز في فترتين متتاليتين لكن تغيرت المرحلة،
-  // نُبقيهما كسجلين منفصلين حتى يظهر نوع المرحلة بوضوح.
-
-  // عرض الملخص
-  document.getElementById("summary").innerHTML = `
+  document.getElementById("summary").innerHTML=`
     <div class="box">
-      <small>مجموعة التناوب</small>
-      <b>${escapeHTML(day)}</b>
+      <small>يوم المجموعة</small>
+      <b>${day}</b>
     </div>
     <div class="box">
-      <small>الترميز الأصلي</small>
-      <b>${codeName(original)}</b>
+      <small>المجموعة الأصلية</small>
+      <b>${groupName(original)}</b>
+    </div>
+    <div class="box">
+      <small>المجموعة الجديدة</small>
+      <b>${groupName(targetGroup)}</b>
     </div>
     <div class="box">
       <small>بداية العمل</small>
@@ -480,7 +735,7 @@ function calculate(){
     </div>
     <div class="box">
       <small>نهاية العمل</small>
-      <b>${formatDate(lastWorkDay)}</b>
+      <b>${formatDate(workEnd)}</b>
     </div>
     <div class="box">
       <small>بداية الراحة</small>
@@ -488,87 +743,118 @@ function calculate(){
     </div>
     <div class="box">
       <small>نهاية الراحة</small>
-      <b>${formatDate(lastRestDay)}</b>
+      <b>${formatDate(restEnd)}</b>
     </div>
     <div class="box">
       <small>تاريخ العودة</small>
       <b>${formatDate(returnDate)}</b>
     </div>
-    <div class="box">
-      <small>الترميز عند العودة</small>
-      <b>${codeName(returnCode)}</b>
-    </div>
   `;
 
-  // جدول صلاحية الترميزات
-  const timelineBody = document.getElementById("timeline");
-  timelineBody.innerHTML = "";
+  /*
+    عرض جدول المجموعات الثماني في تاريخ البداية
+  */
+  const groupsBody=document.getElementById("groupsBody");
+  groupsBody.innerHTML="";
 
-  merged.forEach((record,index)=>{
-    const endDate = index === merged.length-1
-      ? LAST_DATE
-      : formatDate(record.end);
+  for(let group=1;group<=8;group++){
 
-    const tr = document.createElement("tr");
+    const info=getGroupState(group,start,reference);
 
-    tr.innerHTML = `
-      <td>${index+1}</td>
-      <td>${escapeHTML(day)}</td>
-      <td><span class="code">${codeName(record.code)}</span></td>
-      <td>${formatDate(record.start)}</td>
-      <td class="${index===merged.length-1?'final-date':''}">${endDate}</td>
-      <td class="${record.type==='عمل'?'work':record.type==='راحة'?'rest':''}">
-        ${escapeHTML(record.type)}
+    const tr=document.createElement("tr");
+
+    const nextWork=info.state==="عمل"
+      ? "المجموعة تعمل الآن"
+      : formatDate(info.nextWorkStart);
+
+    tr.innerHTML=`
+      <td><span class="code">${groupName(group)}</span></td>
+      <td>${day}</td>
+      <td>
+        <span class="status ${info.state==="عمل"?"work":"rest"}">
+          ${info.state}
+        </span>
       </td>
+      <td>${info.week}</td>
+      <td>${info.remainingWeeks} أسبوع</td>
+      <td>${nextWork}</td>
     `;
 
-    timelineBody.appendChild(tr);
-  });
-
-  // جدول فترات العمل والراحة
-  const detailBody = document.getElementById("details");
-  detailBody.innerHTML = "";
-
-  const workRecords = periods.filter(p=>p.type==="عمل");
-  const restRecords = periods.filter(p=>p.type==="راحة");
-
-  function addDetail(name,items,type){
-    if(!items.length) return;
-
-    const first = items[0];
-    const last = items[items.length-1];
-
-    const codes = [...new Set(items.map(p=>p.code))]
-      .map(codeName)
-      .join(" ← ");
-
-    const tr = document.createElement("tr");
-
-    tr.innerHTML = `
-      <td>${name}</td>
-      <td>${formatDate(first.start)}</td>
-      <td>${formatDate(last.end)}</td>
-      <td><span class="code">${codes}</span></td>
-    `;
-
-    detailBody.appendChild(tr);
+    groupsBody.appendChild(tr);
   }
 
-  addDetail("فترة العمل",workRecords);
-  addDetail("فترة الراحة",restRecords);
+  /*
+    عرض سجل صلاحية الترميز
+  */
+  const assignmentBody=document.getElementById("assignmentBody");
+  assignmentBody.innerHTML="";
 
-  const returnRow = document.createElement("tr");
-  returnRow.innerHTML = `
-    <td>العودة إلى العمل</td>
-    <td>${formatDate(returnDate)}</td>
-    <td>${LAST_DATE}</td>
-    <td><span class="code">${codeName(returnCode)}</span></td>
-  `;
-  detailBody.appendChild(returnRow);
+  records.forEach((record,index)=>{
 
-  document.getElementById("resultPanel").hidden = false;
-  document.getElementById("timelinePanel").hidden = false;
-  document.getElementById("detailsPanel").hidden = false;
+    const end=record.to ? formatDate(record.to) : "31/12/9999";
+
+    const tr=document.createElement("tr");
+
+    tr.innerHTML=`
+      <td>${index+1}</td>
+      <td><span class="code">${groupName(record.group)}</span></td>
+      <td>${day}</td>
+      <td>${formatDate(record.from)}</td>
+      <td class="${record.to===null?"final-date":""}">${end}</td>
+      <td>${record.reason}</td>
+    `;
+
+    assignmentBody.appendChild(tr);
+  });
+
+  /*
+    عرض مراحل العمل والراحة
+  */
+  const phasesBody=document.getElementById("phasesBody");
+  phasesBody.innerHTML="";
+
+  const phases=[
+    {
+      name:"فترة العمل",
+      group:original,
+      from:start,
+      to:workEnd,
+      weeks:work
+    },
+    {
+      name:"فترة الراحة",
+      group:targetGroup,
+      from:restStart,
+      to:restEnd,
+      weeks:rest
+    },
+    {
+      name:"العودة إلى العمل",
+      group:targetGroup,
+      from:returnDate,
+      to:null,
+      weeks:"مستمرة"
+    }
+  ];
+
+  phases.forEach(phase=>{
+    const tr=document.createElement("tr");
+
+    tr.innerHTML=`
+      <td>${phase.name}</td>
+      <td><span class="code">${groupName(phase.group)}</span></td>
+      <td>${formatDate(phase.from)}</td>
+      <td>${phase.to?formatDate(phase.to):"31/12/9999"}</td>
+      <td>${phase.weeks}</td>
+    `;
+
+    phasesBody.appendChild(tr);
+  });
+
+  document.getElementById("resultPanel").hidden=false;
+  document.getElementById("groupsPanel").hidden=false;
+  document.getElementById("assignmentPanel").hidden=false;
+  document.getElementById("phasesPanel").hidden=false;
 
   document.getElementById("resultPanel").scrollIntoView({
     behavior:"smooth",
@@ -577,26 +863,29 @@ function calculate(){
 }
 
 function resetForm(){
-  document.getElementById("day").value="Samedi";
-  document.getElementById("original").value="1";
-  document.getElementById("work").value="4";
-  document.getElementById("rest").value="4";
 
-  const today = new Date();
-  document.getElementById("start").value =
+  const today=new Date();
+
+  const value=
     today.getFullYear()+"-"+
     String(today.getMonth()+1).padStart(2,"0")+"-"+
     String(today.getDate()).padStart(2,"0");
 
-  document.getElementById("resultPanel").hidden = true;
-  document.getElementById("timelinePanel").hidden = true;
-  document.getElementById("detailsPanel").hidden = true;
-  document.getElementById("error").textContent="";
+  document.getElementById("referenceDate").value="";
+  document.getElementById("startDate").value=value;
+  document.getElementById("day").value="Samedi";
+  document.getElementById("original").value="1";
+  document.getElementById("workWeeks").value="4";
+  document.getElementById("restWeeks").value="4";
+
+  clearError();
+  hideResults();
 }
 
-(function setDefaultDate(){
-  const today = new Date();
-  document.getElementById("start").value =
+(function init(){
+  const today=new Date();
+
+  document.getElementById("startDate").value=
     today.getFullYear()+"-"+
     String(today.getMonth()+1).padStart(2,"0")+"-"+
     String(today.getDate()).padStart(2,"0");
