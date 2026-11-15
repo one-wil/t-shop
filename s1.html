@@ -1,658 +1,481 @@
-
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="zh-CN" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#075b43">
-<title>SH-ONE | ERP-SAP | Plan de Roulement</title>
-
+<meta name="theme-color" content="#f58220">
+<title>SH-ONE | ERP-SAP | 轮班计划</title>
 <style>
 :root{
- --green:#075b43;
- --green2:#0b7657;
- --light:#eaf5ef;
- --gold:#d6aa45;
- --red:#b83232;
- --text:#18352b;
- --muted:#687b73;
- --border:#dce8e1;
- --burgundy:#681d36;
- --rose:#f1e1e6;
- --blue:#07549a;
+ --orange:#f58220;--green:#075b43;--green2:#0b7657;--light:#eaf5ef;
+ --gold:#d6aa45;--red:#b83232;--text:#18352b;--muted:#687b73;
+ --border:#dce8e1;--blue:#07549a;
 }
 *{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,Tahoma,sans-serif;
- background:#f3f7f4;
- color:var(--text);
-}
+body{margin:0;font-family:Arial,Tahoma,"Microsoft YaHei","Noto Sans CJK SC",sans-serif;background:#f3f7f4;color:var(--text)}
 .brand-header{padding:17px 12px 12px;text-align:center}
-.product-box{
- max-width:650px;margin:9px auto 0;padding:18px 13px;
- border-radius:14px;background:linear-gradient(135deg,#063c70,#0873b8);
- color:white;box-shadow:0 5px 16px #07549a25;
-}
+.product-box{max-width:650px;margin:9px auto 0;padding:18px 13px;border-radius:14px;background:transparent;color:#000;box-shadow:none}
+.sonatrach-name{color:#000;font-size:34px;font-weight:900;letter-spacing:2px;margin:0 0 15px}
+.product-info{background:linear-gradient(135deg,#063c70,#0873b8);color:white;border-radius:10px;padding:15px 10px}
 .product-name{font-size:25px;font-weight:900;letter-spacing:2px;margin:0}
 .product-erp{font-size:16px;font-weight:bold;letter-spacing:3px;margin-top:5px}
 .product-caption{font-size:15px;color:#e2f1ff;margin-top:10px;letter-spacing:1px;font-weight:bold}
 .container{max-width:1100px;margin:15px auto;padding:0 12px}
-.card{
- background:white;border:1px solid var(--border);border-radius:15px;
- padding:18px;margin-bottom:16px;box-shadow:0 8px 25px rgba(0,50,30,.07);
-}
-.card h2{
- color:var(--green);font-size:17px;margin:0 0 16px;
- padding-bottom:10px;border-bottom:1px solid var(--border);
-}
+.card{background:white;border:1px solid var(--border);border-radius:15px;padding:18px;margin-bottom:16px;box-shadow:0 8px 25px rgba(0,50,30,.07)}
+.card h2{color:var(--green);font-size:17px;margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}
 .field label{display:block;font-size:13px;font-weight:bold;margin-bottom:7px}
-input,select{
- width:100%;padding:12px;border:1px solid #cbdcd2;border-radius:9px;
- background:white;color:var(--text);font-size:14px;outline:none;
-}
+input,select{width:100%;padding:12px;border:1px solid #cbdcd2;border-radius:9px;background:white;color:var(--text);font-size:14px;outline:none}
 input:focus,select:focus{border-color:var(--green2);box-shadow:0 0 0 3px #0b76571a}
 .hint{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.7}
 .actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
-button{
- border:0;border-radius:9px;padding:12px 18px;cursor:pointer;
- font-weight:bold;font-size:13px;
-}
-.primary{background:var(--green);color:white}
-.secondary{background:#e7f1eb;color:var(--green)}
-.gold{background:#f5e8c8;color:#70500d}
-.danger{background:#fae8e8;color:var(--red)}
-.blue-btn{background:var(--blue);color:white}
-button:hover{filter:brightness(.96)}
+button{border:0;border-radius:9px;padding:12px 18px;cursor:pointer;font-weight:bold;font-size:13px}
+.primary{background:var(--green);color:white}.secondary{background:#e7f1eb;color:var(--green)}
+.gold{background:#f5e8c8;color:#70500d}.danger{background:#fae8e8;color:var(--red)}
+.blue-btn{background:var(--blue);color:white}button:hover{filter:brightness(.96)}
 .notice{padding:12px;border-radius:9px;font-size:13px;line-height:1.9;margin-top:12px}
-.notice.info{background:#edf5f0;color:#245541}
-.notice.error{background:#fff0f0;color:#a32929}
+.notice.info{background:#edf5f0;color:#245541}.notice.error{background:#fff0f0;color:#a32929}
 .notice.success{background:#e8f6ed;color:#17613d}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;min-width:650px;font-size:13px}
 th,td{border:1px solid var(--border);padding:11px 9px;text-align:center;white-space:nowrap}
-th{background:#eaf3ed;color:var(--green)}
-tr:nth-child(even) td{background:#fafcfb}
+th{background:#eaf3ed;color:var(--green)}tr:nth-child(even) td{background:#fafcfb}
 .status{display:inline-block;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:bold}
-.status.work{background:#e1f4e8;color:#087344}
-.status.rest{background:#fff0d7;color:#a66a13}
+.status.work{background:#e1f4e8;color:#087344}.status.rest{background:#fff0d7;color:#a66a13}
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-top:15px}
 .stat{padding:14px;border-radius:11px;background:#f0f6f2;text-align:center}
-.stat small{display:block;color:var(--muted);margin-bottom:7px}
-.stat strong{font-size:16px;color:var(--green)}
+.stat small{display:block;color:var(--muted);margin-bottom:7px}.stat strong{font-size:16px;color:var(--green)}
 .segment{border-left:4px solid var(--green2);background:#f5f9f6;border-radius:8px;padding:13px;margin:10px 0;line-height:1.9;font-size:13px}
-.segment.rest-segment{border-color:var(--gold)}
-.empty{color:var(--muted);text-align:center;padding:20px;font-size:13px}
+.segment.rest-segment{border-color:var(--gold)}.empty{color:var(--muted);text-align:center;padding:20px;font-size:13px}
 .mini-title{font-size:14px;color:var(--green);font-weight:bold;margin:0 0 10px}
 .code-summary{background:#f3f8f4;border:1px solid var(--border);border-radius:11px;padding:13px;margin-bottom:13px}
 .last-code td{background:#e8f6ed!important;color:#17613d;font-weight:bold}
 footer{text-align:center;padding:22px 10px;color:#63766d;font-size:11px;line-height:2}
 footer strong{color:var(--green)}
-
-/* FENÊTRE D'APERÇU */
-.preview-overlay{
- display:none;position:fixed;inset:0;z-index:9999;
- background:rgba(12,28,22,.78);padding:12px;
-}
-.preview-overlay.open{
- display:flex;align-items:center;justify-content:center;
-}
-.preview-window{
- width:100%;max-width:1000px;height:95vh;
- background:#f3f5f4;border-radius:15px;
- display:flex;flex-direction:column;overflow:hidden;
- box-shadow:0 15px 50px #0005;
-}
-.preview-toolbar{
- display:flex;align-items:center;justify-content:space-between;
- flex-wrap:wrap;gap:10px;padding:12px 16px;
- background:#075b43;color:white;
-}
-.preview-toolbar strong{font-size:14px}
-.preview-toolbar .actions{margin:0}
-.preview-content{
- flex:1;overflow:auto;padding:20px;
-}
-.preview-paper{
- background:white;max-width:850px;min-height:500px;
- margin:auto;padding:30px;
- box-shadow:0 2px 14px #0001;
- color:#18352b;
-}
-.preview-paper h1{
- text-align:center;color:var(--burgundy);font-size:25px;
-}
-.preview-paper h2{
- color:var(--green);font-size:17px;
- border-bottom:1px solid #dce8e1;padding-bottom:8px;
-}
-.preview-paper .preview-product{
- text-align:center;background:#07549a;color:white;
- padding:16px;border-radius:8px;margin-bottom:22px;
-}
+.cycle-option{margin-top:15px;padding:14px;border:1px solid var(--border);border-radius:11px;background:#f7faf8}
+.cycle-option-title{font-size:13px;font-weight:bold;color:var(--green);margin-bottom:11px}
+.cycle-choice{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;font-weight:bold;color:var(--text)}
+.cycle-choice input{width:19px;height:19px;accent-color:var(--green);cursor:pointer}
+.cycle-description{margin-top:10px;padding:10px;border-radius:8px;background:#eaf3ed;color:var(--green);font-size:13px;font-weight:bold}
+.cycle-description.active{background:#e9f1fc;color:#07549a}
+.preview-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(12,28,22,.78);padding:12px}
+.preview-overlay.open{display:flex;align-items:center;justify-content:center}
+.preview-window{width:100%;max-width:1000px;height:95vh;background:#f3f5f4;border-radius:15px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 15px 50px #0005}
+.preview-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:12px 16px;background:#075b43;color:white}
+.preview-toolbar strong{font-size:14px}.preview-toolbar .actions{margin:0}
+.preview-content{flex:1;overflow:auto;padding:20px}
+.preview-paper{background:white;max-width:850px;min-height:500px;margin:auto;padding:30px;box-shadow:0 2px 14px #0001;color:#18352b}
+.preview-paper h1{text-align:center;color:var(--green);font-size:25px}
+.preview-paper h2{color:var(--green);font-size:17px;border-bottom:1px solid #dce8e1;padding-bottom:8px}
+.preview-paper .preview-product{text-align:center;background:transparent;color:#000;padding:16px;border-radius:8px;margin-bottom:22px}
+.preview-paper .preview-product .preview-info{background:#07549a;color:white;border-radius:8px;padding:13px;margin-top:12px}
 .preview-paper table{min-width:0;width:100%;font-size:11px}
-.preview-paper th,.preview-paper td{
- padding:8px 5px;white-space:normal;
-}
+.preview-paper th,.preview-paper td{padding:8px 5px;white-space:normal}
 .preview-paper .segment{break-inside:avoid}
-.preview-footer{
- text-align:center;font-size:10px;color:#65776e;
- margin-top:25px;border-top:1px solid #ddd;padding-top:12px;
-}
+.preview-footer{text-align:center;font-size:10px;color:#65776e;margin-top:25px;border-top:1px solid #ddd;padding-top:12px}
 @media(max-width:600px){
- .product-name{font-size:22px}
- .product-caption{font-size:13px}
- .card{padding:13px}
- .actions button{flex:1}
- .preview-overlay{padding:5px}
- .preview-window{height:98vh}
- .preview-paper{padding:14px}
- .preview-content{padding:8px}
- .preview-toolbar{padding:10px}
+ .sonatrach-name{font-size:29px}.product-name{font-size:22px}.product-caption{font-size:13px}
+ .card{padding:13px}.actions button{flex:1}.preview-overlay{padding:5px}
+ .preview-window{height:98vh}.preview-paper{padding:14px}.preview-content{padding:8px}.preview-toolbar{padding:10px}
 }
+@page{size:A4 landscape;margin:7mm}
 @media print{
- body{background:white}
- .no-print,.preview-toolbar{display:none!important}
- .preview-overlay{display:block!important;position:static;padding:0;background:white}
- .preview-window{height:auto;max-width:none;box-shadow:none;border-radius:0}
- .preview-content{overflow:visible;padding:0}
- .preview-paper{max-width:none;box-shadow:none;padding:10mm}
+ html,body{width:100%;height:auto;margin:0!important;padding:0!important;background:#fff!important}
+ body>*:not(#previewOverlay){display:none!important}
+ #previewOverlay{display:block!important;position:static!important;inset:auto!important;padding:0!important;margin:0!important;background:#fff!important}
+ .preview-window{display:block!important;width:100%!important;height:auto!important;max-width:none!important;overflow:visible!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:#fff!important}
+ .preview-toolbar{display:none!important}
+ .preview-content{display:block!important;overflow:visible!important;padding:0!important;margin:0!important}
+ .preview-paper{display:block!important;width:100%!important;max-width:none!important;min-height:0!important;margin:0!important;padding:0!important;box-shadow:none!important;color:#14251e!important}
+ .print-sheet-title{font-size:18px!important;margin:0 0 3mm!important}
+ .print-meta{display:flex;flex-wrap:wrap;gap:3mm 8mm;margin:0 0 3mm;padding:2mm 3mm;background:#f1f6f3;border:1px solid #d7e4dc;border-radius:2mm;font-size:9pt}
+ .print-plan-table{width:100%!important;min-width:0!important;border-collapse:collapse!important;font-size:8.5pt!important}
+ .print-plan-table th,.print-plan-table td{padding:1.5mm 2mm!important;white-space:normal!important;border:1px solid #cbd8d0!important}
+ .print-plan-table th{background:#e8f1eb!important}
+ .print-section{margin:2mm 0 1.5mm!important;font-size:10pt!important;color:#075b43!important}
+ .print-final{margin-top:2mm;padding:2mm 3mm;border:1px solid #cbd8d0;border-radius:2mm;font-size:8.5pt}
+ .preview-footer{margin-top:2mm;padding-top:1.5mm;font-size:7.5pt}
+ tr,.print-meta,.print-final{break-inside:avoid}
 }
 </style>
 </head>
-
 <body>
-
 <header class="brand-header">
  <div class="product-box">
-  <div class="product-name">SH-ONE</div>
-  <div class="product-erp">ERP-SAP</div>
-  <div class="product-caption">PLAN DE ROULEMENT</div>
+  <div class="sonatrach-name">SONATRACH</div>
+  <div class="product-info"><div class="product-name">SH-ONE</div><div class="product-erp">ERP-SAP</div><div class="product-caption">轮班计划</div></div>
  </div>
 </header>
-
 <div class="container">
-
 <section class="card">
- <h2>1. Paramètres de référence du système</h2>
- <div class="notice info">
-  Sélectionnez un seul groupe de référence et indiquez la date de début
-  de sa première semaine de travail. Le système déterminera automatiquement
-  la situation des huit groupes.
-  <br><strong>Cycle de rotation :</strong> 4 semaines de travail + 4 semaines de repos.
+ <h2>1. 系统基准参数</h2>
+ <div class="notice info">请选择一个基准班组，并输入该班组第一个工作周的开始日期。系统将自动计算八个班组的状态。</div>
+ <div class="cycle-option">
+  <div class="cycle-option-title">轮班周期选择</div>
+  <label class="cycle-choice"><input type="checkbox" id="cycle2927">启用 29 天工作 / 27 天休息周期</label>
+  <div id="cycleDescription" class="cycle-description">当前周期：工作 28 天 + 休息 28 天</div>
+  <div class="hint">未勾选：标准 28/28 周期。勾选：替代 29/27 周期。所选周期适用于全部八个班组。</div>
  </div>
  <div class="grid" style="margin-top:15px">
-  <div class="field">
-   <label>Groupe de référence</label>
-   <select id="referenceGroup">
-    <option value="1">R1</option><option value="2">R2</option>
-    <option value="3" selected>R3</option><option value="4">R4</option>
-    <option value="5">R5</option><option value="6">R6</option>
-    <option value="7">R7</option><option value="8">R8</option>
-   </select>
-  </div>
-  <div class="field">
-   <label>Date de début de la première semaine de travail</label>
-   <input type="date" id="referenceDate">
-   <div class="hint">Date de référence du groupe sélectionné uniquement.</div>
-  </div>
-  <div class="field">
-   <label>Jour de relève</label>
-   <select id="referenceDay">
-    <option value="6">Samedi</option><option value="0">Dimanche</option>
-    <option value="1">Lundi</option><option value="2">Mardi</option>
-    <option value="3">Mercredi</option><option value="4">Jeudi</option>
-    <option value="5">Vendredi</option>
-   </select>
-  </div>
-  <div class="field">
-   <label>Date de consultation</label>
-   <input type="date" id="checkDate">
-  </div>
+  <div class="field"><label>基准班组</label><select id="referenceGroup">
+   <option value="1">R1</option><option value="2">R2</option><option value="3" selected>R3</option><option value="4">R4</option>
+   <option value="5">R5</option><option value="6">R6</option><option value="7">R7</option><option value="8">R8</option>
+  </select></div>
+  <div class="field"><label>第一个工作周开始日期</label><input type="date" id="referenceDate"><div class="hint">仅作为所选班组的基准日期。</div></div>
+  <div class="field"><label>交接班日</label><select id="referenceDay">
+   <option value="6">星期六</option><option value="0">星期日</option><option value="1">星期一</option><option value="2">星期二</option>
+   <option value="3">星期三</option><option value="4">星期四</option><option value="5">星期五</option>
+  </select></div>
+  <div class="field"><label>查询日期</label><input type="date" id="checkDate"></div>
  </div>
- <div class="actions no-print">
-  <button class="primary" onclick="calculateGroups()">Calculer la situation des groupes</button>
-  <button class="secondary" onclick="setCheckToday()">Date du jour</button>
- </div>
+ <div class="actions no-print"><button class="primary" onclick="calculateGroups()">计算班组状态</button><button class="secondary" onclick="setCheckToday()">今天</button></div>
  <div id="referenceMessage"></div>
 </section>
-
 <section class="card" id="codingSummaryCard">
- <h2>2. Récapitulatif des codifications de l'agent</h2>
- <div class="notice info">
-  Ce tableau présente les groupes successifs d'affectation de l'agent,
-  avec les dates de début et de fin de chaque codification.
-  La dernière codification reste ouverte jusqu'au 31/12/9999.
- </div>
- <div id="codingSummary"><div class="empty">Veuillez générer le plan de l'agent pour afficher les codifications.</div></div>
- <div class="actions no-print">
-  <button class="blue-btn" onclick="openPreview()">Aperçu avant impression</button>
-  <button class="secondary" onclick="printCodingSummary()">Imprimer directement</button>
-  <button class="gold" onclick="exportCodingSummary()">Exporter le récapitulatif CSV</button>
- </div>
+ <h2>2. 员工班组编码汇总</h2>
+ <div class="notice info">此表显示员工依次分配的班组，以及每条编码的开始和结束日期。最后一条编码持续有效至 9999 年 12 月 31 日。</div>
+ <div id="codingSummary"><div class="empty">请先生成员工计划，以显示班组编码。</div></div>
+ <div class="actions no-print"><button class="blue-btn" onclick="openPreview()">打印预览</button><button class="secondary" onclick="printCodingSummary()">直接打印</button><button class="gold" onclick="exportCodingSummary()">导出编码汇总 CSV</button></div>
 </section>
-
+<section class="card"><h2>3. 八个班组状态表</h2><div id="groupsResult" class="empty">Renseignez les paramètres de référence puis cliquez sur « 计算班组状态 ».</div></section>
 <section class="card">
- <h2>3. Tableau de situation des huit groupes</h2>
- <div id="groupsResult" class="empty">
-  Renseignez les paramètres de référence puis cliquez sur « Calculer la situation des groupes ».
- </div>
-</section>
-
-<section class="card">
- <h2>4. Planification du travail et des périodes de repos</h2>
+ <h2>4. 工作与休息期间计划</h2>
  <div class="grid">
-  <div class="field">
-   <label>Nom ou matricule de l'agent</label>
-   <input id="employeeName" type="text" placeholder="Nom ou matricule">
-  </div>
-  <div class="field">
-   <label>Groupe d'origine de l'agent</label>
-   <select id="employeeGroup">
-    <option value="1">R1</option><option value="2">R2</option>
-    <option value="3">R3</option><option value="4">R4</option>
-    <option value="5">R5</option><option value="6">R6</option>
-    <option value="7">R7</option><option value="8">R8</option>
-   </select>
-  </div>
-  <div class="field">
-   <label>Date de début de travail de l'agent</label>
-   <input type="date" id="employeeStart">
-  </div>
-  <div class="field">
-   <label>Nombre de semaines de travail</label>
-   <select id="workWeeks">
-    <option value="1">1 semaine</option><option value="2">2 semaines</option>
-    <option value="3" selected>3 semaines</option><option value="4">4 semaines</option>
-    <option value="5">5 semaines</option><option value="6">6 semaines</option>
-    <option value="7">7 semaines</option><option value="8">8 semaines</option>
-   </select>
-  </div>
-  <div class="field">
-   <label>Nombre de semaines de repos</label>
-   <select id="restWeeks">
-    <option value="1">1 semaine</option><option value="2">2 semaines</option>
-    <option value="3" selected>3 semaines</option><option value="4">4 semaines</option>
-    <option value="5">5 semaines</option><option value="6">6 semaines</option>
-    <option value="7">7 semaines</option><option value="8">8 semaines</option>
-   </select>
-  </div>
+  <div class="field"><label>员工姓名或工号</label><input id="employeeName" type="text" placeholder="姓名或工号"></div>
+  <div class="field"><label>员工原属班组</label><select id="employeeGroup">
+   <option value="1">R1</option><option value="2">R2</option><option value="3">R3</option><option value="4">R4</option>
+   <option value="5">R5</option><option value="6">R6</option><option value="7">R7</option><option value="8">R8</option>
+  </select></div>
+  <div class="field"><label>员工工作开始日期</label><input type="date" id="employeeStart"></div>
+  <div class="field"><label>工作周数</label><select id="workWeeks">
+   <option value="1">1 周</option><option value="2">2 周</option><option value="3" selected>3 周</option><option value="4">4 周</option>
+   <option value="5">5 周</option><option value="6">6 周</option><option value="7">7 周</option><option value="8">8 周</option>
+  </select><div class="hint" id="workDurationHint">29/27 周期：所选周数 × 7 + 1 天。例如：5 周为 36 天（29 + 7）。</div></div>
+  <div class="field"><label>休息时长</label><select id="restWeeks"></select><div class="hint" id="restDurationHint"></div></div>
  </div>
-
- <div class="notice info">
-  <strong>Principe de gestion des affectations :</strong><br>
-  Lorsque la durée de travail dépasse quatre semaines, l'agent passe
-  par deux groupes : le groupe initial jusqu'à la fin de sa période
-  de travail, puis un autre groupe disponible en travail.
-  <br><br>
-  Lorsque la période de repos dépasse quatre semaines, l'agent passe
-  également par deux groupes : un premier groupe disposant de quatre
-  semaines complètes de repos, puis un second groupe dont le repos
-  restant correspond exactement à la durée restante.
-  <br><br>
-  Le cycle réel du groupe d'accueil est conservé.
- </div>
-
- <div class="actions no-print">
-  <button class="primary" onclick="calculateEmployee()">Générer le plan de l'agent</button>
-  <button class="secondary" onclick="clearEmployeeResult()">Effacer le résultat</button>
- </div>
+ <div class="notice info"><strong>班组分配原则：</strong><br>当工作时长超过原班组可提供的剩余工作时间时，员工将转入另一个当前处于工作状态的班组。<br><br>在 29/27 周期中，休息总时长按所选周数计算后减去一天（8 周最多为 55 天）。优先采用 6、13、20 或 27 天的标准休息阶段；必要时，最后一个阶段可以缩短，但接收班组必须确实处于休息状态，且剩余休息天数不少于所需天数。<br><br>每个接收班组在轮班周期中的实际位置保持不变。</div>
+ <div class="actions no-print"><button class="primary" onclick="calculateEmployee()">生成员工计划</button><button class="secondary" onclick="clearEmployeeResult()">清除结果</button></div>
  <div id="employeeResult"></div>
 </section>
-
 <section class="card">
- <h2>5. Historique des codifications enregistrées</h2>
- <div class="hint">
-  Lorsqu'une nouvelle codification est enregistrée, la codification précédente
-  prend fin la veille de la nouvelle date de début. La dernière codification
-  ouverte est fixée au 31/12/9999.
- </div>
- <div id="recordsResult" class="empty">Aucune codification enregistrée.</div>
- <div class="actions no-print">
-  <button class="secondary" onclick="saveCurrentRecord()">Enregistrer le plan</button>
-  <button class="gold" onclick="exportCSV()">Exporter l'historique CSV</button>
-  <button class="secondary" onclick="window.print()">Imprimer la page</button>
-  <button class="danger" onclick="clearRecords()">Supprimer l'historique</button>
- </div>
- <div class="hint">Les données sont enregistrées localement sur cet appareil uniquement.</div>
+ <h2>5. 已保存的班组编码历史</h2>
+ <div class="hint">保存新的编码时，上一条编码将在新开始日期的前一天结束。最后一条未关闭的编码截止至 9999 年 12 月 31 日。</div>
+ <div id="recordsResult" class="empty">尚无已保存的班组编码。</div>
+ <div class="actions no-print"><button class="secondary" onclick="saveCurrentRecord()">保存计划</button><button class="gold" onclick="exportCSV()">导出历史记录 CSV</button><button class="secondary" onclick="window.print()">打印页面</button><button class="danger" onclick="clearRecords()">删除历史记录</button></div>
+ <div class="hint">数据仅保存在本设备本地。</div>
 </section>
 </div>
-
-<footer>
- <strong>Developer: BENAKRAB AHCENE</strong><br>
- Société SONATRACH<br>ERP SAP
- <br>Application indépendante d'aide au calcul du plan de roulement.
-</footer>
-
-<!-- FENÊTRE APERÇU AVANT IMPRESSION -->
+<footer><strong>Developer: BENAKRAB AHCENE</strong><br>SONATRACH 公司<br>ERP SAP<br>独立的轮班计划辅助计算应用程序。</footer>
 <div class="preview-overlay" id="previewOverlay">
  <div class="preview-window">
-  <div class="preview-toolbar">
-   <strong>APERÇU AVANT IMPRESSION</strong>
-   <div class="actions">
-    <button class="gold" onclick="printPreview()">Imprimer</button>
-    <button class="danger" onclick="closePreview()">Fermer l'aperçu ✕</button>
-   </div>
-  </div>
-  <div class="preview-content">
-   <div class="preview-paper" id="previewPaper"></div>
-  </div>
+  <div class="preview-toolbar"><strong>打印预览</strong><div class="actions"><button class="gold" onclick="printPreview()">打印</button><button class="danger" onclick="closePreview()">关闭预览 ✕</button></div></div>
+  <div class="preview-content"><div class="preview-paper" id="previewPaper"></div></div>
  </div>
 </div>
-
 <script>
 "use strict";
+const CYCLE_DAYS=56;
+const LAST_DATE="9999-12-31";
+let WORK_DAYS=28,REST_DAYS=28,currentGroups=null,lastEmployeePlan=null;
 
-const CYCLE_DAYS=56,WORK_DAYS=28,REST_DAYS=28,LAST_DATE="9999-12-31";
-const DAY_NAMES={0:"Dimanche",1:"Lundi",2:"Mardi",3:"Mercredi",4:"Jeudi",5:"Vendredi",6:"Samedi"};
-let currentGroups=null,lastEmployeePlan=null;
-
-function parseDate(value){
- if(!value)return null;
- const p=value.split("-").map(Number);
- if(p.length!==3)return null;
- const d=new Date(Date.UTC(p[0],p[1]-1,p[2]));
- if(d.getUTCFullYear()!==p[0]||d.getUTCMonth()!==p[1]-1||d.getUTCDate()!==p[2])return null;
- return d;
+/* 周期 28/28 ou 29/27 appliqué aux huit groupes */
+function apply周期Selection(){
+ const enabled=document.getElementById("cycle2927").checked;
+ WORK_DAYS=enabled?29:28;REST_DAYS=enabled?27:28;
+ const description=document.getElementById("cycleDescription");
+ if(enabled){description.textContent="八个班组当前周期：工作 29 天 + 休息 27 天";description.classList.add("active");}
+ else{description.textContent="八个班组当前周期：工作 28 天 + 休息 28 天";description.classList.remove("active");}
+ localStorage.setItem("rotation_cycle2927",enabled?"1":"0");
+ updateRestOptions();
 }
-function formatDate(date){
- if(!date)return "";
- return String(date.getUTCDate()).padStart(2,"0")+"/"+String(date.getUTCMonth()+1).padStart(2,"0")+"/"+date.getUTCFullYear();
-}
-function inputDate(date){
- return date.getUTCFullYear()+"-"+String(date.getUTCMonth()+1).padStart(2,"0")+"-"+String(date.getUTCDate()).padStart(2,"0");
-}
-function addDays(date,days){
- const d=new Date(date.getTime());d.setUTCDate(d.getUTCDate()+days);return d;
-}
-function daysBetween(a,b){return Math.round((b.getTime()-a.getTime())/86400000)}
-function mod(n,m){return((n%m)+m)%m}
-function escapeHTML(value){
- return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-}
-
-function getGroupStart(referenceGroup,referenceDate,groupNumber){
- return addDays(referenceDate,mod(groupNumber-referenceGroup,8)*7);
-}
-function buildGroups(referenceGroup,referenceDate){
- return Array.from({length:8},(_,i)=>({number:i+1,start:getGroupStart(referenceGroup,referenceDate,i+1)}));
-}
-function getGroupStatus(groupNumber,date){
- if(!currentGroups)return null;
- const group=currentGroups.find(g=>g.number===groupNumber);
- if(!group)return null;
- const phase=mod(daysBetween(group.start,date),CYCLE_DAYS);
- if(phase<WORK_DAYS){
-  const remaining=WORK_DAYS-phase;
-  return{group:groupNumber,status:"work",week:Math.floor(phase/7)+1,phase,daysRemaining:remaining,nextChange:addDays(date,remaining)};
+function updateRestOptions(){
+ const select=document.getElementById("restWeeks");
+ const hint=document.getElementById("restDurationHint");
+ const previous=select.value;
+ if(document.getElementById("cycle2927").checked){
+  select.innerHTML=Array.from({length:8},(_,i)=>`<option value="${(i+1)*7}">第 ${i+1} 周 — ${(i+1)*7-1} 天</option>`).join("");
+  select.value=previous && Number(previous)>=7 && Number(previous)<=56 && Number(previous)%7===0 ? previous : "21";
+  hint.textContent="29/27 周期：显示的时长已扣除一天。例如：1 周 = 6 天，3 周 = 20 天，5 周 = 34 天。休息阶段优先采用 6、13、20 或 27 天的标准时长；必要时最后一个阶段可缩短。"
+ }else{
+  select.innerHTML='<option value="7">1 周</option><option value="14">2 周</option><option value="21">3 周</option><option value="28">4 周</option><option value="35">5 周</option><option value="42">6 周</option><option value="49">7 周</option><option value="56">8 周</option>';
+  select.value=["7","14","21","28","35","42","49","56"].includes(previous)?previous:"21";
+  hint.textContent="28/28 周期：请选择休息周数。";
  }
- const restPhase=phase-WORK_DAYS,remaining=REST_DAYS-restPhase;
- return{group:groupNumber,status:"rest",week:Math.floor(restPhase/7)+1,phase,daysRemaining:remaining,nextChange:addDays(date,remaining)};
 }
 
+/* Dates et outils */
+function parseDate(value){
+ if(!value)return null;const p=value.split("-").map(Number);if(p.length!==3)return null;
+ const d=new Date(Date.UTC(p[0],p[1]-1,p[2]));
+ if(d.getUTCFullYear()!==p[0]||d.getUTCMonth()!==p[1]-1||d.getUTCDate()!==p[2])return null;return d;
+}
+function formatDate(date){if(!date)return "";return String(date.getUTCDate()).padStart(2,"0")+"/"+String(date.getUTCMonth()+1).padStart(2,"0")+"/"+date.getUTCFullYear();}
+function inputDate(date){return date.getUTCFullYear()+"-"+String(date.getUTCMonth()+1).padStart(2,"0")+"-"+String(date.getUTCDate()).padStart(2,"0");}
+function addDays(date,days){const d=new Date(date.getTime());d.setUTCDate(d.getUTCDate()+days);return d;}
+function daysBetween(a,b){return Math.round((b.getTime()-a.getTime())/86400000);}
+function mod(n,m){return((n%m)+m)%m;}
+function escapeHTML(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));}
+const DAY_NAMES={0:"星期日",1:"星期一",2:"星期二",3:"星期三",4:"星期四",5:"星期五",6:"星期六"};
+
+/* Calcul des groupes */
+function getGroupStart(referenceGroup,referenceDate,groupNumber){return addDays(referenceDate,mod(groupNumber-referenceGroup,8)*7);}
+function buildGroups(referenceGroup,referenceDate){return Array.from({length:8},(_,i)=>({number:i+1,start:getGroupStart(referenceGroup,referenceDate,i+1)}));}
+function getGroupStatus(groupNumber,date){
+ if(!currentGroups)return null;const group=currentGroups.find(g=>g.number===groupNumber);if(!group)return null;
+ const phase=mod(daysBetween(group.start,date),CYCLE_DAYS);
+ if(phase<WORK_DAYS){const remaining=WORK_DAYS-phase;return{group:groupNumber,status:"work",week:Math.floor(phase/7)+1,phase,daysRemaining:remaining,nextChange:addDays(date,remaining)};}
+ const rest阶段=phase-WORK_DAYS,remaining=REST_DAYS-rest阶段;
+ return{group:groupNumber,status:"rest",week:Math.floor(rest阶段/7)+1,phase,daysRemaining:remaining,nextChange:addDays(date,remaining)};
+}
 function validateReference(){
  const referenceGroup=Number(document.getElementById("referenceGroup").value);
  const referenceDate=parseDate(document.getElementById("referenceDate").value);
  const selectedDay=Number(document.getElementById("referenceDay").value);
- if(!referenceDate)return{error:"Veuillez saisir la date de début du groupe de référence."};
- if(referenceDate.getUTCDay()!==selectedDay)return{error:"La date de référence ne correspond pas au jour de relève sélectionné : "+DAY_NAMES[selectedDay]+"."};
+ if(!referenceDate)return{error:"请输入基准班组的开始日期。"};
+ if(referenceDate.getUTCDay()!==selectedDay)return{error:"基准日期与所选交接班日不一致："+DAY_NAMES[selectedDay]+"."};
  return{referenceGroup,referenceDate,selectedDay};
 }
 function calculateGroups(){
- const v=validateReference(),message=document.getElementById("referenceMessage");
- if(v.error){message.innerHTML=`<div class="notice error">${escapeHTML(v.error)}</div>`;return}
+ apply周期Selection();const v=validateReference(),message=document.getElementById("referenceMessage");
+ if(v.error){message.innerHTML=`<div class="notice error">${escapeHTML(v.error)}</div>`;return;}
  currentGroups=buildGroups(v.referenceGroup,v.referenceDate);
- const checkDate=parseDate(document.getElementById("checkDate").value)||v.referenceDate;
- renderGroups(checkDate);
- message.innerHTML=`<div class="notice success">Groupe de référence R${v.referenceGroup} validé. Les huit groupes ont été calculés automatiquement à partir du ${formatDate(v.referenceDate)}.</div>`;
+ const checkDate=parseDate(document.getElementById("checkDate").value)||v.referenceDate;renderGroups(checkDate);
+ message.innerHTML=`<div class="notice success">基准班组 R${v.referenceGroup} 已确认。八个班组已从以下日期开始自动计算：${formatDate(v.referenceDate)}.<br><strong>适用于全部班组的周期：</strong> ${WORK_DAYS} 天工作 + ${REST_DAYS} 天休息。</div>`;
  localStorage.setItem("rotation_reference",JSON.stringify({referenceGroup:v.referenceGroup,referenceDate:inputDate(v.referenceDate),referenceDay:v.selectedDay,checkDate:inputDate(checkDate)}));
 }
 function renderGroups(date){
  if(!currentGroups)return;
- const rows=currentGroups.map(g=>{
-  const s=getGroupStatus(g.number,date),cls=s.status==="work"?"work":"rest";
-  return `<tr><td><strong>R${g.number}</strong></td><td><span class="status ${cls}">${s.status==="work"?"Travail":"Repos"}</span></td><td>${s.status==="work"?"Semaine "+s.week+" de travail":"Semaine "+s.week+" de repos"}</td><td>${s.daysRemaining} jours</td><td>${formatDate(s.nextChange)}</td></tr>`;
- }).join("");
- document.getElementById("groupsResult").innerHTML=`<div class="notice info">Situation des groupes au : <strong>${formatDate(date)}</strong></div><div class="table-wrap"><table><thead><tr><th>Groupe</th><th>Situation</th><th>Phase</th><th>Jours restants</th><th>Prochaine relève</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+ const rows=currentGroups.map(g=>{const s=getGroupStatus(g.number,date),cls=s.status==="work"?"work":"rest";return`<tr><td><strong>R${g.number}</strong></td><td><span class="status ${cls}">${s.status==="work"?"工作":"休息"}</span></td><td>${s.status==="work"?"第"+s.week+"周（工作）":"第"+s.week+"周（休息）"}</td><td>${s.daysRemaining} 天</td><td>${formatDate(s.nextChange)}</td></tr>`;}).join("");
+ document.getElementById("groupsResult").innerHTML=`<div class="notice info">班组状态日期： <strong>${formatDate(date)}</strong><br>适用于八个班组的周期：工作 ${WORK_DAYS} 天 / 休息 ${REST_DAYS} 天。</div><div class="table-wrap"><table><thead><tr><th>班组</th><th>状态</th><th>阶段</th><th>剩余天数</th><th>下次交接班</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
-function setCheckToday(){
- const n=new Date(),today=new Date(Date.UTC(n.getFullYear(),n.getMonth(),n.getDate()));
- document.getElementById("checkDate").value=inputDate(today);
- if(currentGroups)renderGroups(today);
-}
+function setCheckToday(){const n=new Date(),today=new Date(Date.UTC(n.getFullYear(),n.getMonth(),n.getDate()));document.getElementById("checkDate").value=inputDate(today);if(currentGroups)renderGroups(today);}
+
+/* Recherche d'un groupe en travail */
 function findWorkingGroup(date,excludedGroup){
- const candidates=[];
- for(let i=1;i<=8;i++){
-  if(i===excludedGroup)continue;
-  const s=getGroupStatus(i,date);
-  if(s&&s.status==="work")candidates.push(s);
- }
- candidates.sort((a,b)=>b.daysRemaining-a.daysRemaining||a.group-b.group);
- return candidates[0]||null;
+ const candidates=[];for(let i=1;i<=8;i++){if(i===excludedGroup)continue;const s=getGroupStatus(i,date);if(s&&s.status==="work")candidates.push(s);}
+ candidates.sort((a,b)=>b.daysRemaining-a.daysRemaining||a.group-b.group);return candidates[0]||null;
 }
-function calculateWorkPlan(startDate,startGroup,requiredWeeks){
- let remaining=requiredWeeks*7,currentDate=new Date(startDate),currentGroup=startGroup;
- const segments=[];let safety=0;
+
+/* Planification du travail : durée demandée en 天 */
+function calculateWorkPlan(startDate,startGroup,requiredDays){
+ let remaining=requiredDays,currentDate=new Date(startDate),currentGroup=startGroup;const segments=[];let safety=0;
  while(remaining>0&&safety++<20){
   const status=getGroupStatus(currentGroup,currentDate);
-  if(!status||status.status!=="work")return{error:`Le groupe R${currentGroup} n'est pas en période de travail le ${formatDate(currentDate)}.`};
+  if(!status||status.status!=="work")return{error:`班组 R${currentGroup} 在 ${formatDate(currentDate)} 并非工作状态。`};
   const duration=Math.min(remaining,status.daysRemaining),endDate=addDays(currentDate,duration-1);
   segments.push({group:currentGroup,start:new Date(currentDate),end:endDate,days:duration,type:"work"});
-  remaining-=duration;
-  if(remaining===0)return{segments,endDate,nextDate:addDays(endDate,1)};
+  remaining-=duration;if(remaining===0)return{segments,endDate,nextDate:addDays(endDate,1)};
   const transferDate=addDays(endDate,1),next=findWorkingGroup(transferDate,currentGroup);
-  if(!next)return{error:`Aucun autre groupe n'est disponible en travail le ${formatDate(transferDate)}.`};
+  if(!next)return{error:`该日期没有其他可用的工作班组：${formatDate(transferDate)}.`};
   currentDate=transferDate;currentGroup=next.group;
  }
- return{error:"Impossible de terminer le calcul de la période de travail."};
+ return{error:"Impossible de terminer le calcul de la période周（工作）."};
 }
+
+/* Recherche des phases周（休息） : chaque phase doit correspondre à une durée autorisée */
 function findRestGroupExact(date,requiredDays,excludedGroup){
  const candidates=[];
  for(let i=1;i<=8;i++){
   if(i===excludedGroup)continue;
-  const s=getGroupStatus(i,date);
-  if(s&&s.status==="rest"&&s.daysRemaining===requiredDays)candidates.push(s);
+  const status=getGroupStatus(i,date);
+  if(status&&status.status==="rest"&&status.daysRemaining===requiredDays)candidates.push(status);
  }
  return candidates.sort((a,b)=>a.group-b.group);
 }
-function calculateRestPlan(startDate,requiredWeeks){
- const requiredDays=requiredWeeks*7,segments=[];
- if(requiredDays<=REST_DAYS){
-  const matches=findRestGroupExact(startDate,requiredDays,null);
-  if(!matches.length)return{error:`Aucun groupe ne dispose exactement de ${requiredWeeks} semaine(s) de repos restante(s) le ${formatDate(startDate)}.`,segments:[]};
-  const chosen=matches[0];
-  segments.push({group:chosen.group,start:new Date(startDate),end:addDays(startDate,requiredDays-1),days:requiredDays,type:"rest"});
-  return{segments,matches:matches.map(x=>x.group),endDate:addDays(startDate,requiredDays-1)};
+function calculateRestPlan(startDate,requiredDays){
+ const allowedDurations=WORK_DAYS===29?[27,20,13,6]:[28,21,14,7];
+ const memo=new Set();
+ function search(date,remaining,previousGroup,path){
+  if(remaining===0)return path;
+  if(remaining<0)return null;
+  const key=[inputDate(date),remaining,previousGroup].join("|");
+  if(memo.has(key))return null;
+  memo.add(key);
+  /* Priorité aux phases complètes correspondant exactement au cycle réel. */
+  for(const duration of allowedDurations){
+   if(duration>remaining)continue;
+   const matches=findRestGroupExact(date,duration,previousGroup);
+   for(const match of matches){
+    const end=addDays(date,duration-1);
+    const segment={group:match.group,start:new Date(date),end,days:duration,type:"rest",partial:false};
+    const result=search(addDays(end,1),remaining-duration,match.group,[...path,segment]);
+    if(result)return result;
+   }
+  }
+
+  /* Dernière phase flexible : elle peut être plus courte que la durée normale,
+     uniquement si le groupe est réellement en repos et dispose du reliquat. */
+  for(let group=1;group<=8;group++){
+   if(group===previousGroup)continue;
+   const status=getGroupStatus(group,date);
+   if(status && status.status==="rest" && status.daysRemaining>=remaining){
+    const end=addDays(date,remaining-1);
+    const segment={group,start:new Date(date),end,days:remaining,type:"rest",partial:status.daysRemaining>remaining};
+    return [...path,segment];
+   }
+  }
+  return null;
  }
- const firstMatches=findRestGroupExact(startDate,REST_DAYS,null);
- if(!firstMatches.length)return{error:`Aucun groupe ne dispose de quatre semaines complètes de repos le ${formatDate(startDate)}.`,segments:[]};
- const first=firstMatches[0],firstEnd=addDays(startDate,REST_DAYS-1),secondStart=addDays(firstEnd,1),remainingDays=requiredDays-REST_DAYS;
- segments.push({group:first.group,start:new Date(startDate),end:firstEnd,days:REST_DAYS,type:"rest"});
- const secondMatches=findRestGroupExact(secondStart,remainingDays,first.group);
- if(!secondMatches.length)return{error:`Aucun second groupe ne dispose exactement de ${remainingDays/7} semaine(s) de repos restante(s) le ${formatDate(secondStart)}.`,segments,firstGroup:first.group,secondStart,remainingWeeks:remainingDays/7};
- const second=secondMatches[0];
- segments.push({group:second.group,start:secondStart,end:addDays(secondStart,remainingDays-1),days:remainingDays,type:"rest"});
- return{segments,matches:[first.group,second.group],endDate:addDays(secondStart,remainingDays-1)};
+ const segments=search(new Date(startDate),requiredDays,null,[]);
+ if(!segments){
+  const allowed=allowedDurations.join(", ");
+  return{error:`从 ${formatDate(startDate)} 开始，根据八个班组的实际可用情况，无法找到由每阶段 ${allowed} 天组成、总计 ${requiredDays} 天的休息阶段组合。`,segments:[]};
+ }
+ return{segments,matches:segments.map(s=>s.group),endDate:segments[segments.length-1].end};
 }
+
+/* Affichage des phases */
 function segmentHTML(s,i,label){
- return `<div class="segment ${s.type==="rest"?"rest-segment":""}"><strong>${label||"Étape "+(i+1)} : Groupe R${s.group}</strong><br>Situation : ${s.type==="rest"?"Repos":"Travail"}<br>Du : ${formatDate(s.start)}<br>Au : ${formatDate(s.end)}<br>Durée : ${s.days/7} semaine(s) (${s.days} jours)</div>`;
+ return`<div class="segment ${s.type==="rest"?"rest-segment":""}"><strong>${label||"阶段 "+(i+1)}：班组 R${s.group}</strong><br>状态：${s.type==="rest"?"休息":"工作"}<br>开始：${formatDate(s.start)}<br>结束：${formatDate(s.end)}<br>时长：${s.days} 天</div>`;
 }
+
+/* Tableau des codifications */
 function buildCodingRows(plan){
- const segments=[...plan.workSegments.map(s=>({...s,type:"Travail"})),...plan.restSegments.map(s=>({...s,type:"Repos"}))].sort((a,b)=>a.start.localeCompare(b.start));
+ const segments=[...plan.workSegments.map(s=>({...s,type:"工作"})),...plan.restSegments.map(s=>({...s,type:"休息"}))].sort((a,b)=>a.start.localeCompare(b.start));
  if(!segments.length)return[];
- return segments.map((s,i)=>{
-  const start=parseDate(s.start);
-  const end=i<segments.length-1?addDays(parseDate(segments[i+1].start),-1):parseDate(LAST_DATE);
-  return{number:i+1,group:s.group,type:s.type,start:inputDate(start),end:inputDate(end),last:i===segments.length-1};
- });
+ return segments.map((s,i)=>{const start=parseDate(s.start),end=i<segments.length-1?addDays(parseDate(segments[i+1].start),-1):parseDate(LAST_DATE);return{number:i+1,group:s.group,type:s.type,start:inputDate(start),end:inputDate(end),last:i===segments.length-1};});
 }
 function renderCodingSummary(plan){
- const rows=buildCodingRows(plan);
- if(!rows.length){document.getElementById("codingSummary").innerHTML='<div class="empty">Aucune codification à afficher.</div>';return}
- const tableRows=rows.map(r=>`<tr class="${r.last?"last-code":""}"><td>${r.number}</td><td><strong>R${r.group}</strong></td><td>${r.type}</td><td>${formatDate(parseDate(r.start))}</td><td>${formatDate(parseDate(r.end))}</td><td>${r.last?'<span class="status work">Dernière codification</span>':"Terminée"}</td></tr>`).join("");
- document.getElementById("codingSummary").innerHTML=`<div class="code-summary"><div class="mini-title">Séquence des codifications : ${escapeHTML(plan.name||"Agent non renseigné")}</div><div class="table-wrap"><table><thead><tr><th>N°</th><th>Groupe</th><th>Situation</th><th>Date début</th><th>Date fin</th><th>État</th></tr></thead><tbody>${tableRows}</tbody></table></div><div class="notice success"><strong>Dernière codification :</strong> Groupe R${rows[rows.length-1].group}<br>Valable du ${formatDate(parseDate(rows[rows.length-1].start))} au 31/12/9999.</div></div>`;
+ const rows=buildCodingRows(plan);if(!rows.length){document.getElementById("codingSummary").innerHTML='<div class="empty">没有可显示的班组编码。</div>';return;}
+ const tableRows=rows.map(r=>`<tr class="${r.last?"last-code":""}"><td>${r.number}</td><td><strong>R${r.group}</strong></td><td>${r.type}</td><td>${formatDate(parseDate(r.start))}</td><td>${formatDate(parseDate(r.end))}</td><td>${r.last?'<span class="status work">最后一条编码</span>':"已结束"}</td></tr>`).join("");
+ document.getElementById("codingSummary").innerHTML=`<div class="code-summary"><div class="mini-title">编码顺序：${escapeHTML(plan.name||"未填写员工信息")}</div><div class="table-wrap"><table><thead><tr><th>序号</th><th>班组</th><th>状态</th><th>开始日期</th><th>结束日期</th><th>状态</th></tr></thead><tbody>${tableRows}</tbody></table></div><div class="notice success"><strong>最后一条编码 :</strong> 班组 R${rows[rows.length-1].group}<br>有效期：${formatDate(parseDate(rows[rows.length-1].start))} 至 9999/12/31。</div></div>`;
 }
 
+/* Calcul du plan de l'agent */
 function calculateEmployee(){
- const v=validateReference(),output=document.getElementById("employeeResult");
- if(v.error){output.innerHTML=`<div class="notice error">${escapeHTML(v.error)}</div>`;return}
+ apply周期Selection();const v=validateReference(),output=document.getElementById("employeeResult");
+ if(v.error){output.innerHTML=`<div class="notice error">${escapeHTML(v.error)}</div>`;return;}
  if(!currentGroups)currentGroups=buildGroups(v.referenceGroup,v.referenceDate);
- const name=document.getElementById("employeeName").value.trim();
- const startGroup=Number(document.getElementById("employeeGroup").value);
- const startDate=parseDate(document.getElementById("employeeStart").value);
- const workWeeks=Number(document.getElementById("workWeeks").value);
- const restWeeks=Number(document.getElementById("restWeeks").value);
- if(!startDate){output.innerHTML='<div class="notice error">Veuillez saisir la date de début de travail de l’agent.</div>';return}
- if(startDate.getUTCDay()!==v.selectedDay){output.innerHTML=`<div class="notice error">La date de début de l'agent ne correspond pas au jour de relève sélectionné (${DAY_NAMES[v.selectedDay]}).</div>`;return}
+ const name=document.getElementById("employeeName").value.trim(),startGroup=Number(document.getElementById("employeeGroup").value);
+ const startDate=parseDate(document.getElementById("employeeStart").value),workWeeks=Number(document.getElementById("workWeeks").value);
+ const selectedRestWeeks=Number(document.getElementById("restWeeks").value)/7,is2927=WORK_DAYS===29;
+ if(!startDate){output.innerHTML='<div class="notice error">请输入员工工作开始日期。</div>';return;}
+ if(startDate.getUTCDay()!==v.selectedDay){output.innerHTML=`<div class="notice error">员工开始日期与所选交接班日不一致（${DAY_NAMES[v.selectedDay]}).</div>`;return;}
  const initialStatus=getGroupStatus(startGroup,startDate);
- if(initialStatus.status!=="work"){output.innerHTML=`<div class="notice error">Le groupe R${startGroup} est en période de repos le ${formatDate(startDate)}.</div>`;return}
- const workPlan=calculateWorkPlan(startDate,startGroup,workWeeks);
- if(workPlan.error){output.innerHTML=`<div class="notice error">${escapeHTML(workPlan.error)}</div>`;lastEmployeePlan=null;document.getElementById("codingSummary").innerHTML='<div class="empty">Impossible de générer les codifications.</div>';return}
- const restStart=addDays(workPlan.endDate,1),restPlan=calculateRestPlan(restStart,restWeeks);
- const workHTML=workPlan.segments.map((s,i)=>segmentHTML(s,i,"Phase de travail "+(i+1))).join("");
- const restHTML=restPlan.segments.map((s,i)=>segmentHTML(s,i,"Phase de repos "+(i+1))).join("");
- const restMessage=restPlan.error?`<div class="notice error"><strong>Impossible de compléter le plan de repos :</strong><br>${escapeHTML(restPlan.error)}<br>Aucun groupe de remplacement n'a été inventé.</div>`:`<div class="notice success"><strong>Groupes de repos correspondants trouvés.</strong><br>Groupes : ${restPlan.matches.map(x=>"R"+x).join(" puis ")}<br>Début : ${formatDate(restStart)}<br>Fin : ${formatDate(restPlan.endDate)}<br>Durée totale : ${restWeeks} semaine(s).</div>`;
- lastEmployeePlan={
-  name,startGroup,startDate:inputDate(startDate),workWeeks,restWeeks,
+ if(initialStatus.status!=="work"){output.innerHTML=`<div class="notice error">班组 R${startGroup} 在 ${formatDate(startDate)} 处于休息状态。</div>`;return;}
+
+ /* En cycle 29/27 : +1 jour pour le travail et -1 jour pour le repos. */
+ const workDays=is2927?(workWeeks*7+1):(workWeeks*7);
+ const restDays=is2927?(selectedRestWeeks*7-1):(selectedRestWeeks*7);
+ if(!Number.isInteger(restDays)||restDays<1||restDays>56){output.innerHTML='<div class="notice error">计算出的休息时长无效。请检查所选周数。</div>';return;}
+ const workPlan=calculateWorkPlan(startDate,startGroup,workDays);
+ if(workPlan.error){output.innerHTML=`<div class="notice error">${escapeHTML(workPlan.error)}</div>`;lastEmployeePlan=null;document.getElementById("codingSummary").innerHTML='<div class="empty">无法生成班组编码。</div>';return;}
+ const restStart=addDays(workPlan.endDate,1),restPlan=calculateRestPlan(restStart,restDays);
+ const workHTML=workPlan.segments.map((s,i)=>segmentHTML(s,i,"工作阶段 "+(i+1))).join("");
+ const restHTML=restPlan.segments.map((s,i)=>segmentHTML(s,i,"休息阶段 "+(i+1))).join("");
+ const restMessage=restPlan.error?`<div class="notice error"><strong>无法完成休息计划：</strong><br>${escapeHTML(restPlan.error)}<br>未虚构任何替代班组。</div>`:`<div class="notice success"><strong>已找到符合条件的休息阶段。</strong><br>班组顺序： ${restPlan.matches.map(x=>"R"+x).join(" → ")}<br>各阶段时长： ${restPlan.segments.map(s=>s.days+" 天"+(s.partial?"（最后阶段缩短）":"")).join(" + ")}<br>开始： ${formatDate(restStart)}<br>结束： ${formatDate(restPlan.endDate)}<br>总时长：${restDays} 天（所选基准：${selectedRestWeeks} 周）。</div>`;
+ lastEmployeePlan={name,startGroup,startDate:inputDate(startDate),workWeeks,workDays,restDays,restWeeks:selectedRestWeeks,cycleWorkDays:WORK_DAYS,cycleRestDays:REST_DAYS,
   workSegments:workPlan.segments.map(s=>({group:s.group,start:inputDate(s.start),end:inputDate(s.end),days:s.days})),
   restSegments:restPlan.segments.map(s=>({group:s.group,start:inputDate(s.start),end:inputDate(s.end),days:s.days})),
-  workEnd:inputDate(workPlan.endDate),restStart:inputDate(restStart),
-  restEnd:restPlan.endDate?inputDate(restPlan.endDate):"",
-  restSuccess:!restPlan.error,restError:restPlan.error||""
- };
+  workEnd:inputDate(workPlan.endDate),restStart:inputDate(restStart),restEnd:restPlan.endDate?inputDate(restPlan.endDate):"",restSuccess:!restPlan.error,restError:restPlan.error||""};
  renderCodingSummary(lastEmployeePlan);
- output.innerHTML=`
- <div class="summary">
-  <div class="stat"><small>Agent</small><strong>${escapeHTML(name||"Non renseigné")}</strong></div>
-  <div class="stat"><small>Début du travail</small><strong>${formatDate(startDate)}</strong></div>
-  <div class="stat"><small>Fin du travail</small><strong>${formatDate(workPlan.endDate)}</strong></div>
-  <div class="stat"><small>Début du repos</small><strong>${formatDate(restStart)}</strong></div>
- </div>
- <h3 style="color:var(--green);font-size:15px;margin-top:22px">A. Déroulement de la période de travail</h3>
- ${workHTML}
- <div class="notice info"><strong>Parcours de travail :</strong> ${workPlan.segments.map(s=>"R"+s.group).join(" ← ")}<br>Durée totale : ${workWeeks} semaine(s).</div>
- <h3 style="color:var(--green);font-size:15px;margin-top:22px">B. Déroulement de la période de repos</h3>
- ${restHTML}${restMessage}
- <div class="notice info"><strong>Principe de calcul :</strong><br>Chaque transfert s'effectue le jour suivant la fin de la phase précédente. Le groupe d'accueil conserve sa position réelle dans le cycle de rotation.</div>`;
+ output.innerHTML=`<div class="notice info"><strong>适用于八个班组的周期：</strong> ${WORK_DAYS} 天周（工作） / ${REST_DAYS} 天休息。</div>
+ <div class="summary"><div class="stat"><small>员工</small><strong>${escapeHTML(name||"未填写")}</strong></div><div class="stat"><small>工作开始</small><strong>${formatDate(startDate)}</strong></div><div class="stat"><small>工作结束</small><strong>${formatDate(workPlan.endDate)}</strong></div><div class="stat"><small>休息开始</small><strong>${formatDate(restStart)}</strong></div></div>
+ <h3 style="color:var(--green);font-size:15px;margin-top:22px">A. Déroulement de la période周（工作）</h3>${workHTML}
+ <div class="notice info"><strong>工作班组顺序：</strong> ${workPlan.segments.map(s=>"R"+s.group).join(" ← ")}<br>总时长：${workDays} 天（所选基准：${workWeeks} 周）。</div>
+ <h3 style="color:var(--green);font-size:15px;margin-top:22px">B. Déroulement de la période周（休息）</h3>${restHTML}${restMessage}
+ <div class="notice info"><strong>计算原则：</strong><br>每次转组均在上一阶段结束后的第二天进行。接收班组在轮班周期中的实际位置保持不变。</div>`;
 }
+function clearEmployeeResult(){document.getElementById("employeeResult").innerHTML="";document.getElementById("codingSummary").innerHTML='<div class="empty">请生成员工计划以显示班组编码。</div>';lastEmployeePlan=null;}
 
-function clearEmployeeResult(){
- document.getElementById("employeeResult").innerHTML="";
- document.getElementById("codingSummary").innerHTML='<div class="empty">Veuillez générer le plan de l’agent pour afficher les codifications.</div>';
- lastEmployeePlan=null;
-}
-
-/* APERÇU AVANT IMPRESSION */
+/* 打印预览 */
 function openPreview(){
- if(!lastEmployeePlan){alert("Veuillez d'abord générer le plan de l'agent.");return}
- const summary=document.getElementById("codingSummary").innerHTML;
- const work=document.getElementById("employeeResult").innerHTML;
- const groups=document.getElementById("groupsResult").innerHTML;
- const paper=document.getElementById("previewPaper");
-
+ if(!lastEmployeePlan){alert("请先生成员工计划。");return;}
+ const p=lastEmployeePlan,paper=document.getElementById("previewPaper");
+ const rows=[
+  ...p.workSegments.map((s,i)=>({phase:"工作阶段 "+(i+1),group:"R"+s.group,state:"工作",start:s.start,end:s.end,days:s.days})),
+  ...p.restSegments.map((s,i)=>({phase:"休息阶段 "+(i+1),group:"R"+s.group,state:"休息",start:s.start,end:s.end,days:s.days}))
+ ].sort((a,b)=>a.start.localeCompare(b.start));
+ const body=rows.map((r,i)=>`<tr><td>${i+1}</td><td>${r.phase}</td><td><strong>${r.group}</strong></td><td>${r.state}</td><td>${formatDate(parseDate(r.start))}</td><td>${formatDate(parseDate(r.end))}</td><td>${r.days}</td></tr>`).join("");
+ const last=rows[rows.length-1];
  paper.innerHTML=`
-  <div class="preview-product">
-   <h2 style="color:white;border:0;margin:0">SH-ONE</h2>
-   <strong>ERP-SAP</strong>
-   <div style="margin-top:8px;font-weight:bold">PLAN DE ROULEMENT</div>
+  <div class="preview-product" style="padding:0;margin:0 0 3mm">
+   <div style="font-size:21px;font-weight:900;letter-spacing:2px;color:#000">SONATRACH</div>
+   <div class="preview-info" style="padding:2mm;margin-top:1mm">
+    <strong style="font-size:14pt">SH-ONE</strong>　ERP-SAP　｜　轮班计划
+   </div>
   </div>
-  <h2>Récapitulatif des codifications</h2>
-  ${summary}
-  <h2>Plan de travail et de repos de l'agent</h2>
-  ${work}
-  <h2>Situation des huit groupes</h2>
-  ${groups}
-  <div class="preview-footer">
-   Developer: BENAKRAB AHCENE<br>
-   Société SONATRACH · ERP SAP
-  </div>`;
- document.getElementById("previewOverlay").classList.add("open");
- document.body.style.overflow="hidden";
+  <h1 class="print-sheet-title">员工轮班计划与班组编码表</h1>
+  <div class="print-meta">
+   <span><strong>员工：</strong>${escapeHTML(p.name||"未填写")}</span>
+   <span><strong>起始班组：</strong>R${p.startGroup}</span>
+   <span><strong>工作开始：</strong>${formatDate(parseDate(p.startDate))}</span>
+   <span><strong>工作天数：</strong>${p.workDays}</span>
+   <span><strong>休息天数：</strong>${p.restDays}</span>
+   <span><strong>周期：</strong>${p.cycleWorkDays}/${p.cycleRestDays}</span>
+  </div>
+  <h2 class="print-section">工作与休息阶段 — 编码顺序</h2>
+  <table class="print-plan-table">
+   <thead><tr><th>序号</th><th>阶段</th><th>班组</th><th>状态</th><th>开始日期</th><th>结束日期</th><th>天数</th></tr></thead>
+   <tbody>${body}</tbody>
+  </table>
+  <div class="print-final">
+   <strong>最后一条编码：</strong>${last?last.group:"—"}　
+   <strong>有效期：</strong>${last?formatDate(parseDate(last.start)):"—"} 至 9999/12/31　
+   <strong>工作结束：</strong>${formatDate(parseDate(p.workEnd))}
+   ${p.restSuccess?`　<strong>休息结束：</strong>${formatDate(parseDate(p.restEnd))}`:`　<strong>休息计划：</strong>${escapeHTML(p.restError||"未完成")}`}
+  </div>
+  <div class="preview-footer">Developer: BENAKRAB AHCENE　|　SONATRACH · ERP-SAP</div>`;
+ document.getElementById("previewOverlay").classList.add("open");document.body.style.overflow="hidden";
 }
+function closePreview(){document.getElementById("previewOverlay").classList.remove("open");document.body.style.overflow="";}
+function printPreview(){if(lastEmployeePlan)window.print();}
+function printCodingSummary(){openPreview();}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePreview();});
+document.getElementById("previewOverlay").addEventListener("click",e=>{if(e.target.id==="previewOverlay")closePreview();});
 
-function closePreview(){
- document.getElementById("previewOverlay").classList.remove("open");
- document.body.style.overflow="";
-}
-function printPreview(){
- if(!lastEmployeePlan)return;
- window.print();
-}
-function printCodingSummary(){
- openPreview();
-}
-document.addEventListener("keydown",e=>{
- if(e.key==="Escape")closePreview();
-});
-document.getElementById("previewOverlay").addEventListener("click",e=>{
- if(e.target.id==="previewOverlay")closePreview();
-});
-
+/* Export CSV */
 function downloadCSV(data,filename){
  const csv="\uFEFF"+data.map(row=>row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(";")).join("\n");
- const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
- const url=URL.createObjectURL(blob),link=document.createElement("a");
+ const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"}),url=URL.createObjectURL(blob),link=document.createElement("a");
  link.href=url;link.download=filename;document.body.appendChild(link);link.click();link.remove();URL.revokeObjectURL(url);
 }
 function exportCodingSummary(){
- if(!lastEmployeePlan){alert("Veuillez d'abord générer le plan de l'agent.");return}
- const rows=buildCodingRows(lastEmployeePlan),data=[["N°","Groupe","Situation","Date début","Date fin","État"]];
- rows.forEach(r=>data.push([r.number,"R"+r.group,r.type,r.start,r.end,r.last?"Dernière codification":"Terminée"]));
- downloadCSV(data,"SH-ONE_Codifications_Agent.csv");
+ if(!lastEmployeePlan){alert("请先生成员工计划。");return;}
+ const rows=buildCodingRows(lastEmployeePlan),data=[["序号","班组","状态","开始日期","结束日期","状态"]];
+ rows.forEach(r=>data.push([r.number,"R"+r.group,r.type,r.start,r.end,r.last?"最后一条编码":"已结束"]));
+ downloadCSV(data,"SH-ONE_Codifications_员工.csv");
 }
-function getRecords(){
- try{return JSON.parse(localStorage.getItem("rotation_records")||"[]")}catch(e){return[]}
-}
+
+/* Historique local */
+function getRecords(){try{return JSON.parse(localStorage.getItem("rotation_records")||"[]");}catch(e){return[];}}
 function saveCurrentRecord(){
- if(!lastEmployeePlan){alert("Veuillez d'abord générer le plan de l'agent.");return}
+ if(!lastEmployeePlan){alert("请先生成员工计划。");return;}
  const records=getRecords(),newStart=parseDate(lastEmployeePlan.startDate);
- records.forEach(record=>{
-  if(record.end===LAST_DATE){
-   const oldStart=parseDate(record.startDate);
-   if(daysBetween(oldStart,newStart)<0)record.end=inputDate(addDays(newStart,-1));
-  }
- });
+ records.forEach(record=>{if(record.end===LAST_DATE){const oldStart=parseDate(record.startDate);if(daysBetween(oldStart,newStart)<0)record.end=inputDate(addDays(newStart,-1));}});
  records.push({...lastEmployeePlan,end:LAST_DATE,codingRows:buildCodingRows(lastEmployeePlan),createdAt:new Date().toISOString()});
- records.sort((a,b)=>a.startDate.localeCompare(b.startDate));
- localStorage.setItem("rotation_records",JSON.stringify(records));
- renderRecords();alert("Le plan a été enregistré dans l'historique.");
+ records.sort((a,b)=>a.startDate.localeCompare(b.startDate));localStorage.setItem("rotation_records",JSON.stringify(records));renderRecords();alert("Le plan a été enregistré dans l'historique.");
 }
 function renderRecords(){
  const records=getRecords(),target=document.getElementById("recordsResult");
- if(!records.length){target.innerHTML='<div class="empty">Aucune codification enregistrée.</div>';return}
- const rows=records.map((r,i)=>`<tr><td>${i+1}</td><td>${escapeHTML(r.name||"Non renseigné")}</td><td>R${r.startGroup}</td><td>${formatDate(parseDate(r.startDate))}</td><td>${formatDate(parseDate(r.end))}</td><td>${r.workWeeks}</td><td>${r.restWeeks}</td><td>${(r.workSegments||[]).map(s=>"R"+s.group).join(" ← ")}</td><td>${(r.restSegments||[]).map(s=>"R"+s.group).join(" ← ")||"Non complété"}</td></tr>`).join("");
- target.innerHTML=`<div class="table-wrap"><table><thead><tr><th>N°</th><th>Agent</th><th>Groupe d'origine</th><th>Début</th><th>Fin</th><th>Semaines travail</th><th>Semaines repos</th><th>Parcours travail</th><th>Parcours repos</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+ if(!records.length){target.innerHTML='<div class="empty">尚无已保存的班组编码。</div>';return;}
+ const rows=records.map((r,i)=>`<tr><td>${i+1}</td><td>${escapeHTML(r.name||"未填写")}</td><td>R${r.startGroup}</td><td>${formatDate(parseDate(r.startDate))}</td><td>${formatDate(parseDate(r.end))}</td><td>${r.workDays??(r.workWeeks*7)} 天</td><td>${r.restDays??(r.restWeeks*7)} 天</td><td>${(r.workSegments||[]).map(s=>"R"+s.group).join(" ← ")}</td><td>${(r.restSegments||[]).map(s=>"R"+s.group).join(" ← ")||"未完成"}</td></tr>`).join("");
+ target.innerHTML=`<div class="table-wrap"><table><thead><tr><th>序号</th><th>员工</th><th>班组 d'origine</th><th>Début</th><th>Fin</th><th>工作</th><th>休息</th><th>工作班组顺序</th><th>休息班组顺序</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
-function clearRecords(){
- if(!confirm("Voulez-vous supprimer tout l'historique des codifications ?"))return;
- localStorage.removeItem("rotation_records");renderRecords();
-}
+function clearRecords(){if(!confirm("确定要删除全部班组编码历史记录吗？"))return;localStorage.removeItem("rotation_records");renderRecords();}
 function exportCSV(){
- const records=getRecords();
- if(!records.length){alert("Aucun historique à exporter.");return}
- const rows=[["Agent","Groupe d'origine","Début codification","Fin codification","Semaines travail","Parcours travail","Fin travail","Semaines repos","Parcours repos","Début repos","Fin repos","État repos"]];
- records.forEach(r=>rows.push([r.name||"","R"+r.startGroup,r.startDate,r.end,r.workWeeks,(r.workSegments||[]).map(s=>"R"+s.group).join(" - "),r.workEnd,r.restWeeks,(r.restSegments||[]).map(s=>"R"+s.group).join(" - "),r.restStart,r.restEnd,r.restSuccess?"Correspondance":"Non complété"]));
- downloadCSV(rows,"SH-ONE_Historique_Rotation.csv");
+ const records=getRecords();if(!records.length){alert("没有可导出的历史记录。");return;}
+ const rows=[["员工","班组 d'origine","编码开始日期","编码结束日期","工作天数","工作班组顺序","工作结束日期","休息天数","休息班组顺序","休息开始日期","休息结束日期","状态 repos","周期"]];
+ records.forEach(r=>rows.push([r.name||"","R"+r.startGroup,r.startDate,r.end,r.workDays??(r.workWeeks*7),(r.workSegments||[]).map(s=>"R"+s.group).join(" - "),r.workEnd,r.restDays??(r.restWeeks*7),(r.restSegments||[]).map(s=>"R"+s.group).join(" - "),r.restStart,r.restEnd,r.restSuccess?"匹配成功":"未完成",(r.cycleWorkDays||28)+"/"+(r.cycleRestDays||28)]));
+ downloadCSV(rows,"SH-ONE_轮班历史记录.csv");
 }
+
+/* Restauration des paramètres */
 function restoreSettings(){
  const saved=localStorage.getItem("rotation_reference");
- if(saved){
-  try{
-   const d=JSON.parse(saved);
-   document.getElementById("referenceGroup").value=d.referenceGroup;
-   document.getElementById("referenceDate").value=d.referenceDate;
-   document.getElementById("referenceDay").value=d.referenceDay;
-   document.getElementById("checkDate").value=d.checkDate;
-  }catch(e){}
- }
- renderRecords();
+ if(saved){try{const d=JSON.parse(saved);document.getElementById("referenceGroup").value=d.referenceGroup;document.getElementById("referenceDate").value=d.referenceDate;document.getElementById("referenceDay").value=d.referenceDay;document.getElementById("checkDate").value=d.checkDate;}catch(e){}}
+ const saved周期=localStorage.getItem("rotation_cycle2927");document.getElementById("cycle2927").checked=saved周期==="1";apply周期Selection();renderRecords();
 }
-document.getElementById("checkDate").addEventListener("change",()=>{
- if(!currentGroups)return;
- const date=parseDate(document.getElementById("checkDate").value);
- if(date)renderGroups(date);
+
+/* Événements */
+document.getElementById("cycle2927").addEventListener("change",()=>{
+ apply周期Selection();currentGroups=null;lastEmployeePlan=null;
+ document.getElementById("groupsResult").innerHTML='<div class="empty">周期已更改。请重新计算班组状态。</div>';
+ document.getElementById("employeeResult").innerHTML="";
+ document.getElementById("codingSummary").innerHTML='<div class="empty">请使用所选周期重新生成员工计划。</div>';
+ document.getElementById("referenceMessage").innerHTML='<div class="notice info">Le cycle a été modifié. Cliquez sur « 计算班组状态 » pour appliquer le nouveau cycle aux huit groupes.</div>';
 });
+document.getElementById("checkDate").addEventListener("change",()=>{if(!currentGroups)return;const date=parseDate(document.getElementById("checkDate").value);if(date)renderGroups(date);});
 restoreSettings();
 </script>
 </body>
